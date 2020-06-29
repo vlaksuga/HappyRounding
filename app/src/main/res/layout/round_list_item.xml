@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/roundList_cardView"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginBottom="4dp"
+    app:cardUseCompatPadding="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/roundClubName_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="가평 베네스트 GC"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/roundDate_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="2020-06-29"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/roundUserFirst_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@+id/roundClubName_textView"
+                app:layout_constraintTop_toBottomOf="@+id/roundClubName_textView"
+                app:srcCompat="@drawable/ic_account_circle" />
+
+            <ImageView
+                android:id="@+id/roundUserSecond_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/roundUserFirst_imageView"
+                app:layout_constraintStart_toEndOf="@+id/roundUserFirst_imageView"
+                app:layout_constraintTop_toTopOf="@+id/roundUserFirst_imageView"
+                app:srcCompat="@drawable/ic_account_circle" />
+
+            <ImageView
+                android:id="@+id/roundUserThird_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/roundUserSecond_imageView"
+                app:layout_constraintStart_toEndOf="@+id/roundUserSecond_imageView"
+                app:layout_constraintTop_toTopOf="@+id/roundUserSecond_imageView"
+                app:srcCompat="@drawable/ic_account_circle" />
+
+            <ImageView
+                android:id="@+id/roundUserFourth_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/roundUserThird_imageView"
+                app:layout_constraintStart_toEndOf="@+id/roundUserThird_imageView"
+                app:layout_constraintTop_toTopOf="@+id/roundUserThird_imageView"
+                app:srcCompat="@drawable/ic_account_circle" />
+
+            <TextView
+                android:id="@+id/roundCourseName_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="MAPLE, PINE"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Rounding</string>
+    <string name="signUpTitle">회원가입</string>
+    <string name="email_hint">이메일</string>
+    <string name="id_hint">아이디</string>
+    <string name="nickName_hint">닉네임</string>
+    <string name="password_hint">패스워드</string>
+    <string name="passwordConfirm_hint">패스워드 확인</string>
+    <string name="privacyPolicyLink">개인정보동의</string>
+    <string name="signUpSubmit_button">회원가입하기</string>
+    <string name="toLogInActivity_button">로그인하기</string>
+    <string name="logInSubmit_button">로그인</string>
+    <string name="toSignIn_button">회원가입 하기</string>
+    <string name="toFindPassword_button">비밀번호 찾기</string>
+    <string name="findPasswordTitle">비밀번호 찾기</string>
+    <string name="findPasswordSubmit_button">이메일로 패스워드 보내기</string>
+</resources>

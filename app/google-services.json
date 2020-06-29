@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "13803617688",
+    "firebase_url": "https://happy-rounding.firebaseio.com",
+    "project_id": "happy-rounding",
+    "storage_bucket": "happy-rounding.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13803617688:android:3b96c7e208f6e94e34bfed",
+        "android_client_info": {
+          "package_name": "com.vlaksuga.rounding"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13803617688-l10gj6skgc4iis72plfheu156de8p2uo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vlaksuga.rounding",
+            "certificate_hash": "6c62a38cde93f7c0e27f2d69a54e8cc10ab2c4a2"
+          }
+        },
+        {
+          "client_id": "13803617688-2qiktirsbttfk7oc4ek8bt1mfkb9h0o4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyq5Kz5r93Qtg04oXmrchN879JuDlHLj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13803617688-2qiktirsbttfk7oc4ek8bt1mfkb9h0o4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
