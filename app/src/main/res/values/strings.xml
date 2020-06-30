@@ -14,4 +14,7 @@
     <string name="toFindPassword_button">비밀번호 찾기</string>
     <string name="findPasswordTitle">비밀번호 찾기</string>
     <string name="findPasswordSubmit_button">이메일로 패스워드 보내기</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

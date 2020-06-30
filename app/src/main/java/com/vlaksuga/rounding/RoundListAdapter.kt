@@ -1,10 +1,11 @@
 package com.vlaksuga.rounding
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -13,21 +14,37 @@ class RoundListAdapter internal constructor(context: Context) :
     RecyclerView.Adapter<RoundListAdapter.RoundListViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private lateinit var listener: OnItemClickListener
 
-    private val rounds = emptyList<Round>()
+    private val roundList = emptyList<RoundList>()
 
-    private var filterRoundListResult : List<Round> = rounds
+    private var filterRoundListResult : List<RoundList> = arrayListOf(
+        RoundList("1","브라자 GC", 1111, 45, false),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("2", "브레이지어 GC", 2222, 103, true),
+        RoundList("3", "라온", 3333, 123, true))
 
 
     inner class RoundListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cardItemView : CardView = itemView.findViewById(R.id.roundList_cardView)
         val clubNameItemView : TextView = itemView.findViewById(R.id.roundClubName_textView)
         val dateItemView : TextView = itemView.findViewById(R.id.roundDate_textView)
-        val userFirstItemView : ImageView = itemView.findViewById(R.id.roundUserFirst_imageView)
-        val userSecondItemView : ImageView = itemView.findViewById(R.id.roundUserSecond_imageView)
-        val userThirdItemView : ImageView = itemView.findViewById(R.id.roundUserThird_imageView)
-        val userFourthItemView : ImageView = itemView.findViewById(R.id.roundUserFourth_imageView)
-        val courseNameItemView : TextView = itemView.findViewById(R.id.roundCourseName_textView)
+        val hitCountItemView : TextView = itemView.findViewById(R.id.roundTotalHit_textView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoundListViewHolder {
@@ -39,18 +56,24 @@ class RoundListAdapter internal constructor(context: Context) :
 
     override fun onBindViewHolder(holder: RoundListViewHolder, position: Int) {
         val currentRound = filterRoundListResult[position]
-
+        holder.cardItemView.setOnClickListener {
+            listener.onItemClick(currentRound)
+        }
+        if(!currentRound.roundIsNormal) {
+            holder.cardItemView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FF8800"))
+        }
         holder.clubNameItemView.text = currentRound.roundClub
         holder.dateItemView.text = currentRound.roundDate.toString()
-        holder.userFirstItemView.setImageResource(currentRound.roundUser[0].toInt())
-        holder.userSecondItemView.setImageResource(currentRound.roundUser[0].toInt())
-        holder.userThirdItemView.setImageResource(currentRound.roundUser[0].toInt())
-        holder.userFourthItemView.setImageResource(currentRound.roundUser[0].toInt())
-
-        val courseList : String = ""
-        for(course in currentRound.roundCourse - 1) {
-            // TODO : 코스리스트에서 스트링으로 뽑기
-        }
-        holder.courseNameItemView.text = courseList
+        holder.hitCountItemView.text = currentRound.roundTotalHit.toString()
     }
+
+    public interface OnItemClickListener {
+        fun onItemClick(roundList: RoundList)
+    }
+
+    public fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.listener = listener
+    }
+
+
 }

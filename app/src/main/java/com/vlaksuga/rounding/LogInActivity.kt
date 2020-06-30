@@ -19,6 +19,8 @@ class LogInActivity : AppCompatActivity() {
         logInSubmit_button.setOnClickListener {
             auth.signInWithEmailAndPassword(logInEmail_editText.text.toString(), logInPassword_editText.text.toString()).addOnCompleteListener(this) {task ->
                 if(task.isSuccessful) {
+                    App.prefs.userEmail = logInEmail_editText.text.toString()
+                    App.prefs.userPassword = logInPassword_editText.text.toString()
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {
@@ -37,4 +39,9 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        // TODO : 로그인한 기록이 있다면 바로 메인으로 들어가기
+    }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/roundList_cardView"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="80dp"
     android:layout_marginBottom="4dp"
     app:cardUseCompatPadding="false">
 
@@ -33,60 +33,22 @@
                 android:id="@+id/roundDate_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:text="2020-06-29"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/roundUserFirst_imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="@+id/roundClubName_textView"
-                app:layout_constraintTop_toBottomOf="@+id/roundClubName_textView"
-                app:srcCompat="@drawable/ic_account_circle" />
-
-            <ImageView
-                android:id="@+id/roundUserSecond_imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/roundUserFirst_imageView"
-                app:layout_constraintStart_toEndOf="@+id/roundUserFirst_imageView"
-                app:layout_constraintTop_toTopOf="@+id/roundUserFirst_imageView"
-                app:srcCompat="@drawable/ic_account_circle" />
-
-            <ImageView
-                android:id="@+id/roundUserThird_imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/roundUserSecond_imageView"
-                app:layout_constraintStart_toEndOf="@+id/roundUserSecond_imageView"
-                app:layout_constraintTop_toTopOf="@+id/roundUserSecond_imageView"
-                app:srcCompat="@drawable/ic_account_circle" />
-
-            <ImageView
-                android:id="@+id/roundUserFourth_imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/roundUserThird_imageView"
-                app:layout_constraintStart_toEndOf="@+id/roundUserThird_imageView"
-                app:layout_constraintTop_toTopOf="@+id/roundUserThird_imageView"
-                app:srcCompat="@drawable/ic_account_circle" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/roundClubName_textView" />
 
             <TextView
-                android:id="@+id/roundCourseName_textView"
+                android:id="@+id/roundTotalHit_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="MAPLE, PINE"
+                android:text="102"
+                android:textSize="24sp"
+                android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

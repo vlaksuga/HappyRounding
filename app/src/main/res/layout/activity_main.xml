@@ -7,9 +7,23 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/roundRecyclerView"
+    <TextView
+        android:id="@+id/dummy_textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/round_list_item" />
+        android:layout_height="100dp"
+        android:background="#aaaaaa"
+        android:gravity="center"
+        android:text="메인 고정영역" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+<!--    <fragment
+        android:id="@+id/round_Fragment"
+        android:name="com.vlaksuga.rounding.RoundFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />-->
+
 </LinearLayout>
