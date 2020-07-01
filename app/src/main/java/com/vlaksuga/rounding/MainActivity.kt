@@ -1,5 +1,6 @@
 package com.vlaksuga.rounding
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.widget.Toolbar
@@ -27,6 +28,14 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
 
+        mainMenuSearch_imageView.setOnClickListener{
+            // TODO : 라운딩 리스트 찾기 실행
+        }
+
+        mainMenuMore_imageView.setOnClickListener {
+            // TODO : 라운딩 더보기 메뉴 실행
+        }
+
         viewPager = findViewById(R.id.viewpager)
         viewPager!!.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         viewPager!!.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -37,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         floatingActionButton.setOnClickListener {
-            Snackbar.make(main_LinearLayout, "라운딩 만들기 했다침", Snackbar.LENGTH_SHORT).show()
+            startActivity(Intent(this, AddEditRoundActivity::class.java))
         }
     }
 

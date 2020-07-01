@@ -1,0 +1,1048 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/playRound_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PlayRoundActivity">
+
+    <TextView
+        android:id="@+id/playRoundClubName_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="벨리오스CC"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/playRoundCourseName_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="SOUTH"
+        app:layout_constraintStart_toStartOf="@+id/playRoundClubName_textView"
+        app:layout_constraintTop_toBottomOf="@+id/playRoundClubName_textView" />
+
+    <TextView
+        android:id="@+id/playRoundCurrentHole_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="7"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/playRoundCourseName_textView"
+        app:layout_constraintEnd_toStartOf="@+id/playRoundCurrentHoleLabel_textView"
+        app:layout_constraintTop_toTopOf="@+id/playRoundClubName_textView" />
+
+    <TextView
+        android:id="@+id/playRoundCurrentHoleLabel_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="HOLE"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/playRoundCurrentHole_textView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TableLayout
+        android:id="@+id/playRoundScore_table"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:stretchColumns="*"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playRoundCourseName_textView">
+
+        <TableRow
+            android:id="@+id/row_hole"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:text="HOLE"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="2"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="6"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="7"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="8"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="9"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="합계"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_par"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:text="PAR"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="36"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_player1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:text="그랜노만"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="36"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_player2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:text="오빠바나나"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="36"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_player3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:text="대륭사주지스"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="36"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_player4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:text="사번타자"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="5"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="3"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_player_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="36"
+                android:textColor="#AAAAAA"
+                android:textSize="12sp" />
+        </TableRow>
+
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/playRoundScore_table">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/liveScorePlayerName_textview1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="그랜노만"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/playRoundPlayerLiveScore_textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="0"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/playRoundScoreAdd_fab1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:clickable="true"
+                    android:tint="#000000"
+                    app:borderWidth="0dp"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_add" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/playRoundScoreRemove_fab1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:clickable="true"
+                    android:tint="#000000"
+                    app:borderWidth="0dp"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_remove" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/liveScorePlayerName_textview2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="오빠바나나"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/playRoundPlayerLiveScore_textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="0"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/playRoundScoreAdd_fab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:clickable="true"
+                    android:tint="#000000"
+                    app:borderWidth="0dp"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_add" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/playRoundScoreRemove_fab2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:clickable="true"
+                    android:tint="#000000"
+                    app:borderWidth="0dp"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_remove" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/liveScorePlayerName_textview3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="대륭사주지스"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/playRoundPlayerLiveScore_textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="0"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/playRoundScoreAdd_fab3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:clickable="true"
+                    android:tint="#000000"
+                    app:borderWidth="0dp"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_add" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/playRoundScoreRemove_fab3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:clickable="true"
+                    android:tint="#000000"
+                    app:borderWidth="0dp"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_remove" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/liveScorePlayerName_textview4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="사번타자"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/playRoundPlayerLiveScore_textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="0"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/playRoundScoreAdd_fab4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:clickable="true"
+                    android:tint="#000000"
+                    app:borderWidth="0dp"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_add" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/playRoundScoreRemove_fab4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="#FFFFFF"
+                    android:clickable="true"
+                    android:tint="#000000"
+                    app:borderWidth="0dp"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_remove" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/playRoundSubmit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:padding="16dp"
+        android:text="다음 홀로 이동"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
