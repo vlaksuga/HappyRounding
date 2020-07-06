@@ -1,14 +1,14 @@
-package com.vlaksuga.rounding
+package com.vlaksuga.rounding.adapters
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.vlaksuga.rounding.data.FriendList
+import com.vlaksuga.rounding.R
 
 class FriendListAdapter internal constructor(context: Context) :
     RecyclerView.Adapter<FriendListAdapter.FriendListViewHolder>() {
@@ -19,9 +19,9 @@ class FriendListAdapter internal constructor(context: Context) :
     private val friendList = emptyList<FriendList>()
 
     private var filterFriendListResult : List<FriendList> = arrayListOf(
-        FriendList("1","강지형", 98, 45),
-        FriendList("2","신주섭", 102, 45),
-        FriendList("3","오빠바나나", 108, 45)
+        FriendList("1", "강지형", 98, 45),
+        FriendList("2", "신주섭", 102, 45),
+        FriendList("3", "오빠바나나", 108, 45)
     )
 
 

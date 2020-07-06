@@ -1,4 +1,4 @@
-package com.vlaksuga.rounding
+package com.vlaksuga.rounding.data
 
 data class RoundList (
     val roundId : String,

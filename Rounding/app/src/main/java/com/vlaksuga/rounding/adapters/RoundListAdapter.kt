@@ -1,4 +1,4 @@
-package com.vlaksuga.rounding
+package com.vlaksuga.rounding.adapters
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.vlaksuga.rounding.R
+import com.vlaksuga.rounding.data.RoundList
 
 class RoundListAdapter internal constructor(context: Context) :
     RecyclerView.Adapter<RoundListAdapter.RoundListViewHolder>() {
@@ -19,7 +21,7 @@ class RoundListAdapter internal constructor(context: Context) :
     private val roundList = emptyList<RoundList>()
 
     private var filterRoundListResult : List<RoundList> = arrayListOf(
-        RoundList("1","브라자 GC", 1111, 45, false),
+        RoundList("1", "브라자 GC", 1111, 45, false),
         RoundList("2", "브레이지어 GC", 2222, 103, true),
         RoundList("2", "브레이지어 GC", 2222, 103, true),
         RoundList("2", "브레이지어 GC", 2222, 103, true),
@@ -37,7 +39,8 @@ class RoundListAdapter internal constructor(context: Context) :
         RoundList("2", "브레이지어 GC", 2222, 103, true),
         RoundList("2", "브레이지어 GC", 2222, 103, true),
         RoundList("2", "브레이지어 GC", 2222, 103, true),
-        RoundList("3", "라온", 3333, 123, true))
+        RoundList("3", "라온", 3333, 123, true)
+    )
 
 
     inner class RoundListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
