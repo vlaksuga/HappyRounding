@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+        <variable
+            name="user"
+            type="com.vlaksuga.rounding.data.User" />
+
+        <variable
+            name="userRound"
+            type="com.vlaksuga.rounding.data.UserRound" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/title_const_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".RoundResultMainActivity">
+
+                <ImageView
+                    android:id="@+id/resultRoundTitle_imageView"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:contentDescription="back"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/result_image" />
+
+                <TextView
+                    android:id="@+id/resultRoundClubName_textView"
+                    style="@style/white_Bold_18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@{userRound.roundClubName}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/resultRoundDate_textView"
+                    style="@style/white_Bold_18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/resultRoundTotalHit_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="102"
+                    android:textColor="#ffffff"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/resultRoundCoPlayer_textView"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/resultRoundCoPlayer_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="그랜노만, 오빠바나나, 대륭사"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="@+id/resultRoundTitle_imageView"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/table_const_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/firstCourse_table_title_textView"
+                    style="@style/Bold_18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@{userRound.roundFirstCourseName}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/firstCourse_table_score_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/course_par_total"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/firstCourse_table_title_textView"
+                    app:layout_constraintStart_toEndOf="@+id/firstCourse_table_title_textView" />
+
+                <TableLayout
+                    android:id="@+id/firstCourse_table"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:stretchColumns="*"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/firstCourse_table_title_textView">
+
+                    <TableRow
+                        android:id="@+id/row_hole1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:text="@string/hole"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="1"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="2"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="3"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="4"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="5"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="6"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="7"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="8"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="9"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@string/total"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/row_par1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:text="@string/par"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundFirstCourseParList[0])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundFirstCourseParList[1])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundFirstCourseParList[2])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundFirstCourseParList[3])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundFirstCourseParList[4])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundFirstCourseParList[5])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundFirstCourseParList[6])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundFirstCourseParList[7])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundFirstCourseParList[8])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="36"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/row_player1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:text="@{userRound.userName}"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerFirstScoreList[0])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerFirstScoreList[1])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerFirstScoreList[2])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerFirstScoreList[3])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerFirstScoreList[4])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerFirstScoreList[5])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerFirstScoreList[6])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerFirstScoreList[7])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerFirstScoreList[8])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/firstCourse_total_hit_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+                    </TableRow>
+                </TableLayout>
+
+                <TextView
+                    android:id="@+id/secondCourse_table_title_textView"
+                    style="@style/Bold_18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@{userRound.roundSecondCourseName}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/firstCourse_table" />
+
+                <TextView
+                    android:id="@+id/secondCourse_table_score_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="36"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/secondCourse_table_title_textView"
+                    app:layout_constraintStart_toEndOf="@+id/secondCourse_table_title_textView" />
+
+                <TableLayout
+                    android:id="@+id/secondCourse_table"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:stretchColumns="*"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/secondCourse_table_title_textView">
+
+                    <TableRow
+                        android:id="@+id/row_hole2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:text="@string/hole"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="1"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="2"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="3"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="4"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="5"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="6"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="7"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="8"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="9"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_hole_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="합계"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/row_par2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:text="PAR"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundSecondCourseParList[0])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundSecondCourseParList[1])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundSecondCourseParList[2])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundSecondCourseParList[3])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundSecondCourseParList[4])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundSecondCourseParList[5])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundSecondCourseParList[6])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundSecondCourseParList[7])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundSecondCourseParList[8])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_par_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="36"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/row_player2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:text="@{userRound.userName}"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerSecondScoreList[0])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerSecondScoreList[1])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerSecondScoreList[2])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerSecondScoreList[3])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerSecondScoreList[4])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerSecondScoreList[5])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerSecondScoreList[6])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerSecondScoreList[7])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="@{String.valueOf(userRound.roundPlayerSecondScoreList[8])}"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/secondCourse_total_hit_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/table_row_player_background"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:textColor="#AAAAAA"
+                            android:textSize="12sp" />
+                    </TableRow>
+                </TableLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/review_const_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/review_title_textView"
+                    style="@style/Bold_18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="ROUNDING REVIEW"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</layout>

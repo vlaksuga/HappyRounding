@@ -1,7 +1,6 @@
 package com.vlaksuga.rounding
 
 import android.app.DatePickerDialog
-import android.content.Context
 import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
@@ -34,20 +33,24 @@ class SetRoundDateFragment : Fragment() {
 
         selectDateText= view.findViewById(R.id.setRoundDate_textView)
         selectDateText.text = simpleDateFormat.format(currentDate)
+
         selectDateText.setOnClickListener{
             selectDate()
         }
-
-        val fragmentManager = activity!!.supportFragmentManager
-        val transaction = fragmentManager.beginTransaction()
-        val newFragment = SetRoundResultFragment()
         nextButton.setOnClickListener {
-            transaction.replace(R.id.add_round_fragment_container, newFragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
+            moveToNextFragment()
         }
 
         return view
+    }
+
+    private fun moveToNextFragment() {
+        val fragmentManager = activity!!.supportFragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        val newFragment = SetRoundClubFragment()
+        transaction.replace(R.id.add_round_fragment_container, newFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun selectDate() {
