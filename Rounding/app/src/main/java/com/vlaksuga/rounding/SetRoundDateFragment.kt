@@ -16,11 +16,12 @@ class SetRoundDateFragment : Fragment() {
 
     companion object {
         const val TAG = "SetRoundDateFragment"
+        const val BUNDLE_KEY_DATE = "com.vlaksuga.rounding.DATE"
     }
 
-    private val currentDate = Date().time
+    private var currentDate = Date().time
     private val simpleDateFormat = SimpleDateFormat(AddEditRoundActivity.DATE_FORMAT, Locale.KOREA)
-    private val cal = android.icu.util.Calendar.getInstance()
+    private val cal = Calendar.getInstance()
     lateinit var selectDateText : TextView
 
     override fun onCreateView(
@@ -48,6 +49,8 @@ class SetRoundDateFragment : Fragment() {
         val fragmentManager = activity!!.supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val newFragment = SetRoundClubFragment()
+        val bundle = Bundle()
+        bundle.putLong(BUNDLE_KEY_DATE, currentDate)
         transaction.replace(R.id.add_round_fragment_container, newFragment)
         transaction.addToBackStack(null)
         transaction.commit()
@@ -61,8 +64,10 @@ class SetRoundDateFragment : Fragment() {
             activity!!,
             DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
                 cal.set(year, monthOfYear, dayOfMonth)
+                currentDate = cal.timeInMillis
                 selectDateText.text = simpleDateFormat.format(cal.time)
-                Log.d(TAG, "selectDate: ${cal.timeInMillis.toString()} ")
+                Log.d(TAG, "selectDate: ${cal.timeInMillis}")
+                Log.d(TAG, "currentDate: $currentDate ")
             },
             calendarYear,
             calendarMonth,

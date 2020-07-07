@@ -14,9 +14,9 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.R
 import com.vlaksuga.rounding.RoundResultActivity
-import com.vlaksuga.rounding.data.RoundList
+import com.vlaksuga.rounding.model.RoundList
 
-class RoundListAdapter internal constructor(context: Context) :
+class RoundListAdapter internal constructor(context: Context, roundList: List<RoundList>) :
     RecyclerView.Adapter<RoundListAdapter.RoundListViewHolder>() {
 
     companion object {
@@ -27,14 +27,7 @@ class RoundListAdapter internal constructor(context: Context) :
     private val mContext: Context = context
     private val roundList = emptyList<RoundList>()
 
-    private var items: List<RoundList> = arrayListOf(
-        RoundList("1", "브라자 GC", 1111, 45, false),
-        RoundList("2", "브레이지어 GC", 2222, 103, true),
-        RoundList("2", "브레이지어 GC", 2222, 103, true),
-        RoundList("2", "브레이지어 GC", 2222, 103, true),
-        RoundList("3", "라온", 3333, 123, true)
-    )
-
+    private var items: List<RoundList> = roundList
 
     inner class RoundListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cardItemView: CardView = itemView.findViewById(R.id.roundList_cardView)
@@ -51,6 +44,7 @@ class RoundListAdapter internal constructor(context: Context) :
                 Log.d(TAG, "bind: ${roundList.roundClub}")
                 val resultRoundIntent = Intent(mContext, RoundResultActivity::class.java)
                 // TODO : 라운드를 클릭하면 라운드 정보를 인텐트에 담아서 라운드 결과 액티비티 실행
+
                 mContext.startActivity(resultRoundIntent)
             }
             clubNameItemView.text = roundList.roundClub

@@ -2,11 +2,24 @@ package com.vlaksuga.rounding
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_play_round.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PlayRoundActivity : AppCompatActivity() {
+
+    companion object {
+        const val TAG = "PlayRoundActivity"
+        const val DATE_FORMAT = "yyyy-MM-dd"
+    }
+
+    private val db = FirebaseFirestore.getInstance()
+    private val resultRef = db.collection("roundResults")
+    private val simpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.KOREA)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_round)
@@ -20,6 +33,29 @@ class PlayRoundActivity : AppCompatActivity() {
         playRoundScoreRemove_fab2.setOnClickListener {removeLiveScore(1)}
         playRoundScoreRemove_fab3.setOnClickListener {removeLiveScore(2)}
         playRoundScoreRemove_fab4.setOnClickListener {removeLiveScore(3)}
+
+        playRoundSubmit_button.setOnClickListener {
+            val roundDate = simpleDateFormat.format(1594037938390)
+            val myRoundResult = hashMapOf<String, Any>(
+                "resultUserName" to "오빠바나나",
+                "resultClubName" to "벨리오스",
+                "resultDate" to roundDate,
+                "resultCoPlayers" to "강지형",
+                "resultFirstCourseName" to "LAKE",
+                "resultSecondCourseName" to "VALLEY",
+                "resultFirstCourseParList" to arrayListOf(4,3,4,4,5,3,4,5,5),
+                "resultSecondCourseParList" to arrayListOf(4,4,5,3,4,4,5,3,4),
+                "resultFirstScoreList" to arrayListOf(4,3,4,4,5,3,4,5,5),
+                "resultSecondScoreList" to arrayListOf(4,4,5,3,4,4,5,3,4)
+            )
+            resultRef.add(myRoundResult)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "set success")
+                }
+                .addOnFailureListener {exception ->
+                    Log.w(TAG, "error",  exception)
+                }
+        }
     }
 
     private fun addLiveScore(playerPosition: Int) {

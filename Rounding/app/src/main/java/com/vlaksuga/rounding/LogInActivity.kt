@@ -19,6 +19,7 @@ class LogInActivity : AppCompatActivity() {
         logInSubmit_button.setOnClickListener {
             auth.signInWithEmailAndPassword(logInEmail_editText.text.toString(), logInPassword_editText.text.toString()).addOnCompleteListener(this) {task ->
                 if(task.isSuccessful) {
+                    // TODO : 데이터베이스에서 해당 유저의 정보를 찾아서 APP SHARED PREFERENCES에 저장함
                     App.prefs.userEmail = logInEmail_editText.text.toString()
                     App.prefs.userPassword = logInPassword_editText.text.toString()
                     startActivity(Intent(this, MainActivity::class.java))

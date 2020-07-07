@@ -21,4 +21,7 @@
     <string name="hole">HOLE</string>
     <string name="total">합계</string>
     <string name="par">PAR</string>
+    <string name="stroke">STROKE</string>
+    <string name="choose_date">날짜를 선택해 주세요</string>
+    <string name="setRounddate_title">라운딩 날짜 선택</string>
 </resources>

@@ -3,20 +3,19 @@ package com.vlaksuga.rounding
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
+        const val TAG = "MainActivity"
         const val PAGE_COUNT = 3
     }
     private var viewPager : ViewPager2? = null
@@ -24,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        // TODO : 현재 유저 값 불러오기
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
 
@@ -46,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         floatingActionButton.setOnClickListener {
-            startActivity(Intent(this, AddEditRoundActivity::class.java))
+            startActivity(Intent(this, PlayRoundActivity::class.java))
         }
     }
 
