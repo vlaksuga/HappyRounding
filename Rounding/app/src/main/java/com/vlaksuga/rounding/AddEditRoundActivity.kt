@@ -56,20 +56,17 @@ class AddEditRoundActivity : AppCompatActivity() {
         }
 
         addEditRoundClubSelect_button.setOnClickListener {
-            // TODO : 클럽선택 다이얼로그 실행 또는 검색가능한 플래그먼트 또는 인텐트 실행
+            // TODO : 플레이라운드 인스턴스를 만드는 행동 생각하기
             val builder = AlertDialog.Builder(this)
         }
 
         addEditRoundCourseSelect_button.setOnClickListener {
-            // TODO : 선택된 클럽내의 코스선택 다이얼로그 실행하기
         }
 
         addEditRoundAddFriend_button.setOnClickListener {
-            // TODO : 내 친구 추가하는 다이얼로그 실행하여 선택한 친구를 리스트 어댑터에 추가하기
         }
 
         addEditRoundChangeSubmit_button.setOnClickListener {
-            // TODO : 인텐트에 내용을 첨부하여 플레이 라운드 활성화 시키기
             startActivity(Intent(this, PlayRoundActivity::class.java))
         }
     }

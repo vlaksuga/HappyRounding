@@ -2,8 +2,6 @@ package com.vlaksuga.rounding.adapters
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +12,9 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.R
 import com.vlaksuga.rounding.RoundResultActivity
-import com.vlaksuga.rounding.model.RoundList
+import com.vlaksuga.rounding.constructors.ResultRound
 
-class RoundListAdapter internal constructor(context: Context, roundList: List<RoundList>) :
+class RoundListAdapter internal constructor(context: Context, roundList: List<ResultRound>) :
     RecyclerView.Adapter<RoundListAdapter.RoundListViewHolder>() {
 
     companion object {
@@ -25,9 +23,8 @@ class RoundListAdapter internal constructor(context: Context, roundList: List<Ro
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val mContext: Context = context
-    private val roundList = emptyList<RoundList>()
-
-    private var items: List<RoundList> = roundList
+    private val roundList = emptyList<ResultRound>()
+    private var items: List<ResultRound> = roundList
 
     inner class RoundListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cardItemView: CardView = itemView.findViewById(R.id.roundList_cardView)
@@ -35,21 +32,17 @@ class RoundListAdapter internal constructor(context: Context, roundList: List<Ro
         val dateItemView: TextView = itemView.findViewById(R.id.roundDate_textView)
         val hitCountItemView: TextView = itemView.findViewById(R.id.roundTotalHit_textView)
 
-        fun bind(roundList: RoundList) {
-            if (!roundList.roundIsNormal) {
-                cardItemView.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FF1122"))
-            }
+        fun bind(roundList: ResultRound) {
             cardItemView.setOnClickListener {
-                Toast.makeText(mContext, "clicked: ", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "bind: ${roundList.roundClub}")
+                Toast.makeText(mContext, "clicked: ${roundList.resultClubName}", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "bind: ${roundList.resultClubName}")
                 val resultRoundIntent = Intent(mContext, RoundResultActivity::class.java)
-                // TODO : 라운드를 클릭하면 라운드 정보를 인텐트에 담아서 라운드 결과 액티비티 실행
-
+                resultRoundIntent.putExtra(RoundResultActivity.DOCUMENT_ID, roundList.resultRoundId)
                 mContext.startActivity(resultRoundIntent)
             }
-            clubNameItemView.text = roundList.roundClub
-            dateItemView.text = roundList.roundDate.toString()
-            hitCountItemView.text = roundList.roundTotalHit.toString()
+            clubNameItemView.text = roundList.resultClubName
+            dateItemView.text = roundList.resultDate
+            hitCountItemView.text = (roundList.resultFirstScoreList.sum() + roundList.resultSecondScoreList.sum()).toString()
         }
     }
 

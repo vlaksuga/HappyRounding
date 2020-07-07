@@ -6,7 +6,7 @@
     <data>
         <variable
             name="result"
-            type="com.vlaksuga.rounding.model.ResultRound" />
+            type="com.vlaksuga.rounding.constructors.ResultRound" />
 
     </data>
 

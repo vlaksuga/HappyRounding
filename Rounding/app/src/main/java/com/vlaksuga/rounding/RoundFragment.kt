@@ -8,11 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.vlaksuga.rounding.adapters.RoundListAdapter
-import com.vlaksuga.rounding.data.Round
-import com.vlaksuga.rounding.model.RoundList
-import java.util.*
+import com.vlaksuga.rounding.constructors.ResultRound
+import com.vlaksuga.rounding.constructors.RoundList
 
 class RoundFragment : Fragment() {
 
@@ -20,45 +21,36 @@ class RoundFragment : Fragment() {
         const val TAG = "RoundFragment"
     }
 
-    private lateinit var roundList : List<RoundList>
+    private lateinit var roundList : List<ResultRound>
     private val db = FirebaseFirestore.getInstance()
-    private val roundRef = db.collection("rounds")
+    private val roundRef = db.collection("roundResults")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView : View? = inflater.inflate(R.layout.fragment_round, container, false)
-        val user = "kangaksjdfkdjf"
-
+        val resultUserName = "오빠바나나"
         roundRef
-            .whereArrayContains("roundPlayerList", user)
-            .whereEqualTo("isRoundEnd", false)
-            .get()
-            .addOnSuccessListener { documents ->
-                val roundListHolder = arrayListOf<Round>()
-                for(document in documents) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
+            .whereEqualTo("resultUserName", resultUserName)
+            .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+              if(firebaseFirestoreException != null) {
+                  Log.w(TAG, "Listen failed.", firebaseFirestoreException)
+                  return@addSnapshotListener
+              }
+                val myRounds = arrayListOf<ResultRound>()
+                val document: QuerySnapshot? = querySnapshot
+                for(snapshot in document!!) {
+                    myRounds.add(snapshot.toObject(ResultRound::class.java))
                 }
+                Log.d(TAG, "onComplete: ${document.metadata}}")
+                roundList = myRounds
+                val roundRecyclerView : RecyclerView = rootView!!.findViewById(R.id.roundRecyclerView)
+                roundRecyclerView.adapter = RoundListAdapter(activity!!, roundList)
+                roundRecyclerView.layoutManager = LinearLayoutManager(activity!!)
+                roundRecyclerView.setHasFixedSize(true)
+                Log.d(TAG, "onCreateView: countList => ${roundList.size} ")
             }
-            .addOnFailureListener {
-                Log.d(TAG, "non")
-            }
-            .addOnCompleteListener { task ->
-
-            }
-            roundList = arrayListOf(
-            RoundList("1", "브라자 GC", 1111, 45, false),
-            RoundList("2", "브레이지어 GC", 2222, 103, true),
-            RoundList("3", "브레이지어 GC", 2222, 103, true),
-            RoundList("4", "브레이지어 GC", 2222, 103, true),
-            RoundList("5", "라온", 3333, 123, true)
-        )
-        val roundRecyclerView : RecyclerView = rootView!!.findViewById(R.id.roundRecyclerView)
-        roundRecyclerView.adapter =
-            RoundListAdapter(activity!!, roundList)
-        roundRecyclerView.layoutManager = LinearLayoutManager(activity!!)
-        roundRecyclerView.setHasFixedSize(true)
         return rootView
     }
 }

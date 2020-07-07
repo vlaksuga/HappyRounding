@@ -1,4 +1,4 @@
-package com.vlaksuga.rounding.model
+package com.vlaksuga.rounding.constructors
 
 data class RoundList (
     val roundId : String,

@@ -34,7 +34,7 @@ class CreateRoundActivity : AppCompatActivity() {
             // TODO : 중복된 라운드를 생성할 수 없도록 AppShered에 라운드 상태 생성중 변경하기 (만들었다 : 끝났다)
             db.collection("rounds").document(roundDocument)
                 .set(round)
-                .addOnSuccessListener { documentReference ->
+                .addOnSuccessListener { _ ->
                     Log.d(TAG, "set success")
                 }
                 .addOnFailureListener {exception ->
