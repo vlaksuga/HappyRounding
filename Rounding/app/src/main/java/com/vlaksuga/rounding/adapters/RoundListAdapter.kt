@@ -23,7 +23,6 @@ class RoundListAdapter internal constructor(context: Context, roundList: List<Re
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val mContext: Context = context
-    private val roundList = emptyList<ResultRound>()
     private var items: List<ResultRound> = roundList
 
     inner class RoundListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

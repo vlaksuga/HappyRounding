@@ -15,7 +15,7 @@ import com.vlaksuga.rounding.data.Club
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ClubListAdapter internal constructor(context: Context) : RecyclerView.Adapter<ClubListAdapter.ClubListViewHolder> (), Filterable {
+class ClubListAdapter internal constructor(context: Context, clubList : List<Club>) : RecyclerView.Adapter<ClubListAdapter.ClubListViewHolder> (), Filterable {
 
     companion object {
         const val TAG = "ClubListAdapter"
@@ -24,19 +24,15 @@ class ClubListAdapter internal constructor(context: Context) : RecyclerView.Adap
     private val mContext : Context = context
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val clubs = emptyList<Club>()
-    private var items : List<Club> = arrayListOf(
-        Club("1", "스카이 72", "스카이72sky72"),
-        Club("2", "안성 베네스트", "안성베네스트benest"),
-        Club("3", "발안", "발안cc")
-    )
-
+    private var items : List<Club> = clubList
     inner class ClubListViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val cardItemView = itemView.findViewById<CardView>(R.id.clubList_cardView)
         val titleItemView = itemView.findViewById<TextView>(R.id.setRoundClubName_textView)
 
         fun bind(club: Club) {
             cardItemView.setOnClickListener {
-                Log.d(TAG, "clicked : ${club.clubSearchInfo}")
+
+                Log.d(TAG, "clicked : ${club.clubName}")
             }
             titleItemView.text = club.clubName
         }

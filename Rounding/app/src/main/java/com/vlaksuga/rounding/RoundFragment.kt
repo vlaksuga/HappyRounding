@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.vlaksuga.rounding.adapters.RoundListAdapter
 import com.vlaksuga.rounding.constructors.ResultRound
-import com.vlaksuga.rounding.constructors.RoundList
 
 class RoundFragment : Fragment() {
 

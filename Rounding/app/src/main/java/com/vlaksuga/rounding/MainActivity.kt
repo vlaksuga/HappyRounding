@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
 
         floatingActionButton.setOnClickListener {
-            startActivity(Intent(this, PlayRoundActivity::class.java))
+            startActivity(Intent(this, AddEditRoundActivity::class.java))
         }
     }
 

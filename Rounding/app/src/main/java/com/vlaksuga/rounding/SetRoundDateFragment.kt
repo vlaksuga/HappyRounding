@@ -29,23 +29,24 @@ class SetRoundDateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_set_round_date, container, false)
-        val nextButton : Button = view.findViewById(R.id.setRoundDateNext_button)
+        val rootView = inflater.inflate(R.layout.fragment_set_round_date, container, false)
+        activity!!.title = "날짜"
+        val nextButton : Button = rootView.findViewById(R.id.setDateDone_button)
 
-        selectDateText= view.findViewById(R.id.setRoundDate_textView)
+        selectDateText= rootView.findViewById(R.id.setRoundDate_textView)
         selectDateText.text = simpleDateFormat.format(currentDate)
 
         selectDateText.setOnClickListener{
             selectDate()
         }
         nextButton.setOnClickListener {
-            moveToNextFragment()
+            moveToClubFragment()
         }
 
-        return view
+        return rootView
     }
 
-    private fun moveToNextFragment() {
+    private fun moveToClubFragment() {
         val fragmentManager = activity!!.supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val newFragment = SetRoundClubFragment()

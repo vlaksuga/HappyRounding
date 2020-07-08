@@ -1,86 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SetRoundDateFragment">
-
+    tools:context=".SetRoundResultFragment">
 
     <TextView
-        android:id="@+id/addEditRoundTitle_textView"
+        android:id="@+id/createRoundDate_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="날짜를 선택해주세요"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="2020-07-20"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/addEditRoundClubSelect_button"
+    <TextView
+        android:id="@+id/createClub_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="클럽선택"
+        android:text="벨리오스CC"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEditRoundSelectedDate_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/createRoundDate_textView" />
 
     <TextView
-        android:id="@+id/addEditRoundClubName_textView"
+        android:id="@+id/createCourse_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="브라자GC"
-        app:layout_constraintBaseline_toBaselineOf="@+id/addEditRoundClubSelect_button"
-        app:layout_constraintStart_toEndOf="@+id/addEditRoundClubSelect_button" />
-
-    <Button
-        android:id="@+id/addEditRoundCourseSelect_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="코스선택"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEditRoundClubSelect_button" />
-
-    <TextView
-        android:id="@+id/addEditRoundCourseName_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="East, West"
-        app:layout_constraintBaseline_toBaselineOf="@+id/addEditRoundCourseSelect_button"
-        app:layout_constraintStart_toEndOf="@+id/addEditRoundCourseSelect_button" />
-
-    <Button
-        android:id="@+id/addEditRoundAddFriend_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="친구추가"
-        app:layout_constraintStart_toStartOf="@+id/addEditRoundCourseSelect_button"
-        app:layout_constraintTop_toBottomOf="@+id/addEditRoundCourseSelect_button" />
-
-    <TextView
-        android:id="@+id/addEditRoundSelectedDate_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:text="2020-07-01"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="LAKE, VALLEY"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addEditRoundTitle_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/createClub_textView" />
 
-    <Button
-        android:id="@+id/addEditRoundChangeSubmit_button"
+    <TextView
+        android:id="@+id/createPlayers_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="저장하기"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="강지형, 김태경, 신주섭"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/createCourse_textView" />
+
+    <Button
+        android:id="@+id/createRoundSubmit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="CREATE ROUND"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
