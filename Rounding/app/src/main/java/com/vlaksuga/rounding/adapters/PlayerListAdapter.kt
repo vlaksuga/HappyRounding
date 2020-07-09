@@ -1,8 +1,7 @@
 package com.vlaksuga.rounding.adapters
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import com.vlaksuga.rounding.data.FriendList
 import com.vlaksuga.rounding.R
-import com.vlaksuga.rounding.constructors.ResultRound
 import com.vlaksuga.rounding.data.User
 
 class PlayerListAdapter internal constructor(context: Context, playerList: List<User>) :
@@ -28,9 +23,10 @@ class PlayerListAdapter internal constructor(context: Context, playerList: List<
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val mContext: Context = context
-    private val playerList = emptyList<User>()
     private var items: List<User> = playerList
-    var selectedPlayerList = arrayListOf<String>("오빠바나나")
+    var selectedPlayerIdList = arrayListOf<String>("OPPABANANA")
+    var selectedPlayerNickNameList = arrayListOf<String>("오빠바나나")
+
 
     inner class PlayerListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cardItemView: CardView = itemView.findViewById(R.id.playerList_cardView)
@@ -38,20 +34,23 @@ class PlayerListAdapter internal constructor(context: Context, playerList: List<
         val checkItemView: ImageView = itemView.findViewById(R.id.playerChecked_imageView)
 
         fun bind(playerList: User) {
+
+
             cardItemView.setOnClickListener {
                 if (checkItemView.visibility == View.GONE) {
-                    if(selectedPlayerList.size < 4) {
-                        selectedPlayerList.add(playerList.userNickname)
+                    if(selectedPlayerIdList.size < 4) {
+                        selectedPlayerIdList.add(playerList.userId)
+                        selectedPlayerNickNameList.add(playerList.userNickname)
                         checkItemView.visibility = View.VISIBLE
-                        notifyDataSetChanged()
                         Log.d(TAG, "click: ${playerList.userNickname} ")
                         Log.d(TAG, "VIEW: VISIBLE ")
-                        Log.d(TAG, "PLAYERLIST: ${selectedPlayerList.size} ")
+                        Log.d(TAG, "PLAYER_LIST: ${selectedPlayerIdList.size} ")
                     } else {
                         Toast.makeText(mContext, "인원이 찼습니다.", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    selectedPlayerList.remove(playerList.userNickname)
+                    selectedPlayerIdList.remove(playerList.userId)
+                    selectedPlayerNickNameList.remove(playerList.userNickname)
                     checkItemView.visibility = View.GONE
                     Log.d(TAG, "click: ${playerList.userNickname} ")
                     Log.d(TAG, "VIEW: GONE ")

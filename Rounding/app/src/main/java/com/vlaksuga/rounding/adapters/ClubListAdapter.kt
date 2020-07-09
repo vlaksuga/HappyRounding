@@ -25,14 +25,15 @@ class ClubListAdapter internal constructor(context: Context, clubList : List<Clu
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val clubs = emptyList<Club>()
     private var items : List<Club> = clubList
+    private lateinit var mlistener : OnItemClickListener
+
     inner class ClubListViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val cardItemView = itemView.findViewById<CardView>(R.id.clubList_cardView)
         val titleItemView = itemView.findViewById<TextView>(R.id.setRoundClubName_textView)
 
         fun bind(club: Club) {
             cardItemView.setOnClickListener {
-
-                Log.d(TAG, "clicked : ${club.clubName}")
+                mlistener.onItemClick(club)
             }
             titleItemView.text = club.clubName
         }
@@ -78,5 +79,13 @@ class ClubListAdapter internal constructor(context: Context, clubList : List<Clu
             }
 
         }
+    }
+
+    public interface OnItemClickListener {
+        fun onItemClick(club: Club)
+    }
+
+    public fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.mlistener = listener
     }
 }

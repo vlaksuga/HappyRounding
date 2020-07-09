@@ -28,7 +28,7 @@ class SetRoundDateFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        Log.d(TAG, "currentDate: $currentDate ")
         val rootView = inflater.inflate(R.layout.fragment_set_round_date, container, false)
         activity!!.title = "날짜"
         val nextButton : Button = rootView.findViewById(R.id.setDateDone_button)
@@ -50,8 +50,10 @@ class SetRoundDateFragment : Fragment() {
         val fragmentManager = activity!!.supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val newFragment = SetRoundClubFragment()
-        val bundle = Bundle()
-        bundle.putLong(BUNDLE_KEY_DATE, currentDate)
+        val toBundle = Bundle()
+        toBundle.putLong(SetRoundResultFragment.BUNDLE_KEY_DATE, currentDate)
+        newFragment.arguments = toBundle
+        Log.d(TAG, "moveToClubFragment: $toBundle")
         transaction.replace(R.id.add_round_fragment_container, newFragment)
         transaction.addToBackStack(null)
         transaction.commit()

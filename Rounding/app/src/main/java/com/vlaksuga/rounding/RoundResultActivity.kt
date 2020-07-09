@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.vlaksuga.rounding.constructors.ResultRound
 import com.vlaksuga.rounding.databinding.ActivityRoundResultBinding
-import io.grpc.perfmark.PerfMark.task
 import kotlinx.android.synthetic.main.activity_round_result.*
 
 

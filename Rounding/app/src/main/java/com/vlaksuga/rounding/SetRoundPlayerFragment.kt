@@ -18,26 +18,54 @@ class SetRoundPlayerFragment : Fragment() {
         const val TAG = "SetRoundPlayerFragment"
     }
 
-    private val adapter = PlayerListAdapter
+    lateinit var playerListAdapter: PlayerListAdapter
+    private var dataRoundDate : Long = SetRoundResultFragment.DEFAULT_DATE_VALUE
+    private lateinit var dataRoundClubId : String
+    private lateinit var dataRoundClubName : String
+    private lateinit var dataRoundCourseIdList : ArrayList<String>
+    private lateinit var dataRoundCourseNameList : ArrayList<String>
+    private lateinit var dataRoundPlayerIdList : ArrayList<String>
+    private lateinit var dataRoundPlayerNicknameList : ArrayList<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_set_round_player, container, false)
+
+        // TODO : GET BUNDLE DATA FROM CLUB FRAGMENT
+        val fromBundle = this.arguments
+        dataRoundDate = fromBundle!!.getLong(SetRoundResultFragment.BUNDLE_KEY_DATE, SetRoundResultFragment.DEFAULT_DATE_VALUE)
+        dataRoundClubId = fromBundle.getString(SetRoundResultFragment.BUNDLE_KEY_CLUB_ID)!!
+        dataRoundClubName = fromBundle.getString(SetRoundResultFragment.BUNDLE_KEY_CLUB_NAME)!!
+        dataRoundCourseIdList = fromBundle.getStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_ID_LIST)!!
+        dataRoundCourseNameList = fromBundle.getStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_NAME_LIST)!!
+
+        dataRoundPlayerIdList = arrayListOf()
+        dataRoundPlayerNicknameList = arrayListOf()
+
         activity!!.title = "플레이어"
-        // USER의 FRIEND를 가져온다
-        val playerList = arrayListOf<User>(
-            User("123123cxa","sdfsdfcsdfs","sdffsdfwbds","골프도사","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
-            User("123123cxa","sdfsdfcsdfs","sdffsdfwbds","호올인원","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
-            User("123123cxa","sdfsdfcsdfs","sdffsdfwbds","으응개잘해","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
-            User("123123cxa","sdfsdfcsdfs","sdffsdfwbds","존나개꿀꿀","tekitekie@nsdkf","white","sakdfjsdkfsdf")
+
+        // TODO : USER의 FRIEND를 가져온다
+        val playerList = arrayListOf(
+            User("123123cxa","GOLFGOD","sdffsdfwbds","골프도사","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
+            User("123123cxa","HOLEINONE","sdffsdfwbds","호올인원","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
+            User("123123cxa","YESVERYGOOD","sdffsdfwbds","으응개잘해","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
+            User("123123cxa","YESDOGHONEY","sdffsdfwbds","존나개꿀꿀","tekitekie@nsdkf","white","sakdfjsdkfsdf")
         )
 
+        playerListAdapter = PlayerListAdapter(activity!!, playerList)
+
+        // TODO : 어댑터 리스너를 감지해서 dataRoundPlayerIdList = playerListAdapter.selectedPlayerList를 재처리하기
+
+        // set RecyclerView //
         val playerRecyclerView : RecyclerView = rootView!!.findViewById(R.id.playerRecyclerView)
-        playerRecyclerView.adapter = PlayerListAdapter(activity!!, playerList)
+        playerRecyclerView.adapter = playerListAdapter
         playerRecyclerView.layoutManager = LinearLayoutManager(activity!!)
         playerRecyclerView.setHasFixedSize(true)
+
+        dataRoundPlayerIdList = playerListAdapter.selectedPlayerIdList
+        Log.d(TAG, "dataRoundPlayerIdList: $dataRoundPlayerIdList")
 
         val nextButton = rootView.findViewById<Button>(R.id.setPlayerDone_button)
         nextButton.setOnClickListener {
@@ -47,18 +75,25 @@ class SetRoundPlayerFragment : Fragment() {
     }
 
     private fun moveToResultFragment() {
+
         val fragmentManager = activity!!.supportFragmentManager
         val transaction = fragmentManager.beginTransaction()
         val newFragment = SetRoundResultFragment()
-        val bundle = Bundle()
-        bundle.putLong(SetRoundResultFragment.BUNDLE_KEY_DATE, 1593861609070)
-        bundle.putString(SetRoundResultFragment.BUNDLE_KEY_CLUB_ID, "골프클럽아이디")
-        bundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_ID_LIST, arrayListOf("코스아이디1", "코스아이디2"))
-        bundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_PLAYER_ID_LIST, arrayListOf("유저아이디1", "유저아이디2", "유저아이디3", "유저아이디4"))
-        newFragment.arguments = bundle
+        val toBundle = Bundle()
+
+        toBundle.putLong(SetRoundResultFragment.BUNDLE_KEY_DATE, dataRoundDate)
+        toBundle.putString(SetRoundResultFragment.BUNDLE_KEY_CLUB_ID, dataRoundClubId)
+        toBundle.putString(SetRoundResultFragment.BUNDLE_KEY_CLUB_NAME, dataRoundClubName)
+        toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_ID_LIST, dataRoundCourseIdList)
+        toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_NAME_LIST, dataRoundCourseNameList)
+        toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_PLAYER_ID_LIST, playerListAdapter.selectedPlayerIdList)
+        toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_PLAYER_NICKNAME_LIST, playerListAdapter.selectedPlayerNickNameList)
+
+        newFragment.arguments = toBundle
         transaction.replace(R.id.add_round_fragment_container, newFragment)
         transaction.addToBackStack(null)
         transaction.commit()
         Log.d(TAG, "moveToResultFragment: success ")
+        Log.d(TAG, "selectedPlayerList: $dataRoundPlayerIdList")
     }
 }
