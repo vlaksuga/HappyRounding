@@ -56,7 +56,6 @@ class AddEditRoundActivity : AppCompatActivity() {
         }
 
         addEditRoundClubSelect_button.setOnClickListener {
-            // TODO : 플레이라운드 인스턴스를 만드는 행동 생각하기
             val builder = AlertDialog.Builder(this)
         }
 

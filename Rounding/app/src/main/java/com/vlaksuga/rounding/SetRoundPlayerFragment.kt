@@ -48,10 +48,10 @@ class SetRoundPlayerFragment : Fragment() {
 
         // TODO : USER의 FRIEND를 가져온다
         val playerList = arrayListOf(
-            User("123123cxa","GOLFGOD","sdffsdfwbds","골프도사","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
-            User("123123cxa","HOLEINONE","sdffsdfwbds","호올인원","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
-            User("123123cxa","YESVERYGOOD","sdffsdfwbds","으응개잘해","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
-            User("123123cxa","YESDOGHONEY","sdffsdfwbds","존나개꿀꿀","tekitekie@nsdkf","white","sakdfjsdkfsdf")
+            User("GOLFGOD","sdffsdfwbds","골프도사","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
+            User("HOLEINONE","sdffsdfwbds","호올인원","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
+            User("YESVERYGOOD","sdffsdfwbds","으응개잘해","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
+            User("YESDOGHONEY","sdffsdfwbds","존나개꿀꿀","tekitekie@nsdkf","white","sakdfjsdkfsdf")
         )
 
         playerListAdapter = PlayerListAdapter(activity!!, playerList)

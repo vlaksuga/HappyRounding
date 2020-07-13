@@ -47,6 +47,7 @@ class RoundResultActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val document = task.result!!.documents[0]
                     val resultRound = document!!.toObject(ResultRound::class.java)
+                    Log.d(TAG, "resultRound: $resultRound")
                     val binding: ActivityRoundResultBinding = DataBindingUtil.setContentView(this, R.layout.activity_round_result)
                         binding.result = resultRound
                     val firstScoreList = resultRound!!.resultFirstScoreList.sum()

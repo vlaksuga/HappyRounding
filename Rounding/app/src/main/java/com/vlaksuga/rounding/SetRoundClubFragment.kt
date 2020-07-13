@@ -53,8 +53,8 @@ class SetRoundClubFragment : Fragment() {
 
         // set database from fireStore //
         val clubList = arrayListOf<Club>()
-        val courseList = arrayListOf(
-            Course(
+        var courseList = arrayListOf<Course>()
+        /*            Course(
                 "course_001",
                 "club_004",
                 "MOUNTAIN",
@@ -68,32 +68,50 @@ class SetRoundClubFragment : Fragment() {
                 arrayListOf(4, 4, 3, 5, 3, 5, 4, 3, 5),
                 arrayListOf(412, 360, 119, 447, 146, 547, 389, 222, 492)
             )
-        )
+        )*/
 
         val db = FirebaseFirestore.getInstance()
         db.collection("clubs")
             .get()
             .addOnSuccessListener {
-                Log.d(TAG, "db : Success!! :)")
+                Log.d(TAG, "Club db : Success!! :)")
             }
             .addOnFailureListener {
-                Log.d(TAG, "db : Fail!! :(")
+                Log.d(TAG, "Club db : Fail!! :(")
             }
             .addOnCompleteListener { task: Task<QuerySnapshot> ->
                 if (task.isSuccessful) {
                     for (document in task.result!!) {
                         clubList.add(document.toObject(Club::class.java))
                     }
-                    Log.d(TAG, "db load complete: Done")
+                    Log.d(TAG, "Club db load complete: Done")
                     clubListAdapter.notifyDataSetChanged()
-                    Log.d(TAG, "onCreateView: notifyDataSetChanged!!")
+                    Log.d(TAG, "Club db : notifyDataSetChanged!!")
+                }
+            }
+
+        db.collection("courses")
+            .get()
+            .addOnSuccessListener {
+                Log.d(TAG, "Course db : Success!! :)")
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "Club db : Fail!! :(")
+            }
+            .addOnCompleteListener { task: Task<QuerySnapshot> ->
+                if (task.isSuccessful) {
+                    for (document in task.result!!) {
+                        courseList.add(document.toObject(Course::class.java))
+                    }
+                    Log.d(TAG, "Club db load complete: Done")
+                    courseListAdapter.notifyDataSetChanged()
+                    Log.d(TAG, "Club db : notifyDataSetChanged!!")
                 }
             }
 
         // adapters //
         clubListAdapter = ClubListAdapter(activity!!, clubList)
         courseListAdapter = CourseListAdapter(activity!!, courseList)
-
         Log.d(TAG, "onCreateView: adapter Attached")
 
         // RecyclerViews //
@@ -104,9 +122,7 @@ class SetRoundClubFragment : Fragment() {
 
         val courseRecyclerView: RecyclerView =
             rootView.findViewById(R.id.setRoundCourse_recyclerView)
-        courseRecyclerView.adapter = courseListAdapter
-        courseRecyclerView.layoutManager = LinearLayoutManager(activity!!)
-        courseRecyclerView.setHasFixedSize(true)
+
 
         // next //
         val nextButton = rootView.findViewById<Button>(R.id.setClubDone_button)
@@ -116,16 +132,33 @@ class SetRoundClubFragment : Fragment() {
 
         clubListAdapter.setOnItemClickListener(object : ClubListAdapter.OnItemClickListener {
             override fun onItemClick(club: Club) {
+                val filteredCourseList = arrayListOf<Course>()
+                Log.d(TAG, "onItemClick: dataSet init")
                 activity!!.title = "코스"
                 currentClubId = club.clubId
                 currentClubName = club.clubName
-                Log.d(TAG, "onItemClick: ${club.clubId} ")
+                for (course in courseList) {
+                    if (course.courseClubId == currentClubId) {
+                        filteredCourseList.add(course)
+                    }
+                }
+                courseList = filteredCourseList
                 Log.d(TAG, "onItemClick: ${club.clubName} ")
+                Log.d(TAG, "onItemClick: ${club.clubId} ")
+                Log.d(TAG, "onItemClick:notifyDataSetChanged")
+                Log.d(TAG, "onItemClick: courseList => $courseList")
+
+                courseListAdapter = CourseListAdapter(activity!!, courseList)
                 clubRecyclerView.visibility = View.GONE
                 courseRecyclerView.visibility = View.VISIBLE
+                courseRecyclerView.adapter = courseListAdapter
+                courseRecyclerView.layoutManager = LinearLayoutManager(activity!!)
+                courseRecyclerView.setHasFixedSize(true)
+                courseListAdapter.notifyDataSetChanged()
                 nextButton.visibility = View.VISIBLE
             }
         })
+
         // searchView //
         // TODO : 파이어베이스와 서치뷰 연결해서 구축하기
         val searchManager = activity!!.getSystemService(Context.SEARCH_SERVICE) as SearchManager
@@ -144,22 +177,21 @@ class SetRoundClubFragment : Fragment() {
             }
         })
 
-
         return rootView
     }
 
     private fun moveToPlayerFragment() {
-        var firstCourseId : String? = courseListAdapter.selectedFirstCourseId
-        var secondCourseId : String? = courseListAdapter.selectedSecondCourseId
-        var firstCourseName : String? = courseListAdapter.selectedFirstCourseName
-        var secondCourseName : String? = courseListAdapter.selectedSecondCourseName
+        var firstCourseId: String? = courseListAdapter.selectedFirstCourseId
+        var secondCourseId: String? = courseListAdapter.selectedSecondCourseId
+        var firstCourseName: String? = courseListAdapter.selectedFirstCourseName
+        var secondCourseName: String? = courseListAdapter.selectedSecondCourseName
 
-        if(firstCourseId.isNullOrBlank() && secondCourseId.isNullOrBlank()){
+        if (firstCourseId.isNullOrBlank() && secondCourseId.isNullOrBlank()) {
             Toast.makeText(context, "코스를 선택해주세요", Toast.LENGTH_SHORT).show()
             return
         }
 
-        if(firstCourseId.isNullOrBlank() && !secondCourseId.isNullOrBlank()) {
+        if (firstCourseId.isNullOrBlank() && !secondCourseId.isNullOrBlank()) {
             firstCourseId = secondCourseId
             secondCourseId = null
             firstCourseName = secondCourseName
@@ -178,7 +210,10 @@ class SetRoundClubFragment : Fragment() {
             SetRoundResultFragment.BUNDLE_KEY_COURSE_ID_LIST,
             currentCourseIdList
         )
-        toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_NAME_LIST, currentCourseNameList)
+        toBundle.putStringArrayList(
+            SetRoundResultFragment.BUNDLE_KEY_COURSE_NAME_LIST,
+            currentCourseNameList
+        )
         newFragment.arguments = toBundle
         transaction.replace(R.id.add_round_fragment_container, newFragment)
         transaction.addToBackStack(null)

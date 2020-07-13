@@ -84,16 +84,28 @@ class SetRoundResultFragment : Fragment() {
         resultCourseList.text = courseNameListToString
         resultPlayers.text = playerNicknameListToString
 
+        // Create New Round UUID //
+        val newRoundUUID : String = UUID.randomUUID().toString()
+
 
 
         createButton.setOnClickListener {
             it.isClickable = false
             round = hashMapOf(
+                "roundId" to newRoundUUID,
                 "roundOwnerUserId" to "ownerUserId",
                 "roundDate" to bundleDate,
                 "roundClubId" to bundleClubId,
                 "roundCourseIdList" to bundleCourseIdList,
                 "roundPlayerIdList" to bundlePlayerIdLIst,
+                "playerFirstScoreFirstList" to arrayListOf(0,0,0,0,0,0,0,0,0),
+                "playerSecondScoreFirstList" to arrayListOf(0,0,0,0,0,0,0,0,0),
+                "playerThirdScoreFirstList" to arrayListOf(0,0,0,0,0,0,0,0,0),
+                "playerFourthScoreFirstList" to arrayListOf(0,0,0,0,0,0,0,0,0),
+                "playerFirstScoreSecondList" to arrayListOf(0,0,0,0,0,0,0,0,0),
+                "playerSecondScoreSecondList" to arrayListOf(0,0,0,0,0,0,0,0,0),
+                "playerThirdScoreSecondList" to arrayListOf(0,0,0,0,0,0,0,0,0),
+                "playerFourthScoreSecondList" to arrayListOf(0,0,0,0,0,0,0,0,0),
                 "isRoundEnd" to false
             )
 

@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         mainMenuMore_imageView.setOnClickListener {
             // TODO : 라운딩 더보기 메뉴 실행
+            startActivity(Intent(this, PlayRoundActivity::class.java))
         }
 
         viewPager = findViewById(R.id.viewpager)
