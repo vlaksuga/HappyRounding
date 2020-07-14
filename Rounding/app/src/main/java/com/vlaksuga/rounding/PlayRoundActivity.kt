@@ -3,9 +3,12 @@ package com.vlaksuga.rounding
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.vlaksuga.rounding.data.Round
@@ -22,7 +25,7 @@ class PlayRoundActivity : AppCompatActivity() {
         const val COLLECTION_PATH_COURSES = "courses"
     }
 
-    private lateinit var currentRound : Round
+    private lateinit var currentRound: Round
     private var currentClubName = ""
     private var currentHoleIndex = 0
     private var currentFirstCourseName = ""
@@ -35,13 +38,19 @@ class PlayRoundActivity : AppCompatActivity() {
     private var currentCourseParList = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
     private var currentCourseFirstParList = arrayListOf<Int>()
     private var currentCourseSecondParList = arrayListOf<Int>()
+    private var currentRoundPlayerIdList = arrayListOf<String>()
     private var currentCourseName = ""
-    private var currentFirstPlayerScoreSet = arrayListOf<Int>()
-    private var currentSecondPlayerScoreSet = arrayListOf<Int>()
-    private var currentThirdPlayerScoreSet = arrayListOf<Int>()
-    private var currentFourthPlayerScoreSet = arrayListOf<Int>()
     private var roundOwnerUserId = ""
-
+    private var documentPath = ""
+    private var currentPlayersSize = 1
+    private var liveScorePlayerFirstCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    private var liveScorePlayerFirstCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    private var liveScorePlayerSecondCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    private var liveScorePlayerSecondCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    private var liveScorePlayerThirdCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    private var liveScorePlayerThirdCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    private var liveScorePlayerFourthCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    private var liveScorePlayerFourthCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 
     private val db = FirebaseFirestore.getInstance()
@@ -55,21 +64,8 @@ class PlayRoundActivity : AppCompatActivity() {
         initDummy()
 
         // GET DB FROM FIREBASE //
-        getRoundFromFireBase()
+        getRoundFromFireBase("bb8ed403-f1aa-4cdc-b35e-249c290a972b")
 
-        // SET ROUND OWNER ID //
-
-
-        // SET SCORE LIST//
-        setScoreList(currentCourseIndex)
-
-
-        currentCourseName = currentFirstCourseName
-        val currentHoleNumber = if (currentHoleIndex > 8) {
-            currentHoleIndex - 8
-        } else {
-            currentHoleIndex + 1
-        }
 
 
         // FAB //
@@ -82,108 +78,19 @@ class PlayRoundActivity : AppCompatActivity() {
         playRoundScoreRemove_fab2.setOnClickListener { removeLiveScore(1) }
         playRoundScoreRemove_fab3.setOnClickListener { removeLiveScore(2) }
         playRoundScoreRemove_fab4.setOnClickListener { removeLiveScore(3) }
-    }
 
-    private fun setScoreList(courseIndex : Int) {
-        currentFirstPlayerScoreSet = when (courseIndex) {
-            0 -> currentRound.playerFirstScoreFirstList as ArrayList<Int>
-            else -> currentRound.playerFirstScoreSecondList as ArrayList<Int>
-        }
-        currentSecondPlayerScoreSet = when (courseIndex) {
-            0 -> currentRound.playerSecondScoreFirstList as ArrayList<Int>
-            else -> currentRound.playerSecondScoreSecondList as ArrayList<Int>
-        }
-        currentThirdPlayerScoreSet = when (courseIndex) {
-            0 -> currentRound.playerThirdScoreFirstList as ArrayList<Int>
-            else -> currentRound.playerThirdScoreSecondList as ArrayList<Int>
-        }
-        currentFourthPlayerScoreSet = when (courseIndex) {
-            0 -> currentRound.playerFourthScoreFirstList as ArrayList<Int>
-            else -> currentRound.playerFourthScoreSecondList as ArrayList<Int>
-        }
-    }
-
-    private fun setRoundOwnerId(ownerId : String) {
-        this.roundOwnerUserId = ownerId
-        Log.d(TAG, "RoundOwnerId: $roundOwnerUserId")
-    }
-
-    private fun setPars(currentCourseIndex : Int) {
-        when(currentCourseIndex) {
-            0 -> apply {
-                Log.d(TAG, "setPars: set 1 ")
-                currentPar_0.text = currentCourseParList[0].toString()
-                currentPar_1.text = currentCourseParList[1].toString()
-                currentPar_2.text = currentCourseParList[2].toString()
-                currentPar_3.text = currentCourseParList[3].toString()
-                currentPar_4.text = currentCourseParList[4].toString()
-                currentPar_5.text = currentCourseParList[5].toString()
-                currentPar_6.text = currentCourseParList[6].toString()
-                currentPar_7.text = currentCourseParList[7].toString()
-                currentPar_8.text = currentCourseParList[8].toString()
-            }
-            else -> apply {
-                Log.d(TAG, "setPars: set 2 ")
-
-            }
+        // NEXT HOLE //
+        toNextHole_button.setOnClickListener {
+            currentHoleIndex += 1
+            setHoleScore(currentHoleIndex)
+            Log.d(TAG, "toNextHole_button: currentHoleIndex -> $currentHoleIndex")
         }
 
-    }
-
-    private fun setPlayerScore(playerPosition: Int) {
-        when(playerPosition) {
-            0 -> apply {
-                Log.d(TAG, "setPlayerScore: 0 -> start ")
-                player_1_score_0.text = currentFirstPlayerScoreSet[0].toString()
-                player_1_score_1.text = currentFirstPlayerScoreSet[1].toString()
-                player_1_score_2.text = currentFirstPlayerScoreSet[2].toString()
-                player_1_score_3.text = currentFirstPlayerScoreSet[3].toString()
-                player_1_score_4.text = currentFirstPlayerScoreSet[4].toString()
-                player_1_score_5.text = currentFirstPlayerScoreSet[5].toString()
-                player_1_score_6.text = currentFirstPlayerScoreSet[6].toString()
-                player_1_score_7.text = currentFirstPlayerScoreSet[7].toString()
-                player_1_score_8.text = currentFirstPlayerScoreSet[8].toString()
-                player_1_score_total.text = currentFirstPlayerScoreSet.sum().toString()
-            }
-            1 -> apply {
-                Log.d(TAG, "setPlayerScore: 1 -> start ")
-                player_2_score_0.text = currentSecondPlayerScoreSet[0].toString()
-                player_2_score_1.text = currentSecondPlayerScoreSet[1].toString()
-                player_2_score_2.text = currentSecondPlayerScoreSet[2].toString()
-                player_2_score_3.text = currentSecondPlayerScoreSet[3].toString()
-                player_2_score_4.text = currentSecondPlayerScoreSet[4].toString()
-                player_2_score_5.text = currentSecondPlayerScoreSet[5].toString()
-                player_2_score_6.text = currentSecondPlayerScoreSet[6].toString()
-                player_2_score_7.text = currentSecondPlayerScoreSet[7].toString()
-                player_2_score_8.text = currentSecondPlayerScoreSet[8].toString()
-                player_2_score_total.text = currentSecondPlayerScoreSet.sum().toString()
-            }
-            2 -> apply {
-                Log.d(TAG, "setPlayerScore: 2 -> start ")
-                player_3_score_0.text = currentThirdPlayerScoreSet[0].toString()
-                player_3_score_1.text = currentThirdPlayerScoreSet[1].toString()
-                player_3_score_2.text = currentThirdPlayerScoreSet[2].toString()
-                player_3_score_3.text = currentThirdPlayerScoreSet[3].toString()
-                player_3_score_4.text = currentThirdPlayerScoreSet[4].toString()
-                player_3_score_5.text = currentThirdPlayerScoreSet[5].toString()
-                player_3_score_6.text = currentThirdPlayerScoreSet[6].toString()
-                player_3_score_7.text = currentThirdPlayerScoreSet[7].toString()
-                player_3_score_8.text = currentThirdPlayerScoreSet[8].toString()
-                player_3_score_total.text = currentThirdPlayerScoreSet.sum().toString()
-            }
-            else -> apply {
-                Log.d(TAG, "setPlayerScore: 3 -> start ")
-                player_4_score_0.text = currentFourthPlayerScoreSet[0].toString()
-                player_4_score_1.text = currentFourthPlayerScoreSet[1].toString()
-                player_4_score_2.text = currentFourthPlayerScoreSet[2].toString()
-                player_4_score_3.text = currentFourthPlayerScoreSet[3].toString()
-                player_4_score_4.text = currentFourthPlayerScoreSet[4].toString()
-                player_4_score_5.text = currentFourthPlayerScoreSet[5].toString()
-                player_4_score_6.text = currentFourthPlayerScoreSet[6].toString()
-                player_4_score_7.text = currentFourthPlayerScoreSet[7].toString()
-                player_4_score_8.text = currentFourthPlayerScoreSet[8].toString()
-                player_4_score_total.text = currentFourthPlayerScoreSet.sum().toString()
-            }
+        // PRE HOLE //
+        toPreHole_button.setOnClickListener {
+            currentHoleIndex -= 1
+            setHoleScore(currentHoleIndex)
+            Log.d(TAG, "toPreHole_button: currentHoleIndex -> $currentHoleIndex")
         }
     }
 
@@ -196,21 +103,15 @@ class PlayRoundActivity : AppCompatActivity() {
             "roundClubId",
             arrayListOf("course_001", "course_002"),
             arrayListOf("playerId1", "playerId2", "playerId3", "playerId4"),
-            arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
-            arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
-            arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
-            arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
-            arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
-            arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
-            arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
-            arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
             false
         )
     }
 
-    private fun getRoundFromFireBase() {
+    @Suppress("UNCHECKED_CAST")
+    private fun getRoundFromFireBase(roundId : String) {
+
         db.collection(COLLECTION_PATH_ROUNDS)
-            .whereEqualTo("roundId", "7801d136-dc79-4e69-a24c-915a47d5d059")
+            .whereEqualTo("roundId", roundId)
             .get()
             .addOnSuccessListener {
                 Log.d(TAG, "addOnSuccessListener: Success :) ")
@@ -219,31 +120,189 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "addOnFailureListener: Fail => $it ")
             }
             .addOnCompleteListener { task: Task<QuerySnapshot> ->
-                if(task.isComplete) {
+                if (task.isComplete) {
+                    // set currentPlayerSize
                     currentRound = task.result!!.toObjects(Round::class.java)[0]
                     Log.d(TAG, "currentRound: $currentRound")
+
                     getClubName()
-                    setNewHole()
-                    setPlayerScore(0)
-                    setPlayerScore(1)
-                    setPlayerScore(2)
-                    setPlayerScore(3)
+                    currentHoleIndex = 0
+
+                    currentPlayersSize = currentRound.roundPlayerIdList.size
+                    Log.d(TAG, "currentPlayersSize: $currentPlayersSize" )
+
+                    currentRoundPlayerIdList = currentRound.roundCourseIdList as ArrayList<String>
+                    Log.d(TAG, "playerIdList: $currentRoundPlayerIdList" )
+                    documentPath = task.result!!.documents[0].id
+
+                    Log.d(TAG, "currentPlayersSize: $currentPlayersSize")
+                    Log.d(TAG, "getRoundFromFireBase: documentPath -> $documentPath")
+/*                    createScoreCollectionSet(firstPlayerScorePath)
+                    createScoreCollectionSet(secondPlayerScorePath)
+                    createScoreCollectionSet(thirdPlayerScorePath)
+                    createScoreCollectionSet(fourthPlayerScorePath)*/
+                    setHoleScore(currentHoleIndex)
                 }
             }
     }
 
-    private fun setNewHole() {
-        Log.d(TAG, "setNewHole: set! ")
+    private fun createScoreCollectionSet(path: String) {
+        // TODO : 컬렉션이 한번 만들어졌으면 안만들기
+        db.document(path)
+            .set(
+                mapOf(
+                    "hole01" to 0,
+                    "hole02" to 0,
+                    "hole03" to 0,
+                    "hole04" to 0,
+                    "hole05" to 0,
+                    "hole06" to 0,
+                    "hole07" to 0,
+                    "hole08" to 0,
+                    "hole09" to 0,
+                    "hole10" to 0,
+                    "hole11" to 0,
+                    "hole12" to 0,
+                    "hole13" to 0,
+                    "hole14" to 0,
+                    "hole15" to 0,
+                    "hole16" to 0,
+                    "hole17" to 0,
+                    "hole18" to 0
+                )
+            )
+            .addOnSuccessListener {
+                Log.d(TAG, "createScoreCollectionSet: success ")
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "createScoreCollectionSet: fail ")
+            }
+            .addOnCompleteListener {
+                Log.d(TAG, "createScoreCollectionSet: done ")
+            }
+    }
+
+    private fun setRoundOwnerId(ownerId: String) {
+        this.roundOwnerUserId = ownerId
+        Log.d(TAG, "RoundOwnerId: $roundOwnerUserId")
+    }
+
+    private fun setPars(currentCourseIndex: Int) {
+        when (currentCourseIndex) {
+            0 -> apply {
+                Log.d(TAG, "setPars: set 1 ")
+                currentPar_0.text = currentCourseParList[0].toString()
+                currentPar_1.text = currentCourseParList[1].toString()
+                currentPar_2.text = currentCourseParList[2].toString()
+                currentPar_3.text = currentCourseParList[3].toString()
+                currentPar_4.text = currentCourseParList[4].toString()
+                currentPar_5.text = currentCourseParList[5].toString()
+                currentPar_6.text = currentCourseParList[6].toString()
+                currentPar_7.text = currentCourseParList[7].toString()
+                currentPar_8.text = currentCourseParList[8].toString()
+                updateTotalHit(0)
+                updateTotalHit(1)
+                updateTotalHit(2)
+                updateTotalHit(3)
+            }
+            else -> apply {
+                Log.d(TAG, "setPars: set 2 ")
+            }
+        }
+
+    }
+
+    private fun setHoleScore(currentHoleIndex: Int) {
+        Log.d(TAG, "setNewHole: set! $currentHoleIndex ")
+        if(currentHoleIndex == 9) {
+            // TODO : 18홀일 때 코스이동, 9홀일때 종료
+            Toast.makeText(this, "다음홀로 이동하기", Toast.LENGTH_SHORT).show()
+            return
+/*            moveToNextCourse()*/
+        }
+        if(currentHoleIndex >= 18) {
+            // TODO : 라운드 종료
+        }
+        resetCounters()
+        Log.d(TAG, "current hole: ${currentHoleIndex + 1}")
+        Log.d(TAG, "setHoleScore: p1 -> ${liveScorePlayerFirstCourse1[currentHoleIndex]} ")
+        Log.d(TAG, "setHoleScore: p2 -> ${liveScorePlayerSecondCourse1[currentHoleIndex]} ")
+        Log.d(TAG, "setHoleScore: p3 -> ${liveScorePlayerThirdCourse1[currentHoleIndex]} ")
+        Log.d(TAG, "setHoleScore: p4 -> ${liveScorePlayerFourthCourse1[currentHoleIndex]} ")
+        when(currentHoleIndex) {
+            0, 9 -> apply {
+                player_1_score_0.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+                player_2_score_0.text = liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+                player_3_score_0.text = liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+                player_4_score_0.text = liveScorePlayerFourthCourse1[currentHoleIndex].toString()
+                toPreHole_button.visibility = View.GONE
+            }
+            1, 10 -> apply {
+                player_1_score_1.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+                player_2_score_1.text = liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+                player_3_score_1.text = liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+                player_4_score_1.text = liveScorePlayerFourthCourse1[currentHoleIndex].toString()
+                toPreHole_button.visibility = View.VISIBLE
+            }
+            2, 11 -> apply {
+                player_1_score_2.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+                player_2_score_2.text = liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+                player_3_score_2.text = liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+                player_4_score_2.text = liveScorePlayerFourthCourse1[currentHoleIndex].toString()
+            }
+            3, 12 -> apply {
+                player_1_score_3.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+                player_2_score_3.text = liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+                player_3_score_3.text = liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+                player_4_score_3.text = liveScorePlayerFourthCourse1[currentHoleIndex].toString()
+            }
+            4, 13 -> apply {
+                player_1_score_4.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+                player_2_score_4.text = liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+                player_3_score_4.text = liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+                player_4_score_4.text = liveScorePlayerFourthCourse1[currentHoleIndex].toString()
+            }
+            5, 14 -> apply {
+                player_1_score_5.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+                player_2_score_5.text = liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+                player_3_score_5.text = liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+                player_4_score_5.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+            }
+            6, 15 -> apply {
+                player_1_score_6.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+                player_2_score_6.text = liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+                player_3_score_6.text = liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+                player_4_score_6.text = liveScorePlayerFourthCourse1[currentHoleIndex].toString()
+            }
+            7, 17 -> apply {
+                player_1_score_7.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+                player_2_score_7.text = liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+                player_3_score_7.text = liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+                player_4_score_7.text = liveScorePlayerFourthCourse1[currentHoleIndex].toString()
+            }
+            else-> apply{
+                player_1_score_8.text = liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+                player_2_score_8.text = liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+                player_3_score_8.text = liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+                player_4_score_8.text = liveScorePlayerFourthCourse1[currentHoleIndex].toString()
+            }
+        }
+    }
+
+    private fun moveToNextCourse() {
+        // TODO : 다음 코스로 이동
+    }
+
+    private fun resetCounters() {
         playRoundCurrentHole_textView.text = (currentHoleIndex + 1).toString()
-        playRoundPlayerLiveScore_textView1.text = currentFirstPlayerScoreSet[currentHoleIndex].toString()
-        playRoundPlayerLiveScore_textView2.text = currentSecondPlayerScoreSet[currentHoleIndex].toString()
-        playRoundPlayerLiveScore_textView3.text = currentThirdPlayerScoreSet[currentHoleIndex].toString()
-        playRoundPlayerLiveScore_textView4.text = currentFourthPlayerScoreSet[currentHoleIndex].toString()
-        Log.d(TAG, "current hole: ${currentHoleIndex+1}")
-        Log.d(TAG, "setNewHole: p1 init -> ${currentFirstPlayerScoreSet[currentHoleIndex]} ")
-        Log.d(TAG, "setNewHole: p2 init -> ${currentSecondPlayerScoreSet[currentHoleIndex]} ")
-        Log.d(TAG, "setNewHole: p3 init -> ${currentThirdPlayerScoreSet[currentHoleIndex]} ")
-        Log.d(TAG, "setNewHole: p4 init -> ${currentFourthPlayerScoreSet[currentHoleIndex]} ")
+        playRoundPlayerLiveScore_textView1.text =
+            liveScorePlayerFirstCourse1[currentHoleIndex].toString()
+        playRoundPlayerLiveScore_textView2.text =
+            liveScorePlayerSecondCourse1[currentHoleIndex].toString()
+        playRoundPlayerLiveScore_textView3.text =
+            liveScorePlayerThirdCourse1[currentHoleIndex].toString()
+        playRoundPlayerLiveScore_textView4.text =
+            liveScorePlayerFourthCourse1[currentHoleIndex].toString()
     }
 
     private fun getClubName() {
@@ -252,8 +311,8 @@ class PlayRoundActivity : AppCompatActivity() {
         db.collection(COLLECTION_PATH_CLUBS)
             .whereEqualTo("clubId", currentRound.roundClubId)
             .get()
-            .addOnCompleteListener {task: Task<QuerySnapshot> ->
-                if(task.isSuccessful) {
+            .addOnCompleteListener { task: Task<QuerySnapshot> ->
+                if (task.isSuccessful) {
                     currentClubName = task.result!!.documents[0].get("clubName") as String
                     Log.d(TAG, "getClubName: $currentClubName ")
                     playRoundClubName_textView.text = currentClubName
@@ -261,7 +320,6 @@ class PlayRoundActivity : AppCompatActivity() {
                 }
             }
     }
-
 
     @Suppress("UNCHECKED_CAST")
     private fun getCourseSets() {
@@ -274,13 +332,14 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "getCourseSets - 1: success!! ")
             }
             .addOnCompleteListener {
-                if(it.isSuccessful) {
+                if (it.isSuccessful) {
                     currentFirstCourseName = it.result!!.documents[0].get("courseName") as String
                     currentCourseFirstParList = it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
                     Log.d(TAG, "getCourseNames: first is $currentFirstCourseName")
                     Log.d(TAG, "getCourseSets: par => $currentCourseFirstParList ")
                     currentCourseParList = currentCourseFirstParList
-                    playRoundCourseName_textView.text = currentFirstCourseName
+                    currentCourseName = currentFirstCourseName
+                    playRoundCourseName_textView.text = currentCourseName
                     setPars(0)
                 }
             }
@@ -292,21 +351,20 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "getCourseSets - 2: success!! ")
             }
             .addOnCompleteListener {
-                if(it.isSuccessful) {
+                if (it.isSuccessful) {
                     currentSecondCourseName = it.result!!.documents[0].get("courseName") as String
                     currentCourseSecondParList = it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
-                        Log.d(TAG, "getCourseNames: second is $currentSecondCourseName")
-                        Log.d(TAG, "getCourseSets: par => $currentCourseSecondParList ")
-
+                    Log.d(TAG, "getCourseNames: second is $currentSecondCourseName")
+                    Log.d(TAG, "getCourseSets: par => $currentCourseSecondParList ")
                     Log.d(TAG, "currentCourseParList: $currentCourseParList ")
                     setRoundOwnerId(currentRound.roundOwnerUserId)
-                    getPlayers()
+                    getPlayers(currentPlayersSize)
                 }
             }
     }
 
-    private fun getPlayers() {
-        Log.d(TAG, "getPlayers: start ")
+    private fun getPlayers(playersSize : Int) {
+        Log.d(TAG, "getPlayers: start, total : $playersSize players ")
         db.collection(COLLECTION_PATH_USERS)
             .whereEqualTo("userId", currentRound.roundPlayerIdList[0])
             .get()
@@ -314,7 +372,7 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "getPlayers: p1 -> success ")
             }
             .addOnCompleteListener {
-                if(it.isSuccessful) {
+                if (it.isSuccessful) {
                     currentFirstPlayerName = it.result!!.documents[0].get("userNickname") as String
                     Log.d(TAG, "getPlayers: p1 -> $currentFirstPlayerName")
                     playName_1.text = currentFirstPlayerName
@@ -329,7 +387,7 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "getPlayers: p2 -> success ")
             }
             .addOnCompleteListener {
-                if(it.isSuccessful) {
+                if (it.isSuccessful) {
                     currentSecondPlayerName = it.result!!.documents[0].get("userNickname") as String
                     Log.d(TAG, "getPlayers: p2 -> $currentSecondPlayerName")
                     playName_2.text = currentSecondPlayerName
@@ -344,7 +402,7 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "getPlayers: p3 -> success ")
             }
             .addOnCompleteListener {
-                if(it.isSuccessful) {
+                if (it.isSuccessful) {
                     currentThirdPlayerName = it.result!!.documents[0].get("userNickname") as String
                     Log.d(TAG, "getPlayers: p3 -> $currentThirdPlayerName")
                     playName_3.text = currentThirdPlayerName
@@ -359,7 +417,7 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "getPlayers: p4 -> success ")
             }
             .addOnCompleteListener {
-                if(it.isSuccessful) {
+                if (it.isSuccessful) {
                     currentFourthPlayerName = it.result!!.documents[0].get("userNickname") as String
                     Log.d(TAG, "getPlayers: p4 -> $currentFourthPlayerName")
                     playName_4.text = currentFourthPlayerName
@@ -368,81 +426,590 @@ class PlayRoundActivity : AppCompatActivity() {
             }
     }
 
-
     private fun addLiveScore(playerPosition: Int) {
-
         val currentParMaxHit: Int = currentCourseParList[currentHoleIndex] * 2
         val currentHit = when (playerPosition) {
-            0 -> currentFirstPlayerScoreSet[currentHoleIndex]
-            1 -> currentSecondPlayerScoreSet[currentHoleIndex]
-            2 -> currentThirdPlayerScoreSet[currentHoleIndex]
-            else -> currentFourthPlayerScoreSet[currentHoleIndex]
+            0 -> liveScorePlayerFirstCourse1[currentHoleIndex]
+            1 -> liveScorePlayerSecondCourse1[currentHoleIndex]
+            2 -> liveScorePlayerThirdCourse1[currentHoleIndex]
+            else -> liveScorePlayerFourthCourse1[currentHoleIndex]
         }
         if (currentHit < currentParMaxHit) {
             when (playerPosition) {
                 0 -> apply {
                     playRoundPlayerLiveScore_textView1.text = (currentHit + 1).toString()
-                    currentFirstPlayerScoreSet[currentHoleIndex] =
-                        currentFirstPlayerScoreSet[currentHoleIndex] + 1
-                    // TODO : 서버에 해당 홀과 플레이어를 감지해서 바꾸기
+                    liveScorePlayerFirstCourse1[currentHoleIndex] =
+                        liveScorePlayerFirstCourse1[currentHoleIndex] + 1
+                    Log.d(TAG, "liveScorePlayerFirstCourse1: -> $liveScorePlayerFirstCourse1")
+                    addToScoreBoard(0, currentHoleIndex)
+                    updateTotalHit(0)
+                    // TODO : 서버에 해당 홀과 플레이어를 감지해서 바꾸기, 아마도 배포 카운터
                 }
                 1 -> apply {
                     playRoundPlayerLiveScore_textView2.text = (currentHit + 1).toString()
-                    currentSecondPlayerScoreSet[currentHoleIndex] =
-                        currentSecondPlayerScoreSet[currentHoleIndex] + 1
+                    liveScorePlayerSecondCourse1[currentHoleIndex] =
+                        liveScorePlayerSecondCourse1[currentHoleIndex] + 1
+                    Log.d(TAG, "liveScorePlayerSecondCourse1: -> $liveScorePlayerSecondCourse1")
+                    addToScoreBoard(1, currentHoleIndex)
+                    updateTotalHit(1)
                 }
                 2 -> apply {
                     playRoundPlayerLiveScore_textView3.text = (currentHit + 1).toString()
-                    currentThirdPlayerScoreSet[currentHoleIndex] =
-                        currentThirdPlayerScoreSet[currentHoleIndex] + 1
+                    liveScorePlayerThirdCourse1[currentHoleIndex] =
+                        liveScorePlayerThirdCourse1[currentHoleIndex] + 1
+                    Log.d(TAG, "liveScorePlayerThirdCourse1: -> $liveScorePlayerThirdCourse1")
+                    addToScoreBoard(2, currentHoleIndex)
+                    updateTotalHit(2)
                 }
                 else -> apply {
                     playRoundPlayerLiveScore_textView4.text = (currentHit + 1).toString()
-                    currentFourthPlayerScoreSet[currentHoleIndex] =
-                        currentFourthPlayerScoreSet[currentHoleIndex] + 1
+                    liveScorePlayerFourthCourse1[currentHoleIndex] =
+                        liveScorePlayerFourthCourse1[currentHoleIndex] + 1
+                    Log.d(TAG, "liveScorePlayerFourthCourse1: -> $liveScorePlayerFourthCourse1")
+                    addToScoreBoard(3, currentHoleIndex)
+                    updateTotalHit(3)
                 }
             }
         } else {
-
             // TODO : 플레이어 이름을 감지하여 다른 에러 메세지 보내주기
             Snackbar.make(playRound_layout, "응 양파", Snackbar.LENGTH_SHORT).show()
         }
     }
 
+    private fun updateTotalHit(playerPosition: Int) {
+        when(playerPosition) {
+            0 -> apply {
+                player_1_score_total.text = liveScorePlayerFirstCourse1.sum().toString()
+            }
+            1 -> apply {
+                player_2_score_total.text = liveScorePlayerSecondCourse1.sum().toString()
+            }
+            2 -> apply {
+                player_3_score_total.text = liveScorePlayerThirdCourse1.sum().toString()
+            }
+            else -> apply {
+                player_4_score_total.text = liveScorePlayerFourthCourse1.sum().toString()
+            }
+        }
+    }
+
+    private fun addToScoreBoard(playerPosition: Int, currentHoleIndex : Int) {
+        when(playerPosition) {
+            0 -> apply {
+                when(currentHoleIndex) {
+                    0, 9 -> apply {
+                        var score = player_1_score_0.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_1_score_0.text = score.toString()
+                    }
+                    1, 10 -> apply {
+                        var score = player_1_score_1.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_1_score_1.text = score.toString()
+                    }
+                    2, 11 -> apply {
+                        var score = player_1_score_2.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_1_score_2.text = score.toString()
+                    }
+                    3, 12 -> apply {
+                        var score = player_1_score_3.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_1_score_3.text = score.toString()
+                    }
+                    4, 13 -> apply {
+                        var score = player_1_score_4.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_1_score_4.text = score.toString()
+                    }
+                    5, 14 -> apply {
+                        var score = player_1_score_5.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_1_score_5.text = score.toString()
+                    }
+                    6, 15 -> apply {
+                        var score = player_1_score_6.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_1_score_6.text = score.toString()
+                    }
+                    7, 16 -> apply {
+                        var score = player_1_score_7.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_1_score_7.text = score.toString()
+                    }
+                    else -> apply {
+                        var score = player_1_score_8.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_1_score_8.text = score.toString()
+                    }
+                }
+            }
+            1-> apply {
+                when(currentHoleIndex) {
+                    0, 9 -> apply {
+                        var score = player_2_score_0.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_2_score_0.text = score.toString()
+                    }
+                    1, 10 -> apply {
+                        var score = player_2_score_1.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_2_score_1.text = score.toString()
+                    }
+                    2, 11 -> apply {
+                        var score = player_2_score_2.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_2_score_2.text = score.toString()
+                    }
+                    3, 12 -> apply {
+                        var score = player_2_score_3.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_2_score_3.text = score.toString()
+                    }
+                    4, 13 -> apply {
+                        var score = player_2_score_4.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_2_score_4.text = score.toString()
+                    }
+                    5, 14 -> apply {
+                        var score = player_2_score_5.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_2_score_5.text = score.toString()
+                    }
+                    6, 15 -> apply {
+                        var score = player_2_score_6.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_2_score_6.text = score.toString()
+                    }
+                    7, 16 -> apply {
+                        var score = player_2_score_7.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_2_score_7.text = score.toString()
+                    }
+                    else -> apply {
+                        var score = player_2_score_8.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_2_score_8.text = score.toString()
+                    }
+                }
+            }
+            2-> apply {
+                when(currentHoleIndex) {
+                    0, 9 -> apply {
+                        var score = player_3_score_0.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_3_score_0.text = score.toString()
+                    }
+                    1, 10 -> apply {
+                        var score = player_3_score_1.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_3_score_1.text = score.toString()
+                    }
+                    2, 11 -> apply {
+                        var score = player_3_score_2.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_3_score_2.text = score.toString()
+                    }
+                    3, 12 -> apply {
+                        var score = player_3_score_3.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_3_score_3.text = score.toString()
+                    }
+                    4, 13 -> apply {
+                        var score = player_3_score_4.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_3_score_4.text = score.toString()
+                    }
+                    5, 14 -> apply {
+                        var score = player_3_score_5.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_3_score_5.text = score.toString()
+                    }
+                    6, 15 -> apply {
+                        var score = player_3_score_6.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_3_score_6.text = score.toString()
+                    }
+                    7, 16 -> apply {
+                        var score = player_3_score_7.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_3_score_7.text = score.toString()
+                    }
+                    else -> apply {
+                        var score = player_3_score_8.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_3_score_8.text = score.toString()
+                    }
+                }
+            }
+            else -> apply {
+                when(currentHoleIndex) {
+                    0, 9 -> apply {
+                        var score = player_4_score_0.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_4_score_0.text = score.toString()
+                    }
+                    1, 10 -> apply {
+                        var score = player_4_score_1.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_4_score_1.text = score.toString()
+                    }
+                    2, 11 -> apply {
+                        var score = player_4_score_2.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_4_score_2.text = score.toString()
+                    }
+                    3, 12 -> apply {
+                        var score = player_4_score_3.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_4_score_3.text = score.toString()
+                    }
+                    4, 13 -> apply {
+                        var score = player_4_score_4.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_4_score_4.text = score.toString()
+                    }
+                    5, 14 -> apply {
+                        var score = player_4_score_5.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_4_score_5.text = score.toString()
+                    }
+                    6, 15 -> apply {
+                        var score = player_4_score_6.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_4_score_6.text = score.toString()
+                    }
+                    7, 16 -> apply {
+                        var score = player_4_score_7.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_4_score_7.text = score.toString()
+                    }
+                    else -> apply {
+                        var score = player_4_score_8.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score += 1
+                        player_4_score_8.text = score.toString()
+                    }
+                }
+            }
+        }
+    }
+
     private fun removeLiveScore(playerPosition: Int) {
         val currentHit = when (playerPosition) {
-            0 -> currentFirstPlayerScoreSet[currentHoleIndex]
-            1 -> currentSecondPlayerScoreSet[currentHoleIndex]
-            2 -> currentThirdPlayerScoreSet[currentHoleIndex]
-            else -> currentFourthPlayerScoreSet[currentHoleIndex]
+            0 -> liveScorePlayerFirstCourse1[currentHoleIndex]
+            1 -> liveScorePlayerSecondCourse1[currentHoleIndex]
+            2 -> liveScorePlayerThirdCourse1[currentHoleIndex]
+            else -> liveScorePlayerFourthCourse1[currentHoleIndex]
         }
         if (currentHit > 0) {
             when (playerPosition) {
                 0 -> apply {
                     playRoundPlayerLiveScore_textView1.text = (currentHit - 1).toString()
-                    currentFirstPlayerScoreSet[currentHoleIndex] =
-                        currentFirstPlayerScoreSet[currentHoleIndex] - 1
+                    liveScorePlayerFirstCourse1[currentHoleIndex] =
+                        liveScorePlayerFirstCourse1[currentHoleIndex] - 1
+                    // TODO : 스코어 보드에서 빼기
+                    removeToScoreBoard(0)
+                    updateTotalHit(0)
                     // TODO : 서버에 해당 홀과 플레이어를 감지해서 바꾸기
                 }
                 1 -> apply {
                     playRoundPlayerLiveScore_textView2.text = (currentHit - 1).toString()
-                    currentSecondPlayerScoreSet[currentHoleIndex] =
-                        currentSecondPlayerScoreSet[currentHoleIndex] - 1
+                    liveScorePlayerSecondCourse1[currentHoleIndex] =
+                        liveScorePlayerSecondCourse1[currentHoleIndex] - 1
+                    removeToScoreBoard(1)
+                    updateTotalHit(1)
                 }
                 2 -> apply {
                     playRoundPlayerLiveScore_textView3.text = (currentHit - 1).toString()
-                    currentThirdPlayerScoreSet[currentHoleIndex] =
-                        currentThirdPlayerScoreSet[currentHoleIndex] - 1
+                    liveScorePlayerThirdCourse1[currentHoleIndex] =
+                        liveScorePlayerThirdCourse1[currentHoleIndex] - 1
+                    removeToScoreBoard(2)
+                    updateTotalHit(2)
                 }
                 else -> apply {
                     playRoundPlayerLiveScore_textView4.text = (currentHit - 1).toString()
-                    currentFourthPlayerScoreSet[currentHoleIndex] =
-                        currentFourthPlayerScoreSet[currentHoleIndex] - 1
+                    liveScorePlayerFourthCourse1[currentHoleIndex] =
+                        liveScorePlayerFourthCourse1[currentHoleIndex] - 1
+                    removeToScoreBoard(3)
+                    updateTotalHit(3)
                 }
             }
         } else {
-            // TODO : 플레이어 이름을 감지하여 다른 에러 메세지 보내주기
             Snackbar.make(playRound_layout, "응 음수", Snackbar.LENGTH_SHORT).show()
         }
     }
+
+    private fun removeToScoreBoard(playerPosition: Int) {
+        when(playerPosition) {
+            0 -> apply {
+                when(currentHoleIndex) {
+                    0, 9 -> apply {
+                        var score = player_1_score_0.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_1_score_0.text = score.toString()
+                    }
+                    1, 10 -> apply {
+                        var score = player_1_score_1.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_1_score_1.text = score.toString()
+                    }
+                    2, 11 -> apply {
+                        var score = player_1_score_2.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_1_score_2.text = score.toString()
+                    }
+                    3, 12 -> apply {
+                        var score = player_1_score_3.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_1_score_3.text = score.toString()
+                    }
+                    4, 13 -> apply {
+                        var score = player_1_score_4.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_1_score_4.text = score.toString()
+                    }
+                    5, 14 -> apply {
+                        var score = player_1_score_5.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_1_score_5.text = score.toString()
+                    }
+                    6, 15 -> apply {
+                        var score = player_1_score_6.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_1_score_6.text = score.toString()
+                    }
+                    7, 16 -> apply {
+                        var score = player_1_score_7.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_1_score_7.text = score.toString()
+                    }
+                    else -> apply {
+                        var score = player_1_score_8.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_1_score_8.text = score.toString()
+                    }
+                }
+            }
+            1-> apply {
+                when(currentHoleIndex) {
+                    0, 9 -> apply {
+                        var score = player_2_score_0.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_2_score_0.text = score.toString()
+                    }
+                    1, 10 -> apply {
+                        var score = player_2_score_1.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_2_score_1.text = score.toString()
+                    }
+                    2, 11 -> apply {
+                        var score = player_2_score_2.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_2_score_2.text = score.toString()
+                    }
+                    3, 12 -> apply {
+                        var score = player_2_score_3.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_2_score_3.text = score.toString()
+                    }
+                    4, 13 -> apply {
+                        var score = player_2_score_4.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_2_score_4.text = score.toString()
+                    }
+                    5, 14 -> apply {
+                        var score = player_2_score_5.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_2_score_5.text = score.toString()
+                    }
+                    6, 15 -> apply {
+                        var score = player_2_score_6.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_2_score_6.text = score.toString()
+                    }
+                    7, 16 -> apply {
+                        var score = player_2_score_7.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_2_score_7.text = score.toString()
+                    }
+                    else -> apply {
+                        var score = player_2_score_8.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_2_score_8.text = score.toString()
+                    }
+                }
+            }
+            2-> apply {
+                when(currentHoleIndex) {
+                    0, 9 -> apply {
+                        var score = player_3_score_0.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_3_score_0.text = score.toString()
+                    }
+                    1, 10 -> apply {
+                        var score = player_3_score_1.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_3_score_1.text = score.toString()
+                    }
+                    2, 11 -> apply {
+                        var score = player_3_score_2.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_3_score_2.text = score.toString()
+                    }
+                    3, 12 -> apply {
+                        var score = player_3_score_3.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_3_score_3.text = score.toString()
+                    }
+                    4, 13 -> apply {
+                        var score = player_3_score_4.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_3_score_4.text = score.toString()
+                    }
+                    5, 14 -> apply {
+                        var score = player_3_score_5.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_3_score_5.text = score.toString()
+                    }
+                    6, 15 -> apply {
+                        var score = player_3_score_6.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_3_score_6.text = score.toString()
+                    }
+                    7, 16 -> apply {
+                        var score = player_3_score_7.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_3_score_7.text = score.toString()
+                    }
+                    else -> apply {
+                        var score = player_3_score_8.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_3_score_8.text = score.toString()
+                    }
+                }
+            }
+            else -> apply {
+                when(currentHoleIndex) {
+                    0, 9 -> apply {
+                        var score = player_4_score_0.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_4_score_0.text = score.toString()
+                    }
+                    1, 10 -> apply {
+                        var score = player_4_score_1.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_4_score_1.text = score.toString()
+                    }
+                    2, 11 -> apply {
+                        var score = player_4_score_2.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_4_score_2.text = score.toString()
+                    }
+                    3, 12 -> apply {
+                        var score = player_4_score_3.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_4_score_3.text = score.toString()
+                    }
+                    4, 13 -> apply {
+                        var score = player_4_score_4.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_4_score_4.text = score.toString()
+                    }
+                    5, 14 -> apply {
+                        var score = player_4_score_5.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_4_score_5.text = score.toString()
+                    }
+                    6, 15 -> apply {
+                        var score = player_4_score_6.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_4_score_6.text = score.toString()
+                    }
+                    7, 16 -> apply {
+                        var score = player_4_score_7.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_4_score_7.text = score.toString()
+                    }
+                    else -> apply {
+                        var score = player_4_score_8.text.toString().toInt()
+                        Log.d(TAG, "getScore: player_1_score_0 -> $score")
+                        score -= 1
+                        player_4_score_8.text = score.toString()
+                    }
+                }
+            }
+        }
+    }
+
 }

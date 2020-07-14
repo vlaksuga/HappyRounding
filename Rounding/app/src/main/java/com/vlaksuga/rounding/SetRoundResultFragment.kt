@@ -98,14 +98,6 @@ class SetRoundResultFragment : Fragment() {
                 "roundClubId" to bundleClubId,
                 "roundCourseIdList" to bundleCourseIdList,
                 "roundPlayerIdList" to bundlePlayerIdLIst,
-                "playerFirstScoreFirstList" to arrayListOf(0,0,0,0,0,0,0,0,0),
-                "playerSecondScoreFirstList" to arrayListOf(0,0,0,0,0,0,0,0,0),
-                "playerThirdScoreFirstList" to arrayListOf(0,0,0,0,0,0,0,0,0),
-                "playerFourthScoreFirstList" to arrayListOf(0,0,0,0,0,0,0,0,0),
-                "playerFirstScoreSecondList" to arrayListOf(0,0,0,0,0,0,0,0,0),
-                "playerSecondScoreSecondList" to arrayListOf(0,0,0,0,0,0,0,0,0),
-                "playerThirdScoreSecondList" to arrayListOf(0,0,0,0,0,0,0,0,0),
-                "playerFourthScoreSecondList" to arrayListOf(0,0,0,0,0,0,0,0,0),
                 "isRoundEnd" to false
             )
 
