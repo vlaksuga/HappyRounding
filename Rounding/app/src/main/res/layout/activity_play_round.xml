@@ -76,6 +76,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/hole_1_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
@@ -86,6 +87,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/hole_2_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
@@ -96,6 +98,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/hole_3_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
@@ -106,6 +109,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/hole_4_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
@@ -116,6 +120,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/hole_5_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
@@ -126,6 +131,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/hole_6_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
@@ -136,6 +142,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/hole_7_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
@@ -146,6 +153,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/hole_8_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
@@ -156,6 +164,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/hole_9_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
@@ -294,7 +303,8 @@
         <TableRow
             android:id="@+id/row_player1"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/playName_1"
@@ -409,7 +419,8 @@
         <TableRow
             android:id="@+id/row_player2"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/playName_2"
@@ -524,7 +535,8 @@
         <TableRow
             android:id="@+id/row_player3"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/playName_3"
@@ -639,7 +651,8 @@
         <TableRow
             android:id="@+id/row_player4"
             android:layout_width="0dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="invisible">
 
             <TextView
                 android:id="@+id/playName_4"
@@ -761,10 +774,12 @@
         app:layout_constraintTop_toBottomOf="@+id/playRoundScore_table">
 
         <LinearLayout
+            android:id="@+id/counter_player_1"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
+            android:visibility="invisible"
             android:weightSum="3">
 
             <RelativeLayout
@@ -827,10 +842,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/counter_player_2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
+            android:visibility="invisible"
             android:weightSum="3">
 
             <RelativeLayout
@@ -893,10 +910,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/counter_player_3"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal"
+            android:visibility="invisible"
             android:weightSum="3">
 
             <RelativeLayout
@@ -959,9 +978,11 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/counter_player_4"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="horizontal"
+            android:visibility="invisible"
             android:weightSum="3">
 
             <RelativeLayout
@@ -1039,6 +1060,19 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/toPreCourse_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/colorAccent"
+        android:padding="16dp"
+        android:text="이전 코스로 이동"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/toNextHole_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -1046,6 +1080,32 @@
         android:layout_marginBottom="32dp"
         android:padding="16dp"
         android:text="다음 홀로 이동"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/toNextCourse_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/colorAccent"
+        android:padding="16dp"
+        android:text="다음 코스로 이동"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/finalCheckRound_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="@color/colorAccent"
+        android:padding="16dp"
+        android:text="라운드 최종 결과 보기"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

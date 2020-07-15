@@ -21,7 +21,6 @@ class RoundFragment : Fragment() {
 
     private lateinit var roundList : List<ResultRound>
     private val db = FirebaseFirestore.getInstance()
-    private val roundRef = db.collection("roundResults")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +28,7 @@ class RoundFragment : Fragment() {
     ): View? {
         val rootView : View? = inflater.inflate(R.layout.fragment_round, container, false)
         val resultUserName = "오빠바나나"
-        roundRef
+        db.collection("roundResults")
             .whereEqualTo("resultUserName", resultUserName)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
               if(firebaseFirestoreException != null) {
