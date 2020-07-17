@@ -16,9 +16,11 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "MainActivity"
-        const val PAGE_COUNT = 3
     }
+
+
     private var viewPager : ViewPager2? = null
+    private var tabLayoutTitles = arrayListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +42,11 @@ class MainActivity : AppCompatActivity() {
         viewPager!!.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
         viewPager!!.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        val tabLayoutTitles = arrayOf("라운드", "친구", "통계")
+        tabLayoutTitles = arrayListOf(getString(R.string.frag_name_round), getString(R.string.frag_name_friend), getString(
+                    R.string.frag_name_stats))
         TabLayoutMediator(tab_layout, viewPager!!) {tab, position ->
             tab.text = tabLayoutTitles[position]
         }.attach()
-
-        floatingActionButton.setOnClickListener {
-            startActivity(Intent(this, AddEditRoundActivity::class.java))
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     private inner class ViewPagerAdapter(fragmentManager: FragmentManager?, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager!!, lifecycle) {
         override fun getItemCount(): Int {
-            return PAGE_COUNT
+            return tabLayoutTitles.size
         }
 
         override fun createFragment(position: Int): Fragment {

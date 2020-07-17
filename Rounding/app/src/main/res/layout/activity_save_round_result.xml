@@ -1431,6 +1431,119 @@
 
     </TableLayout>
 
+    <TableLayout
+        android:id="@+id/roundTotal_table"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:stretchColumns="*"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveSecondCourse_table">
+
+        <TableRow
+            android:id="@+id/row_player_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/player_name_total1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:text="PLYAER1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/player_name_total2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="PLYAER2"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/player_name_total3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="PLAYER3"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/player_name_total4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_hole_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="PLAYER4"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row_total_score"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/player_total1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/player_total2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textColor="#AAAAAA"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/player_total3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textColor="#AAAAAA"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/player_total4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/table_row_par_background"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textColor="#AAAAAA"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+    </TableLayout>
+
     <Button
         android:id="@+id/saveRoundResult_button"
         android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package com.vlaksuga.rounding
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.vlaksuga.rounding.adapters.RoundListAdapter
@@ -48,6 +50,11 @@ class RoundFragment : Fragment() {
                 roundRecyclerView.setHasFixedSize(true)
                 Log.d(TAG, "onCreateView: countList => ${roundList.size} ")
             }
+        val roundAddFab : FloatingActionButton = rootView!!.findViewById(R.id.round_add_fab)
+        roundAddFab.setOnClickListener {
+            startActivity(Intent(activity, AddEditRoundActivity::class.java))
+            Log.d(TAG, "intent: start!!")
+        }
         return rootView
     }
 }

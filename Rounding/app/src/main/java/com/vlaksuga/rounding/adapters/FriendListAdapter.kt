@@ -9,26 +9,29 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.data.FriendList
 import com.vlaksuga.rounding.R
+import com.vlaksuga.rounding.data.User
 
-class FriendListAdapter internal constructor(context: Context) :
+class FriendListAdapter internal constructor(context: Context, friendList : List<User>) :
     RecyclerView.Adapter<FriendListAdapter.FriendListViewHolder>() {
 
+    companion object {
+        const val TAG = "FriendListAdapter"
+    }
+
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private lateinit var listener: OnItemClickListener
-
-    private val friendList = emptyList<FriendList>()
-
-    private var filterFriendListResult : List<FriendList> = arrayListOf(
-        FriendList("1", "강지형", 98, 45),
-        FriendList("2", "신주섭", 102, 45),
-        FriendList("3", "오빠바나나", 108, 45)
-    )
+    private val mContext : Context = context
+    private var items : List<User> = friendList
 
 
     inner class FriendListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cardItemView : CardView = itemView.findViewById(R.id.friendList_cardView)
         val nickNameItemView : TextView = itemView.findViewById(R.id.friendNickname_textView)
-        val hitCountItemView : TextView = itemView.findViewById(R.id.friendAverageHit_textView)
+        val idItemView : TextView = itemView.findViewById(R.id.friendId_TextView)
+
+        fun bind(user: User) {
+            nickNameItemView.text = user.userNickname
+            idItemView.text = user.userId
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendListViewHolder {
@@ -36,24 +39,10 @@ class FriendListAdapter internal constructor(context: Context) :
         return FriendListViewHolder(itemView)
     }
 
-    override fun getItemCount() = filterFriendListResult.size
+    override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: FriendListViewHolder, position: Int) {
-        val currentFriend = filterFriendListResult[position]
-        holder.cardItemView.setOnClickListener {
-            listener.onItemClick(currentFriend)
-        }
-        holder.nickNameItemView.text = currentFriend.friendNickname
-        holder.hitCountItemView.text = currentFriend.friendAverageHit.toString()
+        val currentFriend = items[position]
+        holder.bind(currentFriend)
     }
-
-    public interface OnItemClickListener {
-        fun onItemClick(friendList: FriendList)
-    }
-
-    public fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.listener = listener
-    }
-
-
 }

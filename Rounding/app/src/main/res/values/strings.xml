@@ -14,8 +14,6 @@
     <string name="toFindPassword_button">비밀번호 찾기</string>
     <string name="findPasswordTitle">비밀번호 찾기</string>
     <string name="findPasswordSubmit_button">이메일로 패스워드 보내기</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="course_par_total">36</string>
     <string name="hole">HOLE</string>
@@ -24,4 +22,8 @@
     <string name="stroke">STROKE</string>
     <string name="choose_date">날짜를 선택해 주세요</string>
     <string name="setRounddate_title">라운딩 날짜 선택</string>
+    <string name="email">Email</string>
+    <string name="frag_name_round">라운드</string>
+    <string name="frag_name_friend">친구</string>
+    <string name="frag_name_stats">통계</string>
 </resources>

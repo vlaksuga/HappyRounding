@@ -301,6 +301,7 @@ class SaveRoundResultActivity : AppCompatActivity() {
         course1par9_textView.text = courseFirstParList[8].toString()
         course1parTotal_textView.text = courseFirstParList.sum().toString()
 
+
         course2par1_textView.text = courseSecondParList[0].toString()
         course2par2_textView.text = courseSecondParList[1].toString()
         course2par3_textView.text = courseSecondParList[2].toString()
@@ -401,6 +402,15 @@ class SaveRoundResultActivity : AppCompatActivity() {
         p4c2s7.text = liveScorePlayerFourthCourse2[7].toString()
         p4c2s8.text = liveScorePlayerFourthCourse2[8].toString()
         p4c2total.text = liveScorePlayerFourthCourse2.sum().toString()
+
+        player_name_total1.text = firstPlayerName
+        player_name_total2.text = secondPlayerName
+        player_name_total3.text = thirdPlayerName
+        player_name_total4.text = fourthPlayerName
+        player_total1.text = (liveScorePlayerFirstCourse1.sum() + liveScorePlayerFirstCourse2.sum()).toString()
+        player_total2.text = (liveScorePlayerSecondCourse1.sum() + liveScorePlayerSecondCourse2.sum()).toString()
+        player_total3.text = (liveScorePlayerThirdCourse1.sum() + liveScorePlayerThirdCourse2.sum()).toString()
+        player_total4.text = (liveScorePlayerFourthCourse1.sum() + liveScorePlayerFourthCourse2.sum()).toString()
         Log.d(PlayRoundActivity.TAG, "updateScoreBoard: updated!! ")
     }
 

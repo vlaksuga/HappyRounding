@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".SignUpActivity">
 
     <TextView
@@ -13,66 +14,102 @@
         android:layout_height="50dp"
         android:gravity="center"
         android:text="@string/signUpTitle"
-        android:textSize="24sp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/signUpEmail_editText"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/email_hint"
-        android:inputType="textEmailAddress" />
+        app:startIconDrawable="@drawable/ic_email"
+        app:startIconContentDescription="email"
+        app:helperText="이메일을 입력하세요"
+        app:endIconMode="clear_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        android:hint="@string/email">
 
-    <EditText
-        android:id="@+id/signUpPassword_editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/password_hint"
-        android:inputType="textPassword" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpEmail_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/signUpPasswordConfirm_editText"
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/passwordConfirm_hint"
-        android:inputType="textPassword" />
+        app:startIconDrawable="@drawable/ic_email"
+        app:startIconContentDescription="email"
+        app:helperText="패스워드를 입력하세요"
+        app:endIconMode="password_toggle"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        android:hint="패스워드">
 
-    <EditText
-        android:id="@+id/signUpId_editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/id_hint"
-        android:inputType="textPersonName" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpPassword_editText"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <EditText
-        android:id="@+id/signUpNickName_editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/nickName_hint"
-        android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/privacyPolicyLink_textView"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/privacyPolicyLink" />
+        app:startIconDrawable="@drawable/ic_email"
+        app:startIconContentDescription="패스워드 확인"
+        app:helperText="패스워드를 한번 더 입력하세요"
+        app:endIconMode="clear_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        android:hint="패스워드 확인">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpPasswordConfirm_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/ic_email"
+        app:startIconContentDescription="email"
+        app:helperText="하이디를 입력하세요"
+        app:endIconMode="clear_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        android:hint="아이디">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpId_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:startIconDrawable="@drawable/ic_email"
+        app:startIconContentDescription="email"
+        app:helperText="닉네임을 입력하세요"
+        app:endIconMode="clear_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="10"
+        android:hint="닉네임">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/signUpNickname_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
 
     <Button

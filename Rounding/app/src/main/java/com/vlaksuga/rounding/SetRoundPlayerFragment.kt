@@ -1,6 +1,7 @@
 package com.vlaksuga.rounding
 
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.vlaksuga.rounding.adapters.PlayerListAdapter
 import com.vlaksuga.rounding.data.User
 
@@ -18,7 +21,7 @@ class SetRoundPlayerFragment : Fragment() {
         const val TAG = "SetRoundPlayerFragment"
     }
 
-    lateinit var playerListAdapter: PlayerListAdapter
+    lateinit var playerListAdapter : PlayerListAdapter
     private var dataRoundDate : Long = SetRoundResultFragment.DEFAULT_DATE_VALUE
     private lateinit var dataRoundClubId : String
     private lateinit var dataRoundClubName : String
@@ -26,43 +29,52 @@ class SetRoundPlayerFragment : Fragment() {
     private lateinit var dataRoundCourseNameList : ArrayList<String>
     private lateinit var dataRoundPlayerIdList : ArrayList<String>
     private lateinit var dataRoundPlayerNicknameList : ArrayList<String>
+    private val db = FirebaseFirestore.getInstance()
+    private var userId = ""
+    private var playerList = arrayListOf<User>()
+    private lateinit var rootView : View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.fragment_set_round_player, container, false)
 
-        // TODO : GET BUNDLE DATA FROM CLUB FRAGMENT
+        userId = "OPPABANANA"
+        rootView = inflater.inflate(R.layout.fragment_set_round_player, container, false)
+        activity!!.title = "플레이어"
+
         val fromBundle = this.arguments
         dataRoundDate = fromBundle!!.getLong(SetRoundResultFragment.BUNDLE_KEY_DATE, SetRoundResultFragment.DEFAULT_DATE_VALUE)
         dataRoundClubId = fromBundle.getString(SetRoundResultFragment.BUNDLE_KEY_CLUB_ID)!!
         dataRoundClubName = fromBundle.getString(SetRoundResultFragment.BUNDLE_KEY_CLUB_NAME)!!
         dataRoundCourseIdList = fromBundle.getStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_ID_LIST)!!
         dataRoundCourseNameList = fromBundle.getStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_NAME_LIST)!!
-
         dataRoundPlayerIdList = arrayListOf()
         dataRoundPlayerNicknameList = arrayListOf()
 
-        activity!!.title = "플레이어"
 
-        // TODO : USER의 FRIEND를 가져온다
-        val playerList = arrayListOf(
-            User("GOLFGOD","sdffsdfwbds","골프도사","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
-            User("HOLEINONE","sdffsdfwbds","호올인원","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
-            User("YESVERYGOOD","sdffsdfwbds","으응개잘해","tekitekite@nsdkf","white","sakdfjsdkfsdf"),
-            User("YESDOGHONEY","sdffsdfwbds","존나개꿀꿀","tekitekie@nsdkf","white","sakdfjsdkfsdf")
-        )
 
         playerListAdapter = PlayerListAdapter(activity!!, playerList)
 
-        // TODO : 어댑터 리스너를 감지해서 dataRoundPlayerIdList = playerListAdapter.selectedPlayerList를 재처리하기
-
-        // set RecyclerView //
-        val playerRecyclerView : RecyclerView = rootView!!.findViewById(R.id.playerRecyclerView)
-        playerRecyclerView.adapter = playerListAdapter
-        playerRecyclerView.layoutManager = LinearLayoutManager(activity!!)
-        playerRecyclerView.setHasFixedSize(true)
+        // TODO : ADD GUEST
+        db.collection("users")
+            .whereArrayContains("userAllowFriendList", userId)
+            .addSnapshotListener { value, error ->
+                if(error != null) {
+                    Log.w(TAG, "getFriends: Listen Failed ", error)
+                }
+                val myFriends = arrayListOf<User>()
+                val document : QuerySnapshot? = value
+                for(snapshot in document!!) {
+                    myFriends.add(snapshot.toObject(User::class.java))
+                }
+                Log.d(TAG, "getFriends: $myFriends")
+                playerList = myFriends
+                val playerRecyclerView : RecyclerView = rootView.findViewById(R.id.playerRecyclerView)
+                playerRecyclerView.adapter = PlayerListAdapter(activity!!, playerList)
+                playerRecyclerView.layoutManager = LinearLayoutManager(activity!!)
+                playerRecyclerView.setHasFixedSize(true)
+            }
 
         dataRoundPlayerIdList = playerListAdapter.selectedPlayerIdList
         Log.d(TAG, "dataRoundPlayerIdList: $dataRoundPlayerIdList")

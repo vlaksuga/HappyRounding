@@ -25,21 +25,9 @@
                 android:layout_marginStart="16dp"
                 android:text="김또깡"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/friendImage_imageView"
+                app:layout_constraintBottom_toTopOf="@+id/friendId_TextView"
                 app:layout_constraintStart_toEndOf="@+id/friendImage_imageView"
                 app:layout_constraintTop_toTopOf="@+id/friendImage_imageView" />
-
-            <TextView
-                android:id="@+id/friendAverageHit_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="102"
-                android:textSize="24sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/friendImage_imageView"
@@ -50,6 +38,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_account_circle" />
+
+            <TextView
+                android:id="@+id/friendId_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID"
+                app:layout_constraintBottom_toBottomOf="@+id/friendImage_imageView"
+                app:layout_constraintStart_toStartOf="@+id/friendNickname_textView"
+                app:layout_constraintTop_toBottomOf="@+id/friendNickname_textView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 

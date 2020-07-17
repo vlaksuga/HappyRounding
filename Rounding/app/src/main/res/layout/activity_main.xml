@@ -69,7 +69,8 @@
         android:layout_below="@+id/tab_layout"
         android:gravity="center"
         android:scaleType="centerCrop"
-        android:src="@drawable/banner" />
+        android:src="@drawable/banner"
+        android:visibility="gone" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:layout_below="@+id/banner_imageView"
@@ -78,15 +79,5 @@
         android:layout_height="match_parent">
 
     </androidx.viewpager2.widget.ViewPager2>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_margin="32dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@drawable/ic_add" />
 
 </RelativeLayout>

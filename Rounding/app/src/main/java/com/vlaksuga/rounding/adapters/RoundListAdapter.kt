@@ -33,7 +33,6 @@ class RoundListAdapter internal constructor(context: Context, roundList: List<Re
 
         fun bind(roundList: ResultRound) {
             cardItemView.setOnClickListener {
-                Toast.makeText(mContext, "clicked: ${roundList.resultClubName}", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "bind: ${roundList.resultClubName}")
                 val resultRoundIntent = Intent(mContext, RoundResultActivity::class.java)
                 resultRoundIntent.putExtra(RoundResultActivity.DOCUMENT_ID, roundList.resultRoundId)
