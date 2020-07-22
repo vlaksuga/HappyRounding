@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RoundFragment">
+    tools:context=".RoundFragment"
+    android:orientation="vertical">
 
 
-<!--
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/roundRecyclerView"
+        android:id="@+id/statsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/round_list_item"/>-->
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        tools:listitem="@layout/stats_list_item"/>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/statsRecyclerView2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="stats" />
-</FrameLayout>
+        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        />
+</LinearLayout>

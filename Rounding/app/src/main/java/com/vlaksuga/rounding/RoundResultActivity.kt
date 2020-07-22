@@ -36,6 +36,7 @@ class RoundResultActivity : AppCompatActivity() {
                 if (document.isEmpty) {
                     Log.d(TAG, "collection : Not exist ")
                 } else {
+
                 }
             }
 

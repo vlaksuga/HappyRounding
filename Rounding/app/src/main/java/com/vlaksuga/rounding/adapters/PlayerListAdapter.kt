@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.R
+import com.vlaksuga.rounding.SetRoundPlayerFragment
 import com.vlaksuga.rounding.data.User
 
 class PlayerListAdapter internal constructor(context: Context, playerList: List<User>) :
@@ -24,9 +25,8 @@ class PlayerListAdapter internal constructor(context: Context, playerList: List<
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val mContext: Context = context
     private var items: List<User> = playerList
-    var selectedPlayerIdList = arrayListOf<String>("OPPABANANA")
-    var selectedPlayerNickNameList = arrayListOf<String>("오빠바나나")
-
+    var selectedPlayerIdList = arrayListOf<String>()
+    var selectedPlayerNickNameList = arrayListOf<String>()
 
     inner class PlayerListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cardItemView: CardView = itemView.findViewById(R.id.playerList_cardView)
@@ -34,11 +34,9 @@ class PlayerListAdapter internal constructor(context: Context, playerList: List<
         val checkItemView: ImageView = itemView.findViewById(R.id.playerChecked_imageView)
 
         fun bind(playerList: User) {
-
-
             cardItemView.setOnClickListener {
                 if (checkItemView.visibility == View.GONE) {
-                    if(selectedPlayerIdList.size < 4) {
+                    if(selectedPlayerIdList.size < 3) {
                         selectedPlayerIdList.add(playerList.userId)
                         selectedPlayerNickNameList.add(playerList.userNickname)
                         checkItemView.visibility = View.VISIBLE

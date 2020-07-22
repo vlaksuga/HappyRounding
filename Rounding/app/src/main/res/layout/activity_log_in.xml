@@ -4,77 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     tools:context=".LogInActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="223dp"
+        android:layout_height="52dp"
+        app:layout_constraintBottom_toTopOf="@+id/loginTitle_textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
     <TextView
-        android:id="@+id/appTitle_textView"
+        android:id="@+id/loginTitle_textView"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/app_name"
+        android:text="로그인"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <TextView
+        android:id="@+id/login_desc_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:lineSpacingExtra="8sp"
+        android:text="안녕하세요. 필드스코어입니다. 로그인이 필요합니다."
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/loginTitle_textView"
+        app:layout_constraintTop_toBottomOf="@+id/loginTitle_textView" />
+
+    <Button
+        android:id="@+id/google_login_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="164dp"
+        android:background="@drawable/login_button_background"
+        android:text="구글 계정으로 시작하기"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/email_login_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appTitle_textView">
-
-        <EditText
-            android:id="@+id/logInEmail_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/email_hint"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/logInPassword_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:autofillHints=""
-            android:ems="10"
-            android:hint="@string/password_hint"
-            android:inputType="textPassword" />
-
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/logInSubmit_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/email_login_button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/logInSubmit_button"
+        android:layout_margin="16dp"
+        android:background="@drawable/login_button_background"
+        android:text="이메일로 시작하기"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <Button
-        android:id="@+id/toSignUp_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/toSignIn_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logInSubmit_button" />
-
-    <Button
-        android:id="@+id/toFindPassword_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/toFindPassword_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toSignUp_button" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

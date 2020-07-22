@@ -10,7 +10,8 @@
         android:id="@+id/friendRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/friend_list_item"/>
+        android:layout_margin="16dp"
+        tools:listitem="@layout/friend_list_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/friend_add_fab"

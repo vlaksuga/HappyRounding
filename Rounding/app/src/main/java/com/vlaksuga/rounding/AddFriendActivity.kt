@@ -32,7 +32,7 @@ class AddFriendActivity : AppCompatActivity() {
 
         userId = "OPPABANANA"
 
-        findUser_EditText.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        findUser_EditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if(event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 notFoundTitle_textView.visibility = View.GONE
                 searchResult_textView.visibility = View.GONE

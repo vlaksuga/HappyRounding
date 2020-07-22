@@ -88,4 +88,5 @@ class ClubListAdapter internal constructor(context: Context, clubList : List<Clu
     public fun setOnItemClickListener(listener: OnItemClickListener) {
         this.mlistener = listener
     }
+
 }

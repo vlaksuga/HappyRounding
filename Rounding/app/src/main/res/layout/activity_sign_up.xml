@@ -1,134 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorAccent"
     android:padding="16dp"
     tools:context=".SignUpActivity">
 
     <TextView
         android:id="@+id/signUpTitle_textView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="@string/signUpTitle"
+        android:text="회원정보"
+        android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:startIconDrawable="@drawable/ic_email"
-        app:startIconContentDescription="email"
-        app:helperText="이메일을 입력하세요"
-        app:endIconMode="clear_text"
-        app:counterEnabled="true"
-        app:counterMaxLength="10"
-        android:hint="@string/email">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpEmail_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:startIconDrawable="@drawable/ic_email"
-        app:startIconContentDescription="email"
-        app:helperText="패스워드를 입력하세요"
-        app:endIconMode="password_toggle"
-        app:counterEnabled="true"
-        app:counterMaxLength="10"
-        android:hint="패스워드">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpPassword_editText"
-            android:inputType="textPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:startIconDrawable="@drawable/ic_email"
-        app:startIconContentDescription="패스워드 확인"
-        app:helperText="패스워드를 한번 더 입력하세요"
-        app:endIconMode="clear_text"
-        app:counterEnabled="true"
-        app:counterMaxLength="10"
-        android:hint="패스워드 확인">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpPasswordConfirm_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:startIconDrawable="@drawable/ic_email"
-        app:startIconContentDescription="email"
-        app:helperText="하이디를 입력하세요"
-        app:endIconMode="clear_text"
-        app:counterEnabled="true"
-        app:counterMaxLength="10"
-        android:hint="아이디">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpId_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:startIconDrawable="@drawable/ic_email"
-        app:startIconContentDescription="email"
-        app:helperText="닉네임을 입력하세요"
-        app:endIconMode="clear_text"
-        app:counterEnabled="true"
-        app:counterMaxLength="10"
-        android:hint="닉네임">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/signUpNickname_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-
-    <Button
-        android:id="@+id/signUpSubmit_button"
+    <TextView
+        android:id="@+id/userEmailLabel_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="이메일"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTitle_textView" />
+
+    <TextView
+        android:id="@+id/userEmail_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/signUpSubmit_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="tekiteki@naver.com"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/userEmailLabel_textView" />
 
-    <Button
-        android:id="@+id/toLogInActivity_button"
+    <TextView
+        android:id="@+id/userNickNameLabel_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/toLogInActivity_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="닉네임"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpSubmit_button" />
+        app:layout_constraintTop_toBottomOf="@+id/userEmail_textView" />
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/userNickName_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        style="@style/EditTextStyle"
+        android:paddingTop="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:theme="@style/EditTextStyle"
+        android:hint="닉네임"
+        android:text="김태경"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userNickNameLabel_textView" />
+
+    <TextView
+        android:id="@+id/userPhoneNumberLabel_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="전화번호"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userNickName_editText" />
+
+
+    <EditText
+        android:id="@+id/userPhoneNumber_editText"
+        style="@style/EditTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:hint="전화번호"
+        android:paddingLeft="0dp"
+        android:paddingTop="0dp"
+        android:paddingRight="0dp"
+        android:text="01099473474"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:theme="@style/EditTextStyle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userPhoneNumberLabel_textView" />
+
+    <Button
+        android:id="@+id/userSubmit_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/login_button_background"
+        android:text="필드스코어 시작하기"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

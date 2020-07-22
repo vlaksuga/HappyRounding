@@ -71,6 +71,7 @@ class SetRoundDateFragment : Fragment() {
                 selectDateText.text = simpleDateFormat.format(cal.time)
                 Log.d(TAG, "selectDate: ${cal.timeInMillis}")
                 Log.d(TAG, "currentDate: $currentDate ")
+                moveToClubFragment()
             },
             calendarYear,
             calendarMonth,

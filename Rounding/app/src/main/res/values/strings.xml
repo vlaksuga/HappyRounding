@@ -26,4 +26,6 @@
     <string name="frag_name_round">라운드</string>
     <string name="frag_name_friend">친구</string>
     <string name="frag_name_stats">통계</string>
+    <string name="facebook_application_id" translatable="false">313425279843511</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb313425279843511</string>
 </resources>

@@ -54,21 +54,7 @@ class SetRoundClubFragment : Fragment() {
         // set database from fireStore //
         val clubList = arrayListOf<Club>()
         var courseList = arrayListOf<Course>()
-        /*            Course(
-                "course_001",
-                "club_004",
-                "MOUNTAIN",
-                arrayListOf(4, 4, 5, 4, 3, 4, 3, 4, 5),
-                arrayListOf(310, 333, 524, 347, 184, 352, 142, 434, 488)
-            ),
-            Course(
-                "course_002",
-                "club_004",
-                "LAKE",
-                arrayListOf(4, 4, 3, 5, 3, 5, 4, 3, 5),
-                arrayListOf(412, 360, 119, 447, 146, 547, 389, 222, 492)
-            )
-        )*/
+
 
         val db = FirebaseFirestore.getInstance()
         db.collection("clubs")

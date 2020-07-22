@@ -2,6 +2,7 @@ package com.vlaksuga.rounding.constructors
 
 data class ResultRound (
     val resultRoundId : String = "",
+    val resultUserId : String = "",
     val resultUserName : String = "",
     val resultClubName : String = "",
     val resultDate : String = "",

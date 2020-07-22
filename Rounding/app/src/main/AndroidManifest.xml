@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vlaksuga.rounding">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -10,8 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddFriendActivity"></activity>
-        <activity android:name=".PlayRoundActivity" />
+        <activity android:name=".StatsActivity"
+            android:theme="@style/AppTheme.Transparent">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".FriendActivity"
+            android:theme="@style/AppTheme.Transparent">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".AddFriendActivity" />
+        <activity
+            android:name=".PlayRoundActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RoundResultActivity" />
         <activity android:name=".SaveRoundResultActivity" />
         <activity android:name=".AddEditRoundActivity">
@@ -20,10 +37,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".FindPasswordActivity" />
-        <activity android:name=".LogInActivity"></activity>
-        <activity android:name=".SignUpActivity" />
+        <activity
+            android:name=".LogInActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

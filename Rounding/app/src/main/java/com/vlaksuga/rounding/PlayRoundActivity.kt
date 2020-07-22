@@ -99,7 +99,7 @@ class PlayRoundActivity : AppCompatActivity() {
         initDummy()
 
 
-        currentRoundId = "bb8ed403-f1aa-4cdc-b35e-249c290a972b"
+        currentRoundId = "0e0bca05-b32f-4303-88e6-b6b95cfc0f3f"
 
         // GET DB FROM FIREBASE //
         getRoundFromFireBase(currentRoundId)
@@ -221,7 +221,10 @@ class PlayRoundActivity : AppCompatActivity() {
                     documentPath = task.result!!.documents[0].id
                     Log.d(TAG, "getRoundFromFireBase: documentPath -> $documentPath")
 
+
+                    //
                     // SET LIVE SCORE COLLECTION IF NOT CREATED //
+                    // TODO : 처음만들어질 때 체크
                     val liveScore : Boolean = task.result!!.documents[0].get("isLiveScoreCreated") as Boolean
 
                     Log.d(TAG, "liveScore: $liveScore")
