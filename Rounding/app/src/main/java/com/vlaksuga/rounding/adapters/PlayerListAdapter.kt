@@ -25,7 +25,7 @@ class PlayerListAdapter internal constructor(context: Context, playerList: List<
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private val mContext: Context = context
     private var items: List<User> = playerList
-    var selectedPlayerIdList = arrayListOf<String>()
+    var selectedPlayerEmailList = arrayListOf<String>()
     var selectedPlayerNickNameList = arrayListOf<String>()
 
     inner class PlayerListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,18 +36,18 @@ class PlayerListAdapter internal constructor(context: Context, playerList: List<
         fun bind(playerList: User) {
             cardItemView.setOnClickListener {
                 if (checkItemView.visibility == View.GONE) {
-                    if(selectedPlayerIdList.size < 3) {
-                        selectedPlayerIdList.add(playerList.userId)
+                    if(selectedPlayerEmailList.size < 3) {
+                        selectedPlayerEmailList.add(playerList.userEmail)
                         selectedPlayerNickNameList.add(playerList.userNickname)
                         checkItemView.visibility = View.VISIBLE
                         Log.d(TAG, "click: ${playerList.userNickname} ")
                         Log.d(TAG, "VIEW: VISIBLE ")
-                        Log.d(TAG, "PLAYER_LIST: ${selectedPlayerIdList.size} ")
+                        Log.d(TAG, "PLAYER_LIST: ${selectedPlayerEmailList.size} ")
                     } else {
                         Toast.makeText(mContext, "인원이 찼습니다.", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    selectedPlayerIdList.remove(playerList.userId)
+                    selectedPlayerEmailList.remove(playerList.userEmail)
                     selectedPlayerNickNameList.remove(playerList.userNickname)
                     checkItemView.visibility = View.GONE
                     Log.d(TAG, "click: ${playerList.userNickname} ")

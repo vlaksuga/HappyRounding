@@ -35,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="24dp"
-                android:text="ROUNDING"
+                android:text="FIELD SCORE"
+                android:textColor="@color/colorAccent"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -46,6 +47,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="16dp"
+                android:tint="@color/colorPrimaryDark"
                 app:srcCompat="@drawable/ic_baseline" />
 
             <ImageView
@@ -54,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
+                android:tint="@color/colorPrimaryDark"
                 android:layout_toStartOf="@+id/mainMenuMore_imageView"
                 app:srcCompat="@drawable/ic_bar_chart_24" />
 
@@ -63,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
+                android:tint="@color/colorPrimaryDark"
                 android:layout_toStartOf="@+id/mainStats_imageView"
                 app:srcCompat="@drawable/ic_group" />
         </RelativeLayout>
@@ -119,7 +123,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/addNewRound_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

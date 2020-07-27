@@ -200,10 +200,6 @@ class SetRoundClubFragment : Fragment() {
             SetRoundResultFragment.BUNDLE_KEY_COURSE_NAME_LIST,
             currentCourseNameList
         )
-        newFragment.arguments = toBundle
-        transaction.replace(R.id.add_round_fragment_container, newFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
         Log.d(TAG, "moveToPlayerFragment: Data Sent!")
         Log.d(TAG, "moveToPlayerFragment: toBundle => $toBundle")
     }

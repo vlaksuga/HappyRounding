@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.vlaksuga.rounding.data.FriendList
 import com.vlaksuga.rounding.R
 import com.vlaksuga.rounding.data.User
 
-class FriendListAdapter internal constructor(context: Context, friendList : List<User>) :
+class FriendListAdapter internal constructor(context: Context, friendList: List<User>) :
     RecyclerView.Adapter<FriendListAdapter.FriendListViewHolder>() {
 
     companion object {

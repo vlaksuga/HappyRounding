@@ -20,7 +20,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.vlaksuga.rounding.adapters.CurrentRoundListAdapter
 import com.vlaksuga.rounding.adapters.StatsListAdapter
 import com.vlaksuga.rounding.constructors.Stats
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val db = FirebaseFirestore.getInstance()
+    private lateinit var auth: FirebaseAuth
     private var viewPager: ViewPager2? = null
     private var tabLayoutTitles = arrayListOf<Long>()
     private lateinit var currentRoundListAdapter: CurrentRoundListAdapter
@@ -50,6 +54,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        auth = Firebase.auth
+        userEmail = auth.currentUser!!.email!!
+
+        Log.d(TAG, "onCreate: userEmail => $userEmail")
+
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
 
@@ -67,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
         // DB CURRENT ROUND //
         db.collection("rounds")
-            .whereArrayContains("roundPlayerIdList", userId)
+            .whereArrayContains("roundPlayerEmailList", userEmail)
             .addSnapshotListener { value, error ->
                 if (!value!!.isEmpty) {
                     Log.d(TAG, "FIREBASE CURRENT ROUNDS : EXIST !!, $value")
@@ -99,6 +109,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(statsIntent)
         }
 
+        // TO LOGOUT //
         mainMenuMore_imageView.setOnClickListener {
             AuthUI.getInstance().signOut(this)
                 .addOnCompleteListener {
@@ -108,6 +119,13 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
                 }
         }
+
+        // FAB NEW ROUND //
+        addNewRound_fab.setOnClickListener {
+            startActivity(Intent(this, AddEditRoundActivity::class.java))
+        }
+
+
 
 
 

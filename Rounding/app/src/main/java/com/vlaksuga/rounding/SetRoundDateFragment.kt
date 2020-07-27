@@ -20,7 +20,7 @@ class SetRoundDateFragment : Fragment() {
     }
 
     private var currentDate = Date().time
-    private val simpleDateFormat = SimpleDateFormat(AddEditRoundActivity.DATE_FORMAT, Locale.KOREA)
+    private val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA)
     private val cal = Calendar.getInstance()
     lateinit var selectDateText : TextView
 
@@ -47,16 +47,6 @@ class SetRoundDateFragment : Fragment() {
     }
 
     private fun moveToClubFragment() {
-        val fragmentManager = activity!!.supportFragmentManager
-        val transaction = fragmentManager.beginTransaction()
-        val newFragment = SetRoundClubFragment()
-        val toBundle = Bundle()
-        toBundle.putLong(SetRoundResultFragment.BUNDLE_KEY_DATE, currentDate)
-        newFragment.arguments = toBundle
-        Log.d(TAG, "moveToClubFragment: $toBundle")
-        transaction.replace(R.id.add_round_fragment_container, newFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 
     private fun selectDate() {

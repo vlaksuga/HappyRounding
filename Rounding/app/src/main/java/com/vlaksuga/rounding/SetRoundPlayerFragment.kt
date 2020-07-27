@@ -98,7 +98,7 @@ class SetRoundPlayerFragment : Fragment() {
         val newFragment = SetRoundResultFragment()
         val toBundle = Bundle()
 
-        for(playerId in playerListAdapter.selectedPlayerIdList) {
+        for(playerId in playerListAdapter.selectedPlayerEmailList) {
             playerIdList.add(playerId)
         }
 
@@ -111,12 +111,8 @@ class SetRoundPlayerFragment : Fragment() {
         toBundle.putString(SetRoundResultFragment.BUNDLE_KEY_CLUB_NAME, dataRoundClubName)
         toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_ID_LIST, dataRoundCourseIdList)
         toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_COURSE_NAME_LIST, dataRoundCourseNameList)
-        toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_PLAYER_ID_LIST, playerListAdapter.selectedPlayerIdList)
+        toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_PLAYER_ID_LIST, playerListAdapter.selectedPlayerEmailList)
         toBundle.putStringArrayList(SetRoundResultFragment.BUNDLE_KEY_PLAYER_NICKNAME_LIST, playerListAdapter.selectedPlayerNickNameList)
-
-        newFragment.arguments = toBundle
-        transaction.replace(R.id.add_round_fragment_container, newFragment)
-        transaction.addToBackStack(null)
         transaction.commit()
         Log.d(TAG, "moveToResultFragment: success")
     }

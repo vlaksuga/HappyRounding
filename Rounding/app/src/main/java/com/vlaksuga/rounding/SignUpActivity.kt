@@ -5,7 +5,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity() {
@@ -19,25 +22,30 @@ class SignUpActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
     private lateinit var userEmail: String
-    private lateinit var userPassword: String
     private lateinit var userNickname: String
-    private lateinit var userId: String
-    private lateinit var userTeeType: String
+    private lateinit var auth : FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
+        auth = Firebase.auth
+        userEmail = auth.currentUser!!.email!!
+        Log.d(TAG, "onCreate: currentUserEmail => $userEmail")
+
+        userEmail_textView.text = userEmail
+
+
+        // TODO : 유저 전화번호 감지해서 가져오기
+
 
         userSubmit_button.setOnClickListener {
             val userEmail = userEmail_textView.text
             val userNickname = userNickName_editText.text.toString()
-            val userPhoneNumber = userPhoneNumber_editText.text.toString()
             val user = hashMapOf(
                 "userEmail" to userEmail,
-                "userNickname" to userNickname,
-                "userPhoneNumber" to userPhoneNumber
+                "userNickname" to userNickname
             )
             Log.d(TAG, "user: $user")
             db.collection("users")
@@ -51,9 +59,6 @@ class SignUpActivity : AppCompatActivity() {
                 .addOnCompleteListener {
                     if(it.isSuccessful) {
                         val mainIntent = Intent(this, MainActivity::class.java)
-                        mainIntent.putExtra(KEY_USER_EMAIL, userEmail)
-                        mainIntent.putExtra(KEY_USER_NICKNAME, userNickname)
-                        mainIntent.putExtra(KEY_USER_PHONE, userPhoneNumber)
                         startActivityForResult(mainIntent, Activity.RESULT_FIRST_USER)
                     }
                 }

@@ -5,114 +5,137 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
-    android:padding="16dp"
     tools:context=".SignUpActivity">
 
-    <TextView
-        android:id="@+id/signUpTitle_textView"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/sign_in_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/signUpTitle_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="회원정보"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="회원정보"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/userEmailLabel_textView"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:text="이메일"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpTitle_textView" />
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_toolbar">
 
-    <TextView
-        android:id="@+id/userEmail_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="tekiteki@naver.com"
-        android:textColor="#FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEmailLabel_textView" />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sign_in_email_cardView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:cardCornerRadius="4dp">
 
-    <TextView
-        android:id="@+id/userNickNameLabel_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="닉네임"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEmail_textView" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/userNickName_editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        style="@style/EditTextStyle"
-        android:paddingTop="0dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:theme="@style/EditTextStyle"
-        android:hint="닉네임"
-        android:text="김태경"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNickNameLabel_textView" />
+                <TextView
+                    android:id="@+id/userEmailLabel_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:text="이메일"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/userPhoneNumberLabel_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="전화번호"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNickName_editText" />
+                <TextView
+                    android:id="@+id/userEmail_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="tekiteki@naver.com"
+                    android:textColor="@color/colorPrimaryDark" />
 
+            </RelativeLayout>
 
-    <EditText
-        android:id="@+id/userPhoneNumber_editText"
-        style="@style/EditTextStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:hint="전화번호"
-        android:paddingLeft="0dp"
-        android:paddingTop="0dp"
-        android:paddingRight="0dp"
-        android:text="01099473474"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:theme="@style/EditTextStyle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPhoneNumberLabel_textView" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sign_in_nickname_cardView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:cardCornerRadius="4dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/userNicknameLabel_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:text="닉네임"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/userNickName_editText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:paddingLeft="0dp"
+                    android:paddingTop="0dp"
+                    android:paddingRight="0dp"
+                    android:hint="닉네임을 입력해주세요"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14sp"
+                    android:theme="@style/EditTextStyle" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/userSubmit_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@drawable/login_button_background"
+        android:background="@drawable/color_button_background"
         android:text="필드스코어 시작하기"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/colorAccent"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -23,7 +23,8 @@ class RoundResultActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // TODO : GET DOCUMENT_ID INDEX FROM INTENT
+
+
 
         val resultRoundId = intent.getStringExtra(DOCUMENT_ID)!!
         Log.d(TAG, "onCreate:intent.documentId => $resultRoundId ")

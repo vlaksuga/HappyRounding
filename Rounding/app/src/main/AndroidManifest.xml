@@ -20,7 +20,7 @@
         </activity>
         <activity
             android:name=".FriendActivity"
-            android:theme="@style/AppTheme.Transparent">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
@@ -29,9 +29,12 @@
         <activity
             android:name=".PlayRoundActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RoundResultActivity" />
+        <activity android:name=".RoundResultActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".SaveRoundResultActivity" />
-        <activity android:name=".AddEditRoundActivity">
+        <activity android:name=".AddEditRoundActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -39,7 +42,13 @@
         <activity android:name=".FindPasswordActivity" />
         <activity
             android:name=".LogInActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
@@ -47,11 +56,7 @@
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
