@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.R
 import com.vlaksuga.rounding.RoundResultActivity
 import com.vlaksuga.rounding.constructors.ResultRound
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RoundListAdapter internal constructor(context: Context, roundList: List<ResultRound>) :
     RecyclerView.Adapter<RoundListAdapter.RoundListViewHolder>() {
@@ -39,7 +41,7 @@ class RoundListAdapter internal constructor(context: Context, roundList: List<Re
                 mContext.startActivity(resultRoundIntent)
             }
             clubNameItemView.text = roundList.resultClubName
-            dateItemView.text = roundList.resultDate
+            dateItemView.text = SimpleDateFormat("yyyy-MM-dd (E)", Locale.KOREA).format(roundList.resultDate)
             hitCountItemView.text = (roundList.resultFirstScoreList.sum() + roundList.resultSecondScoreList.sum()).toString()
         }
     }

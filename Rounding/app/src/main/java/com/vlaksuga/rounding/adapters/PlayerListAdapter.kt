@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.R
-import com.vlaksuga.rounding.SetRoundPlayerFragment
 import com.vlaksuga.rounding.data.User
 
 class PlayerListAdapter internal constructor(context: Context, playerList: List<User>) :

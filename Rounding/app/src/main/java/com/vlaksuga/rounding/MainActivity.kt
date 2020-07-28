@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val db = FirebaseFirestore.getInstance()
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
     private var viewPager: ViewPager2? = null
     private var tabLayoutTitles = arrayListOf<Long>()
     private lateinit var currentRoundListAdapter: CurrentRoundListAdapter
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private var currentRoundList = arrayListOf<Round>()
     private var mainStatsList = arrayListOf<Stats>()
     private lateinit var userId: String
-    private lateinit var userEmail: String
+    lateinit var userEmail: String
     private lateinit var userNickname : String
     private lateinit var userPhoneNumber: String
 
@@ -128,15 +128,13 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
-        // TODO : 라운드를 감지하여 해당 년도 정보를 가져오기
         db.collection("roundResults")
-            .whereEqualTo("resultUserName", "오빠바나나")
+            .whereEqualTo("resultUserEmail", userEmail)
             .addSnapshotListener { value, error ->
                 val mySeason = arrayListOf<Long>()
                 if(!value!!.isEmpty) {
                     for(document in value.documents) {
-                        mySeason.add(document.get("roundSeason") as Long)
+                        mySeason.add(document.get("resultSeason") as Long)
                         Log.d(TAG, "Snap : mySeason = > $mySeason")
                     }
                 } else {

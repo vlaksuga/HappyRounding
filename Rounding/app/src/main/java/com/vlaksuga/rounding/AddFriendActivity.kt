@@ -30,6 +30,8 @@ class AddFriendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_friend)
 
+        // TODO : EMAIL로 찾기
+
         userId = "OPPABANANA"
 
         findUser_EditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->

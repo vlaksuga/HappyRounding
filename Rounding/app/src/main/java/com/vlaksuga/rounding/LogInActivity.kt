@@ -56,7 +56,7 @@ class LogInActivity : AppCompatActivity() {
                 if(response!!.isNewUser){
                     startActivity(Intent(this, SignUpActivity::class.java))
                 } else {
-                    startActivity(Intent(this, SignUpActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                 }
             } else {
                 Toast.makeText(this, ""+response!!.error!!.message, Toast.LENGTH_SHORT).show()

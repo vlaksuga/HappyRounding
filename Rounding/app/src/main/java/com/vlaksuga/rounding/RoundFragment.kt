@@ -10,8 +10,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.ktx.Firebase
 import com.vlaksuga.rounding.adapters.RoundListAdapter
 import com.vlaksuga.rounding.adapters.SeasonStatsListAdapter
 import com.vlaksuga.rounding.constructors.ResultRound
@@ -31,19 +34,22 @@ class RoundFragment : Fragment() {
     var resultUserId = "OPPABANANA"
     var resultUserName = "오빠바나나"
     private val db = FirebaseFirestore.getInstance()
+    private lateinit var auth : FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val rootView : View? = inflater.inflate(R.layout.fragment_round, container, false)
-        Log.d(TAG, "roundSeason: $roundSeason ")
-        // TODO : GET USER ID WHEN START
+        Log.d(TAG, "roundSeason: $roundSeason")
 
+        auth = Firebase.auth
+        val userEmail = auth.currentUser!!.email
+        Log.d(TAG, "onCreateView: userEmail is $userEmail")
 
         db.collection("roundResults")
-            .whereEqualTo("resultUserName", resultUserName)
-            .whereEqualTo("roundSeason", roundSeason)
+            .whereEqualTo("resultUserEmail", userEmail)
+            .whereEqualTo("resultSeason", roundSeason)
             .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
               if(firebaseFirestoreException != null) {
                   Log.w(TAG, "Listen failed.", firebaseFirestoreException)

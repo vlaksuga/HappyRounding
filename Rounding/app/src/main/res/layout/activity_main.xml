@@ -68,7 +68,7 @@
                 android:layout_marginEnd="8dp"
                 android:tint="@color/colorPrimaryDark"
                 android:layout_toStartOf="@+id/mainStats_imageView"
-                app:srcCompat="@drawable/ic_group" />
+                app:srcCompat="@drawable/ic_group_24" />
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>

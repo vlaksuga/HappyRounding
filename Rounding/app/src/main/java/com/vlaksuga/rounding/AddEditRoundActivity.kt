@@ -2,6 +2,7 @@ package com.vlaksuga.rounding
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Color
 import android.icu.text.SimpleDateFormat
@@ -12,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.widget.CalendarView
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +39,7 @@ class AddEditRoundActivity : AppCompatActivity() {
     companion object {
         const val TAG = "AddEditRoundActivity"
         const val DATE_FORMAT = "yyyy-MM-dd (E)"
-
+        const val TIME_FORMAT = "a hh:mm"
     }
 
     private val db = FirebaseFirestore.getInstance()
@@ -57,6 +59,7 @@ class AddEditRoundActivity : AppCompatActivity() {
     private var roundClubName : String? = null
     private var roundDate : Long? = null
     private var roundSeason : Int? = null
+    private var roundTeeTime : Long? = null
     private var roundCourseIdList : List<String>? = null
     private var roundCourseNameList : List<String>? = null
     private var roundPlayerEmailList : List<String>? = null
@@ -68,13 +71,24 @@ class AddEditRoundActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_round)
 
+        // USER //
         auth = Firebase.auth
         userEmail = auth.currentUser!!.email!!
         getUserNickName()
 
 
+        // TOOLBAR //
+        val toolbar = findViewById<Toolbar>(R.id.addRound_toolbar)
+        setSupportActionBar(toolbar)
+        addRoundCloseIcon_imageView.setOnClickListener {
+            super.onBackPressed()
+        }
+
+
+
         // CARD VIEW //
         val dateCardView : CardView = findViewById(R.id.date_cardView)
+        val timeCardView : CardView = findViewById(R.id.time_cardView)
         val clubCardView : CardView = findViewById(R.id.club_cardView)
         val courseCardView : CardView = findViewById(R.id.course_cardView)
         val playerCardView : CardView = findViewById(R.id.player_cardView)
@@ -86,6 +100,7 @@ class AddEditRoundActivity : AppCompatActivity() {
         roundSeason = cal.get(Calendar.YEAR)
 
         addRoundDate_textView.text = SimpleDateFormat(DATE_FORMAT, Locale.KOREA).format(cal.time)
+        addRoundTime_textView.text = "티타임을 선택해주세요"
         addRoundClub_textView.text = "클럽을 선택해주세요"
         addRoundCourse_textView.text = "코스를 선택해주세요"
 
@@ -97,7 +112,7 @@ class AddEditRoundActivity : AppCompatActivity() {
             val calendarDay = cal.get(Calendar.DAY_OF_MONTH)
             val datePickerDialog = DatePickerDialog(
                 this,
-                DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                     cal.set(year, month, dayOfMonth)
                     roundDate = cal.timeInMillis
                     roundSeason = year
@@ -110,6 +125,28 @@ class AddEditRoundActivity : AppCompatActivity() {
             )
             datePickerDialog.show()
         }
+
+        // TEE TIME //
+        timeCardView.setOnClickListener {
+            errorMsg_textView.text = ""
+            val calendarAmPm = cal.get(Calendar.AM_PM)
+            val calendarHour = cal.get(Calendar.HOUR_OF_DAY)
+            val calendarMinute = cal.get(Calendar.MINUTE)
+            val timePickerDialog = TimePickerDialog(
+                this,
+                TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                    cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), hourOfDay, minute)
+                    Log.d(TAG, "TimePickerDialog: ")
+                    roundTeeTime = cal.timeInMillis
+                    addRoundTime_textView.text = SimpleDateFormat(TIME_FORMAT, Locale.KOREA).format(cal.time)
+                },
+                calendarHour,
+                calendarMinute,
+                false
+            )
+            timePickerDialog.show()
+        }
+
 
         // CLUB //
         clubCardView.setOnClickListener {
@@ -267,6 +304,10 @@ class AddEditRoundActivity : AppCompatActivity() {
                 errorMsg_textView.text = "날짜를 확인해 주세요"
                 return@setOnClickListener
             }
+            if(roundTeeTime == null) {
+                errorMsg_textView.text = "티타임을 확인해 주세요"
+                return@setOnClickListener
+            }
             if(roundClubId.isNullOrBlank() || roundClubName.isNullOrBlank()) {
                 errorMsg_textView.text = "클럽을 확인해 주세요"
                 return@setOnClickListener
@@ -295,6 +336,7 @@ class AddEditRoundActivity : AppCompatActivity() {
             "roundOwner" to userEmail,
             "roundDate" to roundDate,
             "roundSeason" to roundSeason,
+            "roundTeeTime" to roundTeeTime,
             "roundClubId" to roundClubId,
             "roundClubName" to roundClubName,
             "roundCourseIdList" to roundCourseIdList,

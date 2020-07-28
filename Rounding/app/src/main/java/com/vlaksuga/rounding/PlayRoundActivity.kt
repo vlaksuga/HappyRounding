@@ -6,11 +6,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TableRow
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.ktx.Firebase
 import com.vlaksuga.rounding.data.Round
 import kotlinx.android.synthetic.main.activity_play_round.*
 
@@ -19,19 +26,22 @@ class PlayRoundActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "PlayRoundActivity"
-        const val KEY_ROUND_ID = "keyRoundId"
-        const val KEY_CLUB_NAME = "keyClubName"
-        const val KEY_FIRST_COURSE_NAME = "keyFirstCourseName"
-        const val KEY_SECOND_COURSE_NAME = "keySecondCourseName"
-        const val KEY_FIRST_COURSE_PAR_LIST = "keyFirstCourseParList"
-        const val KEY_SECOND_COURSE_PAR_LIST = "keySecondCourseParList"
-        const val KEY_PLAYER_1_NAME = "keyPlayer1Name"
-        const val KEY_PLAYER_2_NAME = "keyPlayer2Name"
-        const val KEY_PLAYER_3_NAME = "keyPlayer3Name"
-        const val KEY_PLAYER_4_NAME = "keyPlayer4Name"
+        const val KEY_DOCUMENT_PATH = "com.vlaksuga.rounding.KEY_DOCUMENT_PATH"
+        const val KEY_ROUND_ID = "com.vlaksuga.rounding.KEY_ROUND_ID"
+        const val KEY_ROUND_OWNER = "com.vlaksuga.rounding.KEY_ROUND_OWNER"
+        const val KEY_DATE = "com.vlaksuga.rounding.KEY_DATE"
+        const val KEY_SEASON = "com.vlaksuga.rounding.KEY_SEASON"
+        const val KEY_TEE_TIME = "com.vlaksuga.rounding.KEY_TEE_TIME"
+        const val KEY_CLUB_ID = "com.vlaksuga.rounding.KEY_CLUB_ID"
+        const val KEY_CLUB_NAME = "com.vlaksuga.rounding.KEY_CLUB_NAME"
+        const val KEY_COURSE_ID_LIST = "com.vlaksuga.rounding.KEY_COURSE_ID_LIST"
+        const val KEY_COURSE_NAME_LIST = "com.vlaksuga.rounding.KEY_COURSE_NAME_LIST"
+        const val KEY_FIRST_COURSE_PAR_LIST = "com.vlaksuga.rounding.KEY_FIRST_COURSE_PAR_LIST"
+        const val KEY_SECOND_COURSE_PAR_LIST = "com.vlaksuga.rounding.KEY_SECOND_COURSE_PAR_LIST"
+        const val KEY_PLAYER_EMAIL_LIST = "com.vlaksuga.rounding.KEY_PLAYER_EMAIL_LIST"
+        const val KEY_PLAYER_NICKNAME_LIST = "com.vlaksuga.rounding.KEY_PLAYER_NICKNAME_LIST"
+
         const val COLLECTION_PATH_ROUNDS = "rounds"
-        const val COLLECTION_PATH_USERS = "users"
-        const val COLLECTION_PATH_CLUBS = "clubs"
         const val COLLECTION_PATH_COURSES = "courses"
         const val CURRENT_HOLE_COLOR_HIGHLIGHT = "#FF8800"
         const val CURRENT_HOLE_COLOR = "#292B2C"
@@ -57,24 +67,30 @@ class PlayRoundActivity : AppCompatActivity() {
         "hole17",
         "hole18"
     )
+    private val db = FirebaseFirestore.getInstance()
+    private lateinit var auth: FirebaseAuth
+    private lateinit var userEmail: String
     private lateinit var currentRound: Round
-    private var currentUserId = "OPPABANANA"
-    private var currentRoundId = ""
-    private var currentClubName = ""
+    private var roundOwner = ""
+    private var documentPath = ""
+
+    private lateinit var currentRoundId: String
+    private var currentDate: Long = 0
+    private var currentSeason: Int = 0
+    private var currentTeeTime: Long = 0
+    private lateinit var currentClubId: String
+    private lateinit var currentClubName: String
+    private var currentCourseIdList = arrayListOf<String>()
+    private var currentCourseNameList = arrayListOf<String>()
+    private var currentRoundPlayerEmailList = arrayListOf<String>()
+    private var currentRoundPlayerNicknameList = arrayListOf<String>()
+
     private var currentHoleIndex = 0
-    private var currentFirstCourseName = ""
-    private var currentSecondCourseName = ""
-    private var currentFirstPlayerName = ""
-    private var currentSecondPlayerName = ""
-    private var currentThirdPlayerName = ""
-    private var currentFourthPlayerName = ""
     private var currentCourseParList = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
     private var currentCourseFirstParList = arrayListOf<Int>()
     private var currentCourseSecondParList = arrayListOf<Int>()
-    private var currentRoundPlayerIdList = arrayListOf<String>()
     private var currentCourseName = ""
-    private var roundOwnerUserId = ""
-    private var documentPath = ""
+
     private var liveScorePlayerFirstCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
     private var liveScorePlayerFirstCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
     private var liveScorePlayerSecondCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -85,21 +101,26 @@ class PlayRoundActivity : AppCompatActivity() {
     private var liveScorePlayerFourthCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 
-    private val db = FirebaseFirestore.getInstance()
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_round)
 
-        Log.d(TAG, "onCreate: start ")
+        Log.d(TAG, "onCreate: $TAG start ")
+
+        // USER //
+        auth = Firebase.auth
+        userEmail = auth.currentUser!!.email!!
+        Log.d(TAG, "onCreate: userEmail => $userEmail")
+
+        // TOOLBAR //
+        val toolbar = findViewById<Toolbar>(R.id.playRound_toolbar)
+        setSupportActionBar(toolbar)
+        playRoundCloseIcon_imageView.setOnClickListener {
+            super.onBackPressed()
+        }
+
         // GET ROUND ID BY INTENT //
-
-        // DUMMY INIT //
-        initDummy()
-
-
-        currentRoundId = "0e0bca05-b32f-4303-88e6-b6b95cfc0f3f"
+        currentRoundId = intent.getStringExtra(RoundResultActivity.DOCUMENT_ID)!!
 
         // GET DB FROM FIREBASE //
         getRoundFromFireBase(currentRoundId)
@@ -118,36 +139,42 @@ class PlayRoundActivity : AppCompatActivity() {
 
         // NEXT HOLE //
         toNextHole_button.setOnClickListener {
-            currentHoleIndex += 1
-            setHoleScore(currentHoleIndex)
-            Log.d(TAG, "toNextHole_button: currentHoleIndex -> $currentHoleIndex")
+            when (currentHoleIndex) {
+                8 -> apply {
+                    if(currentCourseIdList.size == 1) {
+                        // ROUND ENDS HERE //
+                        checkRoundResult()
+                    } else {
+                        // TO NEXT COURSE //
+                        moveToNextCourse()
+                    }
+                }
+                17 -> apply {
+                    // ROUND ENDS HERE //
+                    checkRoundResult()
+                }
+                else -> apply {
+                    currentHoleIndex += 1
+                    setHoleScore(currentHoleIndex)
+                    Log . d (TAG, "toNextHole_button: currentHoleIndex -> $currentHoleIndex")
+                }
+            }
         }
 
         // PRE HOLE //
         toPreHole_button.setOnClickListener {
-            currentHoleIndex -= 1
-            setHoleScore(currentHoleIndex)
-            Log.d(TAG, "toPreHole_button: currentHoleIndex -> $currentHoleIndex")
-        }
-
-        // NEXT COURSE //
-        toNextCourse_button.setOnClickListener {
-            moveToNextCourse()
-        }
-
-        // PRE COURSE //
-        toPreCourse_button.setOnClickListener {
-            moveToPreCourse()
-        }
-
-        // FINAL RESULT CHECK //
-        finalCheckRound_button.setOnClickListener {
-            checkRoundResult()
+            if(currentHoleIndex == 9) {
+                moveToPreCourse()
+            } else {
+                currentHoleIndex -= 1
+                setHoleScore(currentHoleIndex)
+                Log.d(TAG, "toPreHole_button: currentHoleIndex -> $currentHoleIndex")
+            }
         }
     }
 
     private fun deployCurrentHoleToServer() {
-        db.document("rounds/$documentPath/liveScore/$currentUserId")
+        db.document("rounds/$documentPath/liveScore/$userEmail")
             .update("currentHole", currentHoleIndex)
             .addOnSuccessListener {
                 Log.d(TAG, "deployCurrentHoleToServer: success ")
@@ -161,38 +188,30 @@ class PlayRoundActivity : AppCompatActivity() {
     }
 
     private fun checkRoundResult() {
-        // TODO : 마지막 라운드 이후 행동
         val builder = AlertDialog.Builder(this)
-        builder.setMessage("라운드 최종 결과를 확인합니까?")
+        builder.setMessage("라운드를 종료할까요?")
             .setPositiveButton("확인") { _, _ ->
                 val resultIntent = Intent(this, SaveRoundResultActivity::class.java)
+                resultIntent.putExtra(KEY_DOCUMENT_PATH, documentPath)
                 resultIntent.putExtra(KEY_ROUND_ID, currentRoundId)
-                resultIntent.putExtra(KEY_FIRST_COURSE_NAME, currentFirstCourseName)
-                resultIntent.putExtra(KEY_SECOND_COURSE_NAME, currentSecondCourseName)
-                resultIntent.putExtra(KEY_CLUB_NAME, currentClubName)
-                resultIntent.putExtra(KEY_PLAYER_1_NAME, currentFirstPlayerName)
-                resultIntent.putExtra(KEY_PLAYER_2_NAME, currentSecondPlayerName)
-                resultIntent.putExtra(KEY_PLAYER_3_NAME, currentThirdPlayerName)
-                resultIntent.putExtra(KEY_PLAYER_4_NAME, currentFourthPlayerName)
+                resultIntent.putExtra(KEY_ROUND_OWNER, roundOwner)
+                resultIntent.putExtra(KEY_DATE, currentDate)
+                resultIntent.putExtra(KEY_SEASON, currentSeason)
+                resultIntent.putExtra(KEY_TEE_TIME, currentTeeTime)
+                resultIntent.putExtra(KEY_CLUB_ID , currentClubId)
+                resultIntent.putExtra(KEY_CLUB_NAME  , currentClubName)
+                resultIntent.putStringArrayListExtra(KEY_COURSE_ID_LIST, currentCourseIdList)
+                resultIntent.putStringArrayListExtra(KEY_COURSE_NAME_LIST, currentCourseNameList)
                 resultIntent.putIntegerArrayListExtra(KEY_FIRST_COURSE_PAR_LIST, currentCourseFirstParList)
                 resultIntent.putIntegerArrayListExtra(KEY_SECOND_COURSE_PAR_LIST, currentCourseSecondParList)
+                resultIntent.putStringArrayListExtra(KEY_PLAYER_EMAIL_LIST, currentRoundPlayerEmailList)
+                resultIntent.putStringArrayListExtra(KEY_PLAYER_NICKNAME_LIST, currentRoundPlayerNicknameList)
+                Log.d(TAG, "checkRoundResult: currentRoundPlayerEmailList $currentRoundPlayerEmailList")
+                Log.d(TAG, "checkRoundResult: currentRoundPlayerNicknameList $currentRoundPlayerNicknameList")
                 startActivity(resultIntent)
             }
-            .setNegativeButton("취소") {dialog, _ -> dialog.dismiss() }
+            .setNegativeButton("취소") { dialog, _ -> dialog.dismiss() }
             .show()
-    }
-
-    private fun initDummy() {
-        Log.d(TAG, "initDummy: start ")
-        currentRound = Round(
-            "sdakfjsofjsd",
-            "roundOwnerUserId",
-            1594272754762,
-            "roundClubId",
-            arrayListOf("course_001", "course_002"),
-            arrayListOf("playerId1", "playerId2", "playerId3", "playerId4"),
-            false
-        )
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -211,50 +230,75 @@ class PlayRoundActivity : AppCompatActivity() {
                 if (task.isComplete) {
                     // SET CURRENT ROUND //
                     currentRound = task.result!!.toObjects(Round::class.java)[0]
-                    Log.d(TAG, "currentRound: ${currentRound.roundId}")
-
-                    // SET CURRENT ROUND PLAYERS //
-                    currentRoundPlayerIdList = currentRound.roundPlayerIdList as ArrayList<String>
-                    Log.d(TAG, "playerIdList: $currentRoundPlayerIdList")
+                    Log.d(TAG, "currentRound: ${currentRound}")
 
                     // SET CURRENT DOCUMENT PATH //
                     documentPath = task.result!!.documents[0].id
                     Log.d(TAG, "getRoundFromFireBase: documentPath -> $documentPath")
 
+                    // SET CURRENT DATE //
+                    currentDate = currentRound.roundDate
+                    currentSeason = currentRound.roundSeason
+                    currentTeeTime = currentRound.roundTeeTime
+                    Log.d(TAG, "getRoundFromFireBase: currentDate -> $currentDate ")
 
-                    //
+                    // SET CURRENT CLUB //
+                    currentClubName = currentRound.roundClubName
+                    currentClubId = currentRound.roundClubId
+                    playRoundClubName_textView.text = currentClubName
+                    Log.d(TAG, "getRoundFromFireBase: currentClubName -> $currentClubName")
+                    Log.d(TAG, "getRoundFromFireBase: currentClubId -> $currentClubId")
+
+                    // SET CURRENT COURSE //
+                    currentCourseNameList = currentRound.roundCourseNameList as ArrayList<String>
+                    currentCourseIdList = currentRound.roundCourseIdList as ArrayList<String>
+                    getCourseSets()
+                    Log.d(
+                        TAG,
+                        "getRoundFromFireBase: currentCourseNameList -> $currentCourseNameList"
+                    )
+                    Log.d(TAG, "getRoundFromFireBase: currentCourseIdList -> $currentCourseIdList")
+
+                    // SET CURRENT ROUND PLAYERS //
+                    currentRoundPlayerEmailList =
+                        currentRound.roundPlayerEmailList as ArrayList<String>
+                    currentRoundPlayerNicknameList = currentRound.roundPlayerNicknameList as ArrayList<String>
+                    Log.d(TAG, "currentRoundPlayerEmailList: $currentRoundPlayerEmailList")
+                    Log.d(TAG, "currentRoundPlayerNicknameList: $currentRoundPlayerNicknameList")
+
+                    // BOOLEAN DOESN'T CAST //
+                    val liveScore : Boolean = task!!.result!!.documents[0].get("isLiveScoreCreated") as Boolean
+                    Log.d(TAG, "getRoundFromFireBase: liveScore => $liveScore")
                     // SET LIVE SCORE COLLECTION IF NOT CREATED //
-                    // TODO : 처음만들어질 때 체크
-                    val liveScore : Boolean = task.result!!.documents[0].get("isLiveScoreCreated") as Boolean
-
-                    Log.d(TAG, "liveScore: $liveScore")
                     if (!liveScore) {
-                        for (playerId in currentRound.roundPlayerIdList) {
-                            createLiveScoreCollectionSet("rounds/$documentPath/liveScore/$playerId")
+                        for (playerEmail in currentRound.roundPlayerEmailList) {
+                            createLiveScoreCollectionSet("rounds/$documentPath/liveScore/$playerEmail")
                             Log.d(
                                 TAG,
-                                "createScoreCollectionSet: liveScore Collection for $playerId has created!"
+                                "createScoreCollectionSet: liveScore Collection for $playerEmail has created!"
                             )
                         }
                     } else {
                         setCurrentHoleIndex()
                     }
-                    getClubName()
-                    for (position in 0 until currentRoundPlayerIdList.size - 1) {
-                        syncLiveScore(currentRoundPlayerIdList[position], position)
+
+                    // SYNC LIVE SCORE //
+                    for (position in 0 until currentRoundPlayerEmailList.size - 1) {
+                        syncLiveScore(currentRoundPlayerEmailList[position], position)
+                        Log.d(TAG, "getRoundFromFireBase: syncLiveScore sync -> $position ")
                     }
                 }
             }
     }
 
-    private fun syncLiveScore(playerId: String, position: Int) {
-        db.document("rounds/$documentPath/liveScore/$playerId")
+    private fun syncLiveScore(playerEmail: String, position: Int) {
+        db.document("rounds/$documentPath/liveScore/$playerEmail")
             .get()
             .addOnSuccessListener {
-                Log.d(TAG, "syncLiveScore: $playerId -> success")
+                Log.d(TAG, "syncLiveScore: $playerEmail -> success")
             }
             .addOnFailureListener {
-                Log.d(TAG, "syncLiveScore: $playerId -> fail ")
+                Log.d(TAG, "syncLiveScore: $playerEmail -> fail ")
             }
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -336,7 +380,7 @@ class PlayRoundActivity : AppCompatActivity() {
 
     private fun setCurrentHoleIndex() {
         Log.d(TAG, "setCurrentHoleIndex: start ")
-        db.document("rounds/$documentPath/liveScore/$currentUserId")
+        db.document("rounds/$documentPath/liveScore/$userEmail")
             .get()
             .addOnSuccessListener {
                 Log.d(TAG, "setCurrentHoleIndex: success ")
@@ -352,22 +396,7 @@ class PlayRoundActivity : AppCompatActivity() {
             }
     }
 
-    private fun getClubName() {
-        db.collection(COLLECTION_PATH_CLUBS)
-            .whereEqualTo("clubId", currentRound.roundClubId)
-            .get()
-            .addOnCompleteListener { task: Task<QuerySnapshot> ->
-                if (task.isSuccessful) {
-                    currentClubName = task.result!!.documents[0].get("clubName") as String
-                    playRoundClubName_textView.text = currentClubName
-                    Log.d(TAG, "getClubName: $currentClubName ")
-                    getCourseSets()
-                }
-            }
-    }
-
     private fun createLiveScoreCollectionSet(path: String) {
-        // TODO : 9홀이냐 18홀이냐에 따라서 홀의 갯수 만드는거 바꾸기
         val halfHoleSet = mapOf(
             "hole01" to 0,
             "hole02" to 0,
@@ -398,33 +427,18 @@ class PlayRoundActivity : AppCompatActivity() {
             "hole15" to 0,
             "hole16" to 0,
             "hole17" to 0,
-            "hole18" to 0
+            "hole18" to 0,
+            "currentHole" to 0
         )
 
+        val mySet = if (currentRound.roundCourseIdList.size == 1) {
+            halfHoleSet
+        } else {
+            fullHoleSet
+        }
+
         db.document(path)
-            .set(
-                mapOf(
-                    "hole01" to 0,
-                    "hole02" to 0,
-                    "hole03" to 0,
-                    "hole04" to 0,
-                    "hole05" to 0,
-                    "hole06" to 0,
-                    "hole07" to 0,
-                    "hole08" to 0,
-                    "hole09" to 0,
-                    "hole10" to 0,
-                    "hole11" to 0,
-                    "hole12" to 0,
-                    "hole13" to 0,
-                    "hole14" to 0,
-                    "hole15" to 0,
-                    "hole16" to 0,
-                    "hole17" to 0,
-                    "hole18" to 0,
-                    "currentHole" to 0
-                )
-            )
+            .set(mySet)
             .addOnSuccessListener {
                 isLiveScoreCreated(true)
                 Log.d(TAG, "createScoreCollectionSet: success ")
@@ -449,26 +463,30 @@ class PlayRoundActivity : AppCompatActivity() {
             }
     }
 
-    private fun setRoundOwnerId(ownerId: String) {
-        this.roundOwnerUserId = ownerId
-        Log.d(TAG, "RoundOwnerId: $roundOwnerUserId")
+    private fun setRoundOwnerEmail(ownerEmail: String) {
+        this.roundOwner = ownerEmail
+        Log.d(TAG, "roundOwner: $roundOwner")
     }
 
     private fun setPars() {
         Log.d(TAG, "setPars: start! ")
-        currentPar_0.text = currentCourseParList[0].toString()
-        currentPar_1.text = currentCourseParList[1].toString()
-        currentPar_2.text = currentCourseParList[2].toString()
-        currentPar_3.text = currentCourseParList[3].toString()
-        currentPar_4.text = currentCourseParList[4].toString()
-        currentPar_5.text = currentCourseParList[5].toString()
-        currentPar_6.text = currentCourseParList[6].toString()
-        currentPar_7.text = currentCourseParList[7].toString()
-        currentPar_8.text = currentCourseParList[8].toString()
-        updateTotalHit(0)
-        updateTotalHit(1)
-        updateTotalHit(2)
-        updateTotalHit(3)
+        val currentParList = arrayListOf<TextView>(
+            currentPar_0,
+            currentPar_1,
+            currentPar_2,
+            currentPar_3,
+            currentPar_4,
+            currentPar_5,
+            currentPar_6,
+            currentPar_7,
+            currentPar_8
+        )
+        for (i in 0..8) {
+            currentParList[i].text = currentCourseParList[i].toString()
+        }
+        for (i in 0 until currentRoundPlayerEmailList.size) {
+            updateTotalHit(i)
+        }
     }
 
     private fun setHoleScore(currentHoleIndex: Int) {
@@ -480,15 +498,11 @@ class PlayRoundActivity : AppCompatActivity() {
 
     private fun decoCurrentHoleIndex(currentHoleIndex: Int) {
         Log.d(TAG, "decoCurrentHoleIndex: start")
-        hole_1_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
-        hole_2_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
-        hole_3_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
-        hole_4_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
-        hole_5_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
-        hole_6_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
-        hole_7_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
-        hole_8_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
-        hole_9_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
+        val decoHoleList = arrayListOf<TextView>(hole_1_textView, hole_2_textView, hole_3_textView, hole_4_textView, hole_5_textView, hole_6_textView, hole_7_textView, hole_8_textView, hole_9_textView)
+        for(i in 0..8) {
+            decoHoleList[i].setTextColor(Color.parseColor(CURRENT_HOLE_COLOR))
+        }
+
         when (currentHoleIndex) {
             0 -> apply {
                 hole_1_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR_HIGHLIGHT))
@@ -527,11 +541,15 @@ class PlayRoundActivity : AppCompatActivity() {
                 hole_1_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR_HIGHLIGHT))
                 setButtonVisibility("preCourse")
             }
-
             else -> apply {
+                hole_9_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR_HIGHLIGHT))
                 if (currentHoleIndex == 8) {
-                    hole_9_textView.setTextColor(Color.parseColor(CURRENT_HOLE_COLOR_HIGHLIGHT))
-                    setButtonVisibility("nextCourse")
+                    if(currentCourseIdList.size == 1) {
+                        // ROUND ENDS HERE //
+                        setButtonVisibility("roundLast")
+                    } else {
+                        setButtonVisibility("nextCourse")
+                    }
                 } else {
                     setButtonVisibility("roundLast")
                 }
@@ -543,39 +561,33 @@ class PlayRoundActivity : AppCompatActivity() {
         when (stateCode) {
             "first" -> apply {
                 toPreHole_button.visibility = View.GONE
-                toNextHole_button.visibility = View.VISIBLE
-                toNextCourse_button.visibility = View.GONE
-                toPreCourse_button.visibility = View.GONE
-                finalCheckRound_button.visibility = View.GONE
+                commentPre_textView.visibility = View.GONE
+                commentNext_textView.text = "HOLE ${currentHoleIndex + 2}"
             }
             "preCourse" -> apply {
-                toPreHole_button.visibility = View.GONE
+                toPreHole_button.visibility = View.VISIBLE
+                commentPre_textView.visibility = View.VISIBLE
+                commentPre_textView.text = "PREVIOUS ${currentCourseNameList[0]}"
                 toNextHole_button.visibility = View.VISIBLE
-                toNextCourse_button.visibility = View.GONE
-                toPreCourse_button.visibility = View.VISIBLE
-                finalCheckRound_button.visibility = View.GONE
+                commentNext_textView.text = "HOLE ${currentHoleIndex - 7}"
             }
             "nextCourse" -> apply {
                 toPreHole_button.visibility = View.VISIBLE
-                toNextHole_button.visibility = View.GONE
-                toNextCourse_button.visibility = View.VISIBLE
-                toPreCourse_button.visibility = View.GONE
-                finalCheckRound_button.visibility = View.GONE
+                commentPre_textView.visibility = View.VISIBLE
+                commentPre_textView.text = "HOLE $currentHoleIndex"
+                commentNext_textView.text = "NEXT ${currentCourseNameList[1]}"
             }
             "roundLast" -> apply {
                 toPreHole_button.visibility = View.VISIBLE
-                toNextHole_button.visibility = View.GONE
-                toNextCourse_button.visibility = View.GONE
-                toPreCourse_button.visibility = View.GONE
-                finalCheckRound_button.visibility = View.VISIBLE
+                commentPre_textView.visibility = View.VISIBLE
+                commentPre_textView.text = "HOLE ${currentHoleIndex - 9}"
+                commentNext_textView.text = "라운드 종료"
             }
             else -> apply {
                 toPreHole_button.visibility = View.VISIBLE
-                toNextHole_button.visibility = View.VISIBLE
-                finalCheckRound_button.visibility = View.GONE
-                toPreCourse_button.visibility = View.GONE
-                toNextCourse_button.visibility = View.GONE
-
+                commentPre_textView.visibility = View.VISIBLE
+                commentPre_textView.text = if(currentHoleIndex < 8){"HOLE ${currentHoleIndex}"} else {"HOLE ${currentHoleIndex - 9}"}
+                commentNext_textView.text = if(currentHoleIndex < 8){"HOLE ${currentHoleIndex + 2}"} else {"HOLE ${currentHoleIndex - 7}"}
             }
         }
         Log.d(TAG, "setButtonVisibility: state -> $stateCode")
@@ -583,7 +595,7 @@ class PlayRoundActivity : AppCompatActivity() {
 
     private fun moveToNextCourse() {
         val builder = AlertDialog.Builder(this)
-        builder.setMessage("다음 코스로 이동할까요?")
+        builder.setMessage("${currentCourseNameList[1]} 코스로 이동할까요?")
             .setPositiveButton(
                 "확인"
             ) { _, _ ->
@@ -594,7 +606,7 @@ class PlayRoundActivity : AppCompatActivity() {
                 updateTotalHit(2)
                 updateTotalHit(3)
                 setHoleScore(currentHoleIndex)
-                playRoundCourseName_textView.text = currentSecondCourseName
+                playRoundCourseName_textView.text = currentCourseNameList[1]
                 currentCourseParList = currentCourseSecondParList
                 Log.d(TAG, "moveToNextCourse: currentCourseParList -> $currentCourseParList ")
             }
@@ -605,9 +617,8 @@ class PlayRoundActivity : AppCompatActivity() {
     }
 
     private fun moveToPreCourse() {
-        // TODO : 이전 코스 이동시 행동
         val builder = AlertDialog.Builder(this)
-        builder.setMessage("이전 코스로 이동할까요?")
+        builder.setMessage("${currentCourseNameList[0]} 코스로 이동할까요?")
             .setPositiveButton(
                 "확인"
             ) { _, _ ->
@@ -618,7 +629,7 @@ class PlayRoundActivity : AppCompatActivity() {
                 updateTotalHit(2)
                 updateTotalHit(3)
                 setHoleScore(currentHoleIndex)
-                playRoundCourseName_textView.text = currentFirstCourseName
+                playRoundCourseName_textView.text = currentCourseNameList[0]
                 currentCourseParList = currentCourseFirstParList
                 Log.d(TAG, "moveToPreCourse: currentCourseParList -> $currentCourseParList ")
             }
@@ -746,16 +757,13 @@ class PlayRoundActivity : AppCompatActivity() {
             }
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    currentFirstCourseName = it.result!!.documents[0].get("courseName") as String
                     currentCourseFirstParList =
                         it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
-                    Log.d(TAG, "getCourseNames: first is $currentFirstCourseName")
                     Log.d(TAG, "getCourseSets: par => $currentCourseFirstParList ")
                     currentCourseParList = currentCourseFirstParList
-                    currentCourseName = currentFirstCourseName
-                    playRoundCourseName_textView.text = currentCourseName
+                    playRoundCourseName_textView.text = currentCourseNameList[0]
                     setPars()
-                    setRoundOwnerId(currentRound.roundOwnerUserId)
+                    setRoundOwnerEmail(currentRound.roundOwner)
                     getPlayers()
                 }
             }
@@ -769,114 +777,38 @@ class PlayRoundActivity : AppCompatActivity() {
                 }
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
-                        currentSecondCourseName =
-                            it.result!!.documents[0].get("courseName") as String
                         currentCourseSecondParList =
                             it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
-                        Log.d(TAG, "getCourseNames: second is $currentSecondCourseName")
-                        Log.d(TAG, "getCourseSets: par => $currentCourseSecondParList ")
-                        Log.d(TAG, "currentCourseParList: $currentCourseParList ")
+                        Log.d(TAG, "getCourseSets: par => $currentCourseSecondParList")
                     }
                 }
         }
     }
 
     private fun getPlayers() {
-        Log.d(TAG, "getPlayers: start, total : ${currentRound.roundPlayerIdList.size} players ")
-        val playerSize = currentRound.roundPlayerIdList.size
-        if (playerSize > 0) {
-
-            db.collection(COLLECTION_PATH_USERS)
-                .whereEqualTo("userId", currentRound.roundPlayerIdList[0])
-                .get()
-                .addOnSuccessListener {
-                    Log.d(TAG, "getPlayers: p1 -> success ")
-                }
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        currentFirstPlayerName =
-                            it.result!!.documents[0].get("userNickname") as String
-                        Log.d(TAG, "getPlayers: p1 -> $currentFirstPlayerName")
-                        playName_1.text = currentFirstPlayerName
-                        liveScorePlayerName_textview1.text = currentFirstPlayerName
-                    }
-                }
-
-            if (playerSize > 1) {
-                db.collection(COLLECTION_PATH_USERS)
-                    .whereEqualTo("userId", currentRound.roundPlayerIdList[1])
-                    .get()
-                    .addOnSuccessListener {
-                        Log.d(TAG, "getPlayers: p2 -> success ")
-                    }
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            currentSecondPlayerName =
-                                it.result!!.documents[0].get("userNickname") as String
-                            Log.d(TAG, "getPlayers: p2 -> $currentSecondPlayerName")
-                            playName_2.text = currentSecondPlayerName
-                            liveScorePlayerName_textview2.text = currentSecondPlayerName
-                        }
-                    }
-                if (playerSize > 2) {
-                    db.collection(COLLECTION_PATH_USERS)
-                        .whereEqualTo("userId", currentRound.roundPlayerIdList[2])
-                        .get()
-                        .addOnSuccessListener {
-                            Log.d(TAG, "getPlayers: p3 -> success ")
-                        }
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                currentThirdPlayerName =
-                                    it.result!!.documents[0].get("userNickname") as String
-                                Log.d(TAG, "getPlayers: p3 -> $currentThirdPlayerName")
-                                playName_3.text = currentThirdPlayerName
-                                liveScorePlayerName_textview3.text = currentThirdPlayerName
-                            }
-                        }
-                    if (playerSize > 3) {
-                        db.collection(COLLECTION_PATH_USERS)
-                            .whereEqualTo("userId", currentRound.roundPlayerIdList[3])
-                            .get()
-                            .addOnSuccessListener {
-                                Log.d(TAG, "getPlayers: p4 -> success ")
-                            }
-                            .addOnCompleteListener {
-                                if (it.isSuccessful) {
-                                    currentFourthPlayerName =
-                                        it.result!!.documents[0].get("userNickname") as String
-                                    Log.d(TAG, "getPlayers: p4 -> $currentFourthPlayerName")
-                                    playName_4.text = currentFourthPlayerName
-                                    liveScorePlayerName_textview4.text = currentFourthPlayerName
-                                }
-                            }
-                    }
-                }
-
-            }
-
-        }
-        applyUIByPlayerSize(playerSize)
-    }
-
-    private fun applyUIByPlayerSize(playerSize : Int) {
-        if(playerSize > 0) {
-            row_player1.visibility = View.VISIBLE
-            counter_player_1.visibility = View.VISIBLE
-            if(playerSize > 1) {
-                row_player2.visibility = View.VISIBLE
-                counter_player_2.visibility = View.VISIBLE
-                if(playerSize > 2) {
-                    row_player3.visibility = View.VISIBLE
-                    counter_player_3.visibility = View.VISIBLE
-                    if(playerSize > 3) {
-                        row_player4.visibility = View.VISIBLE
-                        counter_player_4.visibility = View.VISIBLE
-                    }
-                }
-            }
-        } else {
-            // TODO : 에러메세지
+        Log.d(
+            TAG,
+            "getPlayers: start, total : ${currentRound.roundPlayerNicknameList.size} players "
+        )
+        val playerSize = currentRound.roundPlayerEmailList.size
+        val playerNicknameList = currentRound.roundPlayerNicknameList
+        val playerTableNameViewList: ArrayList<TextView> =
+            arrayListOf(playName_1, playName_2, playName_3, playName_4)
+        val playerScoreNameViewList: ArrayList<TextView> = arrayListOf(
+            liveScorePlayerName_textview1,
+            liveScorePlayerName_textview2,
+            liveScorePlayerName_textview3,
+            liveScorePlayerName_textview4
+        )
+        val playerRowViewList: ArrayList<TableRow> =
+            arrayListOf(row_player1, row_player2, row_player3, row_player4)
+        val playerCounterViewList: ArrayList<CardView> =
+            arrayListOf(counter_player_1, counter_player_2, counter_player_3, counter_player_4)
+        for (i in 0 until playerSize) {
+            playerTableNameViewList[i].text = playerNicknameList[i]
+            playerScoreNameViewList[i].text = playerNicknameList[i]
+            playerRowViewList[i].visibility = View.VISIBLE
+            playerCounterViewList[i].visibility = View.VISIBLE
         }
     }
 
@@ -959,7 +891,7 @@ class PlayRoundActivity : AppCompatActivity() {
             deployScoreToServer(playerPosition)
 
         } else {
-            Snackbar.make(playRound_layout, "응 양파", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(playRound_layout, "더블 파입니다.", Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -1006,7 +938,7 @@ class PlayRoundActivity : AppCompatActivity() {
 
         val holeIndex: String = serverHoleNameList[currentHoleIndex]
 
-        db.document("rounds/$documentPath/liveScore/${currentRoundPlayerIdList[playerPosition]}")
+        db.document("rounds/$documentPath/liveScore/${currentRoundPlayerEmailList[playerPosition]}")
             .update(holeIndex, score)
             .addOnSuccessListener {
                 Log.d(TAG, "deployToServer: success")
@@ -1019,7 +951,7 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "deployToServer: complete")
                 Log.d(
                     TAG,
-                    "deployToServer: ${currentRoundPlayerIdList[playerPosition]} to $score"
+                    "deployToServer: ${currentRoundPlayerEmailList[playerPosition]} to $score"
                 )
             }
     }
@@ -1361,7 +1293,7 @@ class PlayRoundActivity : AppCompatActivity() {
             updateTotalHit(playerPosition)
             deployScoreToServer(playerPosition)
         } else {
-            Snackbar.make(playRound_layout, "응 음수", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(playRound_layout, "0보다 낮은 점수로 설정할 수 없습니다.", Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -1601,7 +1533,6 @@ class PlayRoundActivity : AppCompatActivity() {
             }
         }
     }
-
 
 
     override fun onStop() {

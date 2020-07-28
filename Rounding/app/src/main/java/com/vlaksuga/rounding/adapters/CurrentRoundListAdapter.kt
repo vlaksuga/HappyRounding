@@ -13,6 +13,8 @@ import com.vlaksuga.rounding.PlayRoundActivity
 import com.vlaksuga.rounding.R
 import com.vlaksuga.rounding.RoundResultActivity
 import com.vlaksuga.rounding.data.Round
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CurrentRoundListAdapter internal constructor(context: Context, currentRoundList: List<Round>) :
     RecyclerView.Adapter<CurrentRoundListAdapter.CurrentRoundListViewHolder>() {
@@ -26,9 +28,10 @@ class CurrentRoundListAdapter internal constructor(context: Context, currentRoun
     private var items: List<Round> = currentRoundList
 
     inner class CurrentRoundListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cardItemView: CardView = itemView.findViewById(R.id.currentRoundList_cardView)
-        val clubNameItemView: TextView = itemView.findViewById(R.id.currentRoundClubName_textView)
-        val dateItemView: TextView = itemView.findViewById(R.id.currentRoundDate_textView)
+        private val cardItemView: CardView = itemView.findViewById(R.id.currentRoundList_cardView)
+        private val clubNameItemView: TextView = itemView.findViewById(R.id.currentRoundClubName_textView)
+        private val dateItemView: TextView = itemView.findViewById(R.id.currentRoundDate_textView)
+        private val timeItemView: TextView = itemView.findViewById(R.id.currentRoundTeeTime_textView)
 
         fun bind(currentRoundList: Round) {
             cardItemView.setOnClickListener {
@@ -37,8 +40,9 @@ class CurrentRoundListAdapter internal constructor(context: Context, currentRoun
                 currentRoundIntent.putExtra(RoundResultActivity.DOCUMENT_ID, currentRoundList.roundId)
                 mContext.startActivity(currentRoundIntent)
             }
-            clubNameItemView.text = currentRoundList.roundClubId
-            dateItemView.text = currentRoundList.roundDate.toString()
+            clubNameItemView.text = currentRoundList.roundClubName
+            dateItemView.text = SimpleDateFormat("yyyy-MM-dd (E)", Locale.KOREA).format(currentRoundList.roundDate)
+            timeItemView.text = SimpleDateFormat("a hh:mm", Locale.KOREA).format(currentRoundList.roundTeeTime)
         }
     }
 

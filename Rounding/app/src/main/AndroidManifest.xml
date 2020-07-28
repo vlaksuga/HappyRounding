@@ -39,7 +39,6 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <activity android:name=".FindPasswordActivity" />
         <activity
             android:name=".LogInActivity"
             android:theme="@style/AppTheme.NoActionBar">
