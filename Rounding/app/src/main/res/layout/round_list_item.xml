@@ -25,6 +25,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="가평 베네스트 GC"
+                android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -35,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="2020-06-29"
+                android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/roundClubName_textView" />
 
@@ -42,8 +44,9 @@
                 android:id="@+id/roundTotalHit_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="24dp"
                 android:text="102"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="parent"

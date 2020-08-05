@@ -9,10 +9,6 @@
             <solid
                 android:color="@android:color/transparent"
                 />
-            <corners
-                android:radius="25dp"
-                />
-
         </shape>
     </item>
 

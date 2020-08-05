@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.R
-import com.vlaksuga.rounding.data.User
+import com.vlaksuga.rounding.model.User
 
 class FriendListAdapter internal constructor(context: Context, friendList: List<User>) :
     RecyclerView.Adapter<FriendListAdapter.FriendListViewHolder>() {
@@ -18,18 +18,22 @@ class FriendListAdapter internal constructor(context: Context, friendList: List<
     }
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private val mContext : Context = context
+    val mContext : Context = context
     private var items : List<User> = friendList
+    private lateinit var mlistener : OnItemClickListener
 
 
     inner class FriendListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cardItemView : CardView = itemView.findViewById(R.id.friendList_cardView)
         val nickNameItemView : TextView = itemView.findViewById(R.id.friendNickname_textView)
-        val idItemView : TextView = itemView.findViewById(R.id.friendId_TextView)
+        val emailItemView : TextView = itemView.findViewById(R.id.friendId_TextView)
 
         fun bind(user: User) {
+            cardItemView.setOnClickListener {
+                mlistener.onItemClick(user)
+            }
             nickNameItemView.text = user.userNickname
-            idItemView.text = user.userId
+            emailItemView.text = user.userEmail
         }
     }
 
@@ -43,5 +47,13 @@ class FriendListAdapter internal constructor(context: Context, friendList: List<
     override fun onBindViewHolder(holder: FriendListViewHolder, position: Int) {
         val currentFriend = items[position]
         holder.bind(currentFriend)
+    }
+
+    public interface OnItemClickListener {
+        fun onItemClick(user: User)
+    }
+
+    public fun setOnItemClickListener(listener: OnItemClickListener) {
+        this.mlistener = listener
     }
 }

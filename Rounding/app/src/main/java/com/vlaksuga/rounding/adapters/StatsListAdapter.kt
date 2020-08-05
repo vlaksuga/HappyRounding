@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.R
-import com.vlaksuga.rounding.constructors.Stats
+import com.vlaksuga.rounding.model.Stats
 
 class StatsListAdapter internal constructor(context: Context, statsList : List<Stats>) :
     RecyclerView.Adapter<StatsListAdapter.StatsListViewHolder>() {

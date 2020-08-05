@@ -1,4 +1,4 @@
-package com.vlaksuga.rounding.data
+package com.vlaksuga.rounding.model
 
 class Score (
     val scoreId : String,

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.PlayRoundActivity
 import com.vlaksuga.rounding.R
 import com.vlaksuga.rounding.RoundResultActivity
-import com.vlaksuga.rounding.data.Round
+import com.vlaksuga.rounding.model.Round
 import java.text.SimpleDateFormat
 import java.util.*
 

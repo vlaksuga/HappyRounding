@@ -17,9 +17,8 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.ktx.Firebase
 import com.vlaksuga.rounding.adapters.RoundListAdapter
 import com.vlaksuga.rounding.adapters.SeasonStatsListAdapter
-import com.vlaksuga.rounding.constructors.ResultRound
-import com.vlaksuga.rounding.constructors.Stats
-import kotlin.math.log
+import com.vlaksuga.rounding.model.ResultRound
+import com.vlaksuga.rounding.model.Stats
 
 class RoundFragment : Fragment() {
 
@@ -71,9 +70,21 @@ class RoundFragment : Fragment() {
                 roundTotalScores.sortDescending()
                 val roundBest = roundTotalScores[0]
                 statsList = arrayListOf(
-                    Stats("라운드","ROUND", roundTotalSize),
-                    Stats("평균 스코어","STROKES", roundAverage),
-                    Stats("베스트 스코어","STROKES", roundBest)
+                    Stats(
+                        "라운드",
+                        "ROUND",
+                        roundTotalSize
+                    ),
+                    Stats(
+                        "평균 스코어",
+                        "STROKES",
+                        roundAverage
+                    ),
+                    Stats(
+                        "베스트 스코어",
+                        "STROKES",
+                        roundBest
+                    )
                 )
 
 

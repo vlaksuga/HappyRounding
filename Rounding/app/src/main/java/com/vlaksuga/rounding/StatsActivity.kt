@@ -2,6 +2,7 @@ package com.vlaksuga.rounding
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
 
 class StatsActivity : AppCompatActivity() {
 
@@ -12,7 +13,8 @@ class StatsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stats)
-        supportActionBar!!.title = "통계"
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        val toolbar = findViewById<Toolbar>(R.id.stats_toolbar)
+        setSupportActionBar(toolbar)
     }
 }

@@ -9,15 +9,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
-import com.vlaksuga.rounding.data.Round
-import kotlinx.android.synthetic.main.activity_play_round.*
+import com.vlaksuga.rounding.model.Round
 import kotlinx.android.synthetic.main.activity_save_round_result.*
 
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import kotlin.math.round
 
 class SaveRoundResultActivity : AppCompatActivity() {
 
@@ -28,9 +26,7 @@ class SaveRoundResultActivity : AppCompatActivity() {
     }
 
     private val db = FirebaseFirestore.getInstance()
-    private lateinit var currentRound: Round
     private var documentPath = ""
-
     private var roundId = ""
     private var roundOwner = ""
     private var roundDate: Long = 0
@@ -44,14 +40,18 @@ class SaveRoundResultActivity : AppCompatActivity() {
     private var courseSecondParList = arrayListOf<Int>()
     private var playerEmailList = arrayListOf<String>()
     private var playerNicknameList = arrayListOf<String>()
-    private var liveScorePlayerFirstCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    private var liveScorePlayerFirstCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    private var liveScorePlayerSecondCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    private var liveScorePlayerSecondCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    private var liveScorePlayerThirdCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    private var liveScorePlayerThirdCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    private var liveScorePlayerFourthCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-    private var liveScorePlayerFourthCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    private var liveScoreFirstTotalList = arrayListOf(
+        arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    )
+    private var liveScoreSecondTotalList = arrayListOf(
+        arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0),
+        arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+    )
     private val simpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.KOREA)
     private var roundResultSetList = arrayListOf<HashMap<String, Any>>()
 
@@ -96,9 +96,8 @@ class SaveRoundResultActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate: playerEmailList => $playerEmailList")
         Log.d(TAG, "onCreate: playerNicknameList => $playerNicknameList")
 
-
-        // SET RESULT FOR EACH //
-        setResultForEachPlayers()
+        // LIVE SCORE //
+        syncLiveScore()
 
         // SET UI //
         saveRoundClubName_textView.text = roundClubName
@@ -130,152 +129,86 @@ class SaveRoundResultActivity : AppCompatActivity() {
 
         saveRoundDate_textView.text = simpleDateFormat.format(roundDate)
 
-        for (position in 0 until playerEmailList.size) {
-            syncLiveScore(playerEmailList[position], position)
-        }
 
 
 
 
         saveRoundResult_button.setOnClickListener {
-            // TODO : 저장중일때 행동 생각해서 적용하기 (아마도 광고)
             it.visibility = View.GONE
             createRoundResult()
         }
     }
 
-    private fun syncLiveScore(playerEmail: String, position: Int) {
-        db.document("rounds/$documentPath/liveScore/$playerEmail")
-            .get()
-            .addOnSuccessListener {
-                Log.d(PlayRoundActivity.TAG, "syncLiveScore: $playerEmail -> success")
-            }
-            .addOnFailureListener {
-                Log.d(PlayRoundActivity.TAG, "syncLiveScore: $playerEmail -> fail ")
-            }
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    val firstSet: ArrayList<Int> = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-                    val secondSet: ArrayList<Int> = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
-                    firstSet[0] = (it.result!!.get("hole01") as Long).toInt()
-                    firstSet[1] = (it.result!!.get("hole02") as Long).toInt()
-                    firstSet[2] = (it.result!!.get("hole03") as Long).toInt()
-                    firstSet[3] = (it.result!!.get("hole04") as Long).toInt()
-                    firstSet[4] = (it.result!!.get("hole05") as Long).toInt()
-                    firstSet[5] = (it.result!!.get("hole06") as Long).toInt()
-                    firstSet[6] = (it.result!!.get("hole07") as Long).toInt()
-                    firstSet[7] = (it.result!!.get("hole08") as Long).toInt()
-                    firstSet[8] = (it.result!!.get("hole09") as Long).toInt()
-                    secondSet[0] = (it.result!!.get("hole10") as Long).toInt()
-                    secondSet[1] = (it.result!!.get("hole11") as Long).toInt()
-                    secondSet[2] = (it.result!!.get("hole12") as Long).toInt()
-                    secondSet[3] = (it.result!!.get("hole13") as Long).toInt()
-                    secondSet[4] = (it.result!!.get("hole14") as Long).toInt()
-                    secondSet[5] = (it.result!!.get("hole15") as Long).toInt()
-                    secondSet[6] = (it.result!!.get("hole16") as Long).toInt()
-                    secondSet[7] = (it.result!!.get("hole17") as Long).toInt()
-                    secondSet[8] = (it.result!!.get("hole18") as Long).toInt()
-                    when (position) {
-                        0 -> apply {
-                            liveScorePlayerFirstCourse1 = firstSet
-                            liveScorePlayerFirstCourse2 = secondSet
-                            Log.d(
-                                PlayRoundActivity.TAG,
-                                "syncLiveScore: liveScorePlayerFirstCourse1 -> $liveScorePlayerFirstCourse1"
+        private fun syncLiveScore() {
+            Log.d(TAG, "syncLiveScore: invoke")
+            for(i in 0 until playerEmailList.size) {
+                Log.d(TAG, "syncLiveScore: for $i")
+                db.document("rounds/$documentPath/liveScore/${playerEmailList[i]}")
+                    .get()
+                    .addOnSuccessListener {
+                        Log.d(PlayRoundActivity.TAG, "syncLiveScore: ${playerEmailList[i]} -> success")
+                    }
+                    .addOnFailureListener {
+                        Log.d(PlayRoundActivity.TAG, "syncLiveScore: ${playerEmailList[i]} -> fail ")
+                    }
+                    .addOnCompleteListener {
+                        Log.d(TAG, "syncLiveScore: addOnCompleteListener start")
+                        if (it.isSuccessful) {
+                            val firstSet: ArrayList<Int> = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+                            val secondSet: ArrayList<Int> = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
+                            firstSet[0] = (it.result!!.get("hole01") as Long).toInt()
+                            firstSet[1] = (it.result!!.get("hole02") as Long).toInt()
+                            firstSet[2] = (it.result!!.get("hole03") as Long).toInt()
+                            firstSet[3] = (it.result!!.get("hole04") as Long).toInt()
+                            firstSet[4] = (it.result!!.get("hole05") as Long).toInt()
+                            firstSet[5] = (it.result!!.get("hole06") as Long).toInt()
+                            firstSet[6] = (it.result!!.get("hole07") as Long).toInt()
+                            firstSet[7] = (it.result!!.get("hole08") as Long).toInt()
+                            firstSet[8] = (it.result!!.get("hole09") as Long).toInt()
+                            if(roundCourseIdList.size == 2) {
+                                secondSet[0] = (it.result!!.get("hole10") as Long).toInt()
+                                secondSet[1] = (it.result!!.get("hole11") as Long).toInt()
+                                secondSet[2] = (it.result!!.get("hole12") as Long).toInt()
+                                secondSet[3] = (it.result!!.get("hole13") as Long).toInt()
+                                secondSet[4] = (it.result!!.get("hole14") as Long).toInt()
+                                secondSet[5] = (it.result!!.get("hole15") as Long).toInt()
+                                secondSet[6] = (it.result!!.get("hole16") as Long).toInt()
+                                secondSet[7] = (it.result!!.get("hole17") as Long).toInt()
+                                secondSet[8] = (it.result!!.get("hole18") as Long).toInt()
+                            }
+                            liveScoreFirstTotalList[i] = firstSet
+                            liveScoreSecondTotalList[i] = secondSet
+
+                            // SET HASH //
+                            roundResultSetList.add(
+                                hashMapOf(
+                                    "resultRoundId" to UUID.randomUUID().toString(),
+                                    "resultUserEmail" to playerEmailList[i],
+                                    "resultUserName" to playerNicknameList[i],
+                                    "resultDate" to roundDate,
+                                    "resultSeason" to roundSeason,
+                                    "resultTeeTime" to roundTeeTime,
+                                    "resultClubId" to roundClubId,
+                                    "resultClubName" to roundClubName,
+                                    "resultCourseIdList" to roundCourseIdList,
+                                    "resultCourseNameList" to roundCourseNameList,
+                                    "resultFirstCourseParList" to courseFirstParList,
+                                    "resultSecondCourseParList" to courseSecondParList,
+                                    "resultCoPlayersEmailList" to playerEmailList,
+                                    "resultCoPlayersNicknameList" to playerNicknameList,
+                                    "resultFirstScoreList" to liveScoreFirstTotalList[i],
+                                    "resultSecondScoreList" to liveScoreSecondTotalList[i]
+                                )
                             )
-                            Log.d(
-                                PlayRoundActivity.TAG,
-                                "syncLiveScore: liveScorePlayerFirstCourse2 -> $liveScorePlayerFirstCourse2"
-                            )
-                        }
-                        1 -> apply {
-                            liveScorePlayerSecondCourse1 = firstSet
-                            liveScorePlayerSecondCourse2 = secondSet
-                            Log.d(
-                                PlayRoundActivity.TAG,
-                                "syncLiveScore: liveScorePlayerSecondCourse1 -> $liveScorePlayerSecondCourse1"
-                            )
-                            Log.d(
-                                PlayRoundActivity.TAG,
-                                "syncLiveScore: liveScorePlayerSecondCourse2 -> $liveScorePlayerSecondCourse2"
-                            )
-                        }
-                        2 -> apply {
-                            liveScorePlayerThirdCourse1 = firstSet
-                            liveScorePlayerThirdCourse2 = secondSet
-                            Log.d(
-                                PlayRoundActivity.TAG,
-                                "syncLiveScore: liveScorePlayerThirdCourse1 -> $liveScorePlayerThirdCourse1"
-                            )
-                            Log.d(
-                                PlayRoundActivity.TAG,
-                                "syncLiveScore: liveScorePlayerThirdCourse2 -> $liveScorePlayerThirdCourse2"
-                            )
-                        }
-                        else -> apply {
-                            liveScorePlayerFourthCourse1 = firstSet
-                            liveScorePlayerFourthCourse2 = secondSet
-                            Log.d(
-                                PlayRoundActivity.TAG,
-                                "syncLiveScore: liveScorePlayerFourthCourse1 -> $liveScorePlayerFourthCourse1"
-                            )
-                            Log.d(
-                                PlayRoundActivity.TAG,
-                                "syncLiveScore: liveScorePlayerFourthCourse2 -> $liveScorePlayerFourthCourse2"
-                            )
+                            updateScoreBoard()
                         }
                     }
-                    updateScoreBoard()
-                }
             }
-    }
 
-    private fun setResultForEachPlayers() {
-        Log.d(TAG, "setResultForEachPlayers: start")
-
-        val liveScoreFirstCourseList = arrayListOf(
-            liveScorePlayerFirstCourse1,
-            liveScorePlayerSecondCourse1,
-            liveScorePlayerThirdCourse1,
-            liveScorePlayerFourthCourse1
-        )
-        val liveScoreSecondCourseList = arrayListOf(
-            liveScorePlayerFirstCourse2,
-            liveScorePlayerSecondCourse2,
-            liveScorePlayerThirdCourse2,
-            liveScorePlayerFourthCourse2
-        )
-        Log.d(TAG, "playerNicknameList: ${playerEmailList.size}")
-
-
-        for (i in 0 until playerEmailList.size) {
-            roundResultSetList.add(
-                hashMapOf(
-                    "resultRoundId" to UUID.randomUUID().toString(),
-                    "resultUserEmail" to playerEmailList[i],
-                    "resultUserName" to playerNicknameList[i],
-                    "resultDate" to roundDate,
-                    "resultSeason" to roundSeason,
-                    "resultTeeTime" to roundTeeTime,
-                    "resultClubId" to roundClubId,
-                    "resultClubName" to roundClubName,
-                    "resultCourseIdList" to roundCourseIdList,
-                    "resultCourseNameList" to roundCourseNameList,
-                    "resultFirstCourseParList" to courseFirstParList,
-                    "resultSecondCourseParList" to courseSecondParList,
-                    "resultCoPlayersEmailList" to playerEmailList,
-                    "resultCoPlayersNicknameList" to playerNicknameList,
-                    "resultFirstScoreList" to liveScoreFirstCourseList[i],
-                    "resultSecondScoreList" to liveScoreSecondCourseList[i]
-                )
-            )
-            Log.d(TAG, "firstUserRoundResult: $roundResultSetList")
-        }
-        saveRoundResult_button.visibility = View.VISIBLE
-        Log.d(TAG, "setResultForEachPlayers: SET ALL DONE!")
     }
 
     private fun updateScoreBoard() {
+        Log.d(TAG, "updateScoreBoard: invoke")
         val courseFirstParViewList = arrayListOf<TextView>(
             course1par1_textView,
             course1par2_textView,
@@ -392,10 +325,14 @@ class SaveRoundResultActivity : AppCompatActivity() {
         // PAR LIST //
         for (i in 0..8) {
             courseFirstParViewList[i].text = courseFirstParList[i].toString()
-            courseSecondParViewList[i].text = courseSecondParList[i].toString()
+            if(roundCourseIdList.size == 2) {
+                courseSecondParViewList[i].text = courseSecondParList[i].toString()
+            }
         }
         course1parTotal_textView.text = courseFirstParList.sum().toString()
-        course2parTotal_textView.text = courseSecondParList.sum().toString()
+        if(roundCourseIdList.size == 2) {
+            course2parTotal_textView.text = courseSecondParList.sum().toString()
+        }
 
         // PLAYERS //
         for (playerNumber in 1..playerNicknameList.size) {
@@ -403,62 +340,62 @@ class SaveRoundResultActivity : AppCompatActivity() {
                 1 -> apply {
                     // PLAYER 1 //
                     for (i in 0..8) {
-                        player1Course1ViewList[i].text = liveScorePlayerFirstCourse1[i].toString()
-                        player1Course2ViewList[i].text = liveScorePlayerFirstCourse2[i].toString()
+                        player1Course1ViewList[i].text = liveScoreFirstTotalList[0][i].toString()
+                        player1Course2ViewList[i].text = liveScoreSecondTotalList[0][i].toString()
                     }
                     row_result1_player1.visibility = View.VISIBLE
                     row_result2_player1.visibility = View.VISIBLE
-                    p1c1total.text = liveScorePlayerFirstCourse1.sum().toString()
-                    p1c2total.text = liveScorePlayerFirstCourse2.sum().toString()
+                    p1c1total.text = liveScoreFirstTotalList[0].sum().toString()
+                    p1c2total.text = liveScoreSecondTotalList[0].sum().toString()
                     player_name_total1.visibility = View.VISIBLE
                     player_name_total1.text = playerNicknameList[0]
                     player_total1.text =
-                        (liveScorePlayerFirstCourse1.sum() + liveScorePlayerFirstCourse2.sum()).toString()
+                        (liveScoreFirstTotalList[0].sum() + liveScoreSecondTotalList[0].sum()).toString()
                 }
                 2 -> apply {
                     // PLAYER 2 //
                     for (i in 0..8) {
-                        player2Course1ViewList[i].text = liveScorePlayerSecondCourse1[i].toString()
-                        player2Course2ViewList[i].text = liveScorePlayerSecondCourse2[i].toString()
+                        player2Course1ViewList[i].text = liveScoreFirstTotalList[1][i].toString()
+                        player2Course2ViewList[i].text = liveScoreSecondTotalList[1][i].toString()
                     }
                     row_result1_player2.visibility = View.VISIBLE
                     row_result2_player2.visibility = View.VISIBLE
-                    p2c1total.text = liveScorePlayerSecondCourse1.sum().toString()
-                    p2c2total.text = liveScorePlayerSecondCourse2.sum().toString()
+                    p2c1total.text = liveScoreFirstTotalList[1].sum().toString()
+                    p2c2total.text = liveScoreSecondTotalList[1].sum().toString()
                     player_name_total2.visibility = View.VISIBLE
                     player_name_total2.text = playerNicknameList[1]
                     player_total2.text =
-                        (liveScorePlayerSecondCourse1.sum() + liveScorePlayerSecondCourse2.sum()).toString()
+                        (liveScoreFirstTotalList[1].sum() + liveScoreSecondTotalList[1].sum()).toString()
                 }
                 3 -> apply {
                     // PLAYER 3 //
                     for (i in 0..8) {
-                        player3Course1ViewList[i].text = liveScorePlayerThirdCourse1[i].toString()
-                        player3Course2ViewList[i].text = liveScorePlayerThirdCourse2[i].toString()
+                        player3Course1ViewList[i].text = liveScoreFirstTotalList[2][i].toString()
+                        player3Course2ViewList[i].text = liveScoreSecondTotalList[2][i].toString()
                     }
                     row_result1_player3.visibility = View.VISIBLE
                     row_result2_player3.visibility = View.VISIBLE
-                    p3c1total.text = liveScorePlayerThirdCourse1.sum().toString()
-                    p3c2total.text = liveScorePlayerThirdCourse2.sum().toString()
+                    p3c1total.text = liveScoreFirstTotalList[2].sum().toString()
+                    p3c2total.text = liveScoreSecondTotalList[2].sum().toString()
                     player_name_total3.visibility = View.VISIBLE
                     player_name_total3.text = playerNicknameList[2]
                     player_total3.text =
-                        (liveScorePlayerThirdCourse1.sum() + liveScorePlayerThirdCourse2.sum()).toString()
+                        (liveScoreFirstTotalList[2].sum() + liveScoreSecondTotalList[2].sum()).toString()
                 }
                 4 -> apply {
                     // PLAYER 4 //
                     for (i in 0..8) {
-                        player4Course1ViewList[i].text = liveScorePlayerFourthCourse1[i].toString()
-                        player4Course2ViewList[i].text = liveScorePlayerFourthCourse2[i].toString()
+                        player4Course1ViewList[i].text = liveScoreFirstTotalList[3][i].toString()
+                        player4Course2ViewList[i].text = liveScoreSecondTotalList[3][i].toString()
                     }
                     row_result1_player4.visibility = View.VISIBLE
                     row_result2_player4.visibility = View.VISIBLE
-                    p4c1total.text = liveScorePlayerFourthCourse1.sum().toString()
-                    p4c2total.text = liveScorePlayerFourthCourse2.sum().toString()
+                    p4c1total.text = liveScoreFirstTotalList[3].sum().toString()
+                    p4c2total.text = liveScoreSecondTotalList[3].sum().toString()
                     player_name_total4.visibility = View.VISIBLE
                     player_name_total4.text = playerNicknameList[3]
                     player_total4.text =
-                        (liveScorePlayerFourthCourse1.sum() + liveScorePlayerFourthCourse2.sum()).toString()
+                        (liveScoreFirstTotalList[3].sum() + liveScoreSecondTotalList[3].sum()).toString()
                 }
                 else -> apply {}
             }
@@ -467,6 +404,7 @@ class SaveRoundResultActivity : AppCompatActivity() {
     }
 
     private fun createRoundResult() {
+        Log.d(TAG, "createRoundResult: invoke")
         for (i in 0 until playerEmailList.size) {
             db.collection(COLLECTION_ROUND_RESULTS)
                 .add(roundResultSetList[i])
@@ -487,14 +425,14 @@ class SaveRoundResultActivity : AppCompatActivity() {
         builder.setMessage("라운드를 종료합니다.")
         builder.setPositiveButton("확인") { _, _ ->
             db.document("rounds/$documentPath")
-                .delete()
+                .update("isRoundOpen", false)
                 .addOnCompleteListener {
                     startActivity(Intent(this, MainActivity::class.java))
                 }
         }
         builder.setOnCancelListener { dialog ->
             db.document("rounds/$documentPath")
-                .delete()
+                .update("isRoundOpen", false)
                 .addOnCompleteListener {
                     startActivity(Intent(this, MainActivity::class.java))
                 }

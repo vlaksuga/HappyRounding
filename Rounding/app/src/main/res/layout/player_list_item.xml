@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="김또깡"
+                android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/playerImage_imageView"
                 app:layout_constraintStart_toEndOf="@+id/playerImage_imageView"

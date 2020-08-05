@@ -8,22 +8,72 @@
     android:layout_height="match_parent"
     tools:context=".PlayRoundActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/save_round_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        android:fitsSystemWindows="true"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/save_roundTitle_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="24dp"
+                android:text="라운드 결과"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/save_roundActivity_close_imageView"
+                android:src="@drawable/ic_close"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="16dp"
+                android:tint="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:id="@+id/saveRoundClubName_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textSize="18sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/save_round_toolbar" />
 
     <TextView
         android:id="@+id/saveRoundDate_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintBaseline_toBaselineOf="@+id/saveRoundClubName_textView"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -1453,7 +1503,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/table_row_hole_background"
                 android:gravity="center"
-                android:text="PLYAER1"
+                android:text="PLYAER 1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
 
@@ -1464,7 +1514,7 @@
                 android:background="@drawable/table_row_hole_background"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="PLYAER2"
+                android:text="PLYAER 2"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
 
@@ -1475,7 +1525,7 @@
                 android:background="@drawable/table_row_hole_background"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="PLAYER3"
+                android:text="PLAYER 3"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
 
@@ -1486,7 +1536,7 @@
                 android:background="@drawable/table_row_hole_background"
                 android:gravity="center"
                 android:padding="4dp"
-                android:text="PLAYER4"
+                android:text="PLAYER 4"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
 
@@ -1501,7 +1551,7 @@
             <TextView
                 android:id="@+id/player_total1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
@@ -1511,33 +1561,33 @@
             <TextView
                 android:id="@+id/player_total2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/player_total3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/player_total4"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -1547,12 +1597,16 @@
 
     <Button
         android:id="@+id/saveRoundResult_button"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
+        android:background="@drawable/color_button_background"
         android:padding="16dp"
         android:text="라운드 결과 저장하기"
-        android:visibility="gone"
+        android:textColor="@color/colorAccent"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

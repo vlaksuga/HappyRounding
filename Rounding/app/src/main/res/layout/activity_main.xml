@@ -35,20 +35,20 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="24dp"
-                android:text="FIELD SCORE"
-                android:textColor="@color/colorAccent"
+                android:text="홈"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/mainMenuMore_imageView"
+                android:id="@+id/mainMenuSetting_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="16dp"
                 android:tint="@color/colorPrimaryDark"
-                app:srcCompat="@drawable/ic_baseline" />
+                app:srcCompat="@drawable/ic_settings" />
 
             <ImageView
                 android:id="@+id/mainStats_imageView"
@@ -56,8 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@+id/mainMenuSetting_imageView"
                 android:tint="@color/colorPrimaryDark"
-                android:layout_toStartOf="@+id/mainMenuMore_imageView"
                 app:srcCompat="@drawable/ic_bar_chart_24" />
 
             <ImageView
@@ -89,7 +89,9 @@
                 android:id="@+id/currentRound_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp" />
+                android:layout_margin="16dp"
+                tools:listitem="@layout/current_round_list_item"
+                />
         </RelativeLayout>
 
         <ImageView
@@ -106,6 +108,14 @@
             android:src="@drawable/banner"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/resultEmpty_textView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="진행한 라운드가 없습니다."
+            android:visibility="gone" />
+
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="wrap_content"
@@ -119,7 +129,7 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tab_layout" />
+            android:layout_below="@+id/tab_layout"/>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -130,6 +140,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:clickable="true"
+        android:tint="@color/colorWhite"
         app:srcCompat="@drawable/ic_add" />
 
 </RelativeLayout>

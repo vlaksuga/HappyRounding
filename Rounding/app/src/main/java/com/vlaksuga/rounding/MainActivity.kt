@@ -3,16 +3,13 @@ package com.vlaksuga.rounding
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -26,15 +23,15 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.vlaksuga.rounding.adapters.CurrentRoundListAdapter
 import com.vlaksuga.rounding.adapters.StatsListAdapter
-import com.vlaksuga.rounding.constructors.Stats
-import com.vlaksuga.rounding.data.Round
+import com.vlaksuga.rounding.model.Stats
+import com.vlaksuga.rounding.model.Round
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "MainActivity"
-        const val KEY_USER_ID = "com.vlaksuga.rounding.USER_ID"
+        const val KEY_USER_EMAIL = "com.vlaksuga.rounding.USER_EMAIL"
     }
 
     private val db = FirebaseFirestore.getInstance()
@@ -42,7 +39,6 @@ class MainActivity : AppCompatActivity() {
     private var viewPager: ViewPager2? = null
     private var tabLayoutTitles = arrayListOf<Long>()
     private lateinit var currentRoundListAdapter: CurrentRoundListAdapter
-    private lateinit var statsListAdapter: StatsListAdapter
     private var currentRoundList = arrayListOf<Round>()
     private var mainStatsList = arrayListOf<Stats>()
     private lateinit var userId: String
@@ -78,8 +74,11 @@ class MainActivity : AppCompatActivity() {
         // DB CURRENT ROUND //
         db.collection("rounds")
             .whereArrayContains("roundPlayerEmailList", userEmail)
+            .whereEqualTo("isRoundOpen", true)
             .addSnapshotListener { value, error ->
                 if (!value!!.isEmpty) {
+                    currentRoundList.clear()
+                    currentRoundRecyclerView.visibility = View.VISIBLE
                     Log.d(TAG, "FIREBASE CURRENT ROUNDS : EXIST !!, $value")
                     for (document in value.documents) {
                         currentRoundList.add(document.toObject(Round::class.java)!!)
@@ -93,39 +92,28 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-
         // TO FRIEND ACTIVITY //
         mainFriend_imageView.setOnClickListener {
             val friendIntent = Intent(this, FriendActivity::class.java)
-            friendIntent.putExtra(KEY_USER_ID, userId)
             startActivity(friendIntent)
         }
 
         // TO STATS ACTIVITY //
-
         mainStats_imageView.setOnClickListener {
             val statsIntent = Intent(this, StatsActivity::class.java)
-            statsIntent.putExtra(KEY_USER_ID, userId)
+            statsIntent.putExtra(KEY_USER_EMAIL, userEmail)
             startActivity(statsIntent)
         }
 
         // TO LOGOUT //
-        mainMenuMore_imageView.setOnClickListener {
-            AuthUI.getInstance().signOut(this)
-                .addOnCompleteListener {
-                    startActivity(Intent(this, LogInActivity::class.java))
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }
+        mainMenuSetting_imageView.setOnClickListener {
+            startActivity(Intent(this, SettingActivity::class.java))
         }
 
         // FAB NEW ROUND //
         addNewRound_fab.setOnClickListener {
             startActivity(Intent(this, AddEditRoundActivity::class.java))
         }
-
-
 
 
         db.collection("roundResults")
@@ -137,21 +125,25 @@ class MainActivity : AppCompatActivity() {
                         mySeason.add(document.get("resultSeason") as Long)
                         Log.d(TAG, "Snap : mySeason = > $mySeason")
                     }
+
+                    // ATTACH VIEW PAGER //
+                    val myHashSet : HashSet<Long> = hashSetOf()
+                    myHashSet.addAll(mySeason)
+                    mySeason.clear()
+                    mySeason.addAll(myHashSet)
+                    mySeason.sortDescending()
+                    tabLayoutTitles = mySeason
+                    viewPager = findViewById(R.id.viewpager)
+                    viewPager!!.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
+                    viewPager!!.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                    TabLayoutMediator(tab_layout, viewPager!!) { tab, position ->
+                        tab.text = tabLayoutTitles[position].toString()
+                    }.attach()
+
                 } else {
-                    Log.d(TAG, "onCreate: ${error!!.message} ")
+                    resultEmpty_textView.visibility = View.VISIBLE
                 }
-                val myHashSet : HashSet<Long> = hashSetOf()
-                myHashSet.addAll(mySeason)
-                mySeason.clear()
-                mySeason.addAll(myHashSet)
-                mySeason.sortDescending()
-                tabLayoutTitles = mySeason
-                viewPager = findViewById(R.id.viewpager)
-                viewPager!!.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
-                viewPager!!.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                TabLayoutMediator(tab_layout, viewPager!!) { tab, position ->
-                    tab.text = tabLayoutTitles[position].toString()
-                }.attach()
+
             }
 
 
@@ -177,7 +169,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun createFragment(position: Int): Fragment {
             val fragment = RoundFragment()
-            fragment.roundSeason = tabLayoutTitles[position].toLong()
+            fragment.roundSeason = tabLayoutTitles[position]
             return fragment
         }
     }

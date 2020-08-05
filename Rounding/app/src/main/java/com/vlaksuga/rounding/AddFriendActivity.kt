@@ -1,15 +1,17 @@
 package com.vlaksuga.rounding
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_add_friend.*
 
 class AddFriendActivity : AppCompatActivity() {
@@ -19,10 +21,13 @@ class AddFriendActivity : AppCompatActivity() {
     }
 
     private val db = FirebaseFirestore.getInstance()
+    private lateinit var auth : FirebaseAuth
+    private lateinit var userEmail : String
     private var findResultUserNickname = ""
-    private var findResultUserId = ""
+    private var findResultUserEmail = ""
     private var targetUserDocumentPath = ""
     private var userId = ""
+
     private var lastFriendList = arrayListOf<String>()
 
 
@@ -30,9 +35,16 @@ class AddFriendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_friend)
 
-        // TODO : EMAIL로 찾기
 
-        userId = "OPPABANANA"
+        val toolbar = findViewById<Toolbar>(R.id.friendAdd_toolbar)
+        setSupportActionBar(toolbar)
+
+        // USER EMAIL INIT //
+        auth = Firebase.auth
+        userEmail = auth.currentUser!!.email!!
+
+
+
 
         findUser_EditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if(event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -41,7 +53,7 @@ class AddFriendActivity : AppCompatActivity() {
                 searchResult_imageView.visibility = View.GONE
                 addFriend_button.visibility = View.GONE
                 db.collection("users")
-                    .whereEqualTo("userId", findUser_EditText.text.toString())
+                    .whereEqualTo("userPhone", findUser_EditText.text.toString())
                     .get()
                     .addOnSuccessListener {
                         Log.d(TAG, "findUser: success")
@@ -52,15 +64,15 @@ class AddFriendActivity : AppCompatActivity() {
                     .addOnCompleteListener {
                         if(it.isSuccessful) {
                             if(it.result!!.isEmpty) {
-                                Log.d(TAG, "finduser : Result is empty ")
+                                Log.d(TAG, "findUser : Result is empty ")
                                 showResultIsEmpty()
                             } else {
-                                Log.d(TAG, "finduser : Result found ")
+                                Log.d(TAG, "findUser : Result found ")
                                 targetUserDocumentPath = it.result!!.documents[0].id
                                 findResultUserNickname = it.result!!.documents[0].get("userNickname") as String
-                                findResultUserId = it.result!!.documents[0].get("userId") as String
-                                Log.d(TAG, "RESULT : $findResultUserNickname, $findResultUserId $findResultUserId")
-                                if(userId != findResultUserId) {
+                                findResultUserEmail = it.result!!.documents[0].get("userEmail") as String
+                                Log.d(TAG, "RESULT : $findResultUserNickname, $findResultUserEmail")
+                                if(userEmail != findResultUserEmail) {
                                     checkFriendState()
                                 } else {
                                     Toast.makeText(this, "자신은 검색 대상에 포함되지 않습니다.", Toast.LENGTH_SHORT).show()
@@ -76,7 +88,7 @@ class AddFriendActivity : AppCompatActivity() {
         addFriend_button.setOnClickListener {
             Log.d(TAG, "onCreate: addFriend_button clicked ")
             db.collection("users")
-                .whereEqualTo("userId", findResultUserId)
+                .whereEqualTo("userEmail", findResultUserEmail)
                 .get()
                 .addOnSuccessListener {
                     Log.d(TAG, "get friendList: success")
@@ -87,17 +99,21 @@ class AddFriendActivity : AppCompatActivity() {
                 .addOnCompleteListener {
                     if(it.isSuccessful) {
                         if(it.result!!.documents[0].get("userAllowFriendList") == null) {
-                            lastFriendList.add(userId)
+                            lastFriendList.add(userEmail)
                             Log.d(TAG, "get friendList : success, targetUserDocumentPath => $targetUserDocumentPath, lastFriendList => $lastFriendList")
                             updateNewFriendList()
                         } else {
                             lastFriendList = it.result!!.documents[0].get("userAllowFriendList") as ArrayList<String>
-                            lastFriendList.add(userId)
+                            lastFriendList.add(userEmail)
                             Log.d(TAG, "get friendList : success, targetUserDocumentPath => $targetUserDocumentPath, lastFriendList => $lastFriendList")
                             updateNewFriendList()
                         }
                     }
                 }
+        }
+
+        friendAddActivity_close_imageView.setOnClickListener {
+            super.onBackPressed()
         }
     }
 
@@ -151,7 +167,7 @@ class AddFriendActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 Log.d(TAG, "updateNewFriendList: complete! ")
                 Toast.makeText(this, "친구가 추가되었습니다.", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
+                startActivity(Intent(this, FriendActivity::class.java))
                 finish()
             }
     }

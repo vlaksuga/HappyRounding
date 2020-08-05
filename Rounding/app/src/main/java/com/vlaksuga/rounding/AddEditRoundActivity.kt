@@ -4,15 +4,11 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.CalendarView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +21,9 @@ import com.google.firebase.ktx.Firebase
 import com.vlaksuga.rounding.adapters.ClubListAdapter
 import com.vlaksuga.rounding.adapters.CourseListAdapter
 import com.vlaksuga.rounding.adapters.PlayerListAdapter
-import com.vlaksuga.rounding.data.Club
-import com.vlaksuga.rounding.data.Course
-import com.vlaksuga.rounding.data.Round
-import com.vlaksuga.rounding.data.User
+import com.vlaksuga.rounding.model.Club
+import com.vlaksuga.rounding.model.Course
+import com.vlaksuga.rounding.model.User
 import kotlinx.android.synthetic.main.activity_add_edit_round.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -343,7 +338,9 @@ class AddEditRoundActivity : AppCompatActivity() {
             "roundCourseNameList" to roundCourseNameList,
             "roundPlayerEmailList" to roundPlayerEmailList,
             "roundPlayerNicknameList" to roundPlayerNicknameList,
-            "isLiveScoreCreated" to false)
+            "isLiveScoreCreated" to false,
+            "isRoundOpen" to true
+        )
 
         db.collection("rounds")
             .add(round)
@@ -359,7 +356,7 @@ class AddEditRoundActivity : AppCompatActivity() {
                     builder.setMessage("라운드를 생성하였습니다.")
                         .setPositiveButton("라운드 시작") { _, _ ->
                             val playIntent = Intent(this, PlayRoundActivity::class.java)
-                            playIntent.putExtra(PlayRoundActivity.KEY_ROUND_ID, roundId)
+                            playIntent.putExtra(RoundResultActivity.DOCUMENT_ID, roundId)
                             startActivity(playIntent)
                         }
                         .setNeutralButton("나중에 시작") { _, _ ->

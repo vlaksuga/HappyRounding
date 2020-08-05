@@ -1,6 +1,4 @@
-package com.vlaksuga.rounding.data
-
-import android.provider.ContactsContract
+package com.vlaksuga.rounding.model
 
 data class FriendList (
     val friendId : String,

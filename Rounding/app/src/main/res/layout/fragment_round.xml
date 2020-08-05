@@ -6,13 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".RoundFragment">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/seasonStatsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/season_stats_list_item"
         android:layout_margin="16dp"
-        />
+        tools:listitem="@layout/season_stats_list_item">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/roundRecyclerView"

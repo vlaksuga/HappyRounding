@@ -1,4 +1,4 @@
-package com.vlaksuga.rounding.constructors
+package com.vlaksuga.rounding.model
 
 data class Stats (
     val statsKey : String = "",

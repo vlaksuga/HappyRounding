@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/sign_in_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -25,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:text="회원정보"
+                android:text="회원가입"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -37,6 +39,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,10 +74,10 @@
                     android:id="@+id/userEmail_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginEnd="16dp"
-                    android:text="tekiteki@naver.com"
+                    android:text="EMAIL@EMAIL.COM"
                     android:textColor="@color/colorPrimaryDark" />
 
             </RelativeLayout>
@@ -106,20 +109,54 @@
                     android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/userNickName_editText"
+                <TextView
+                    android:id="@+id/userNickname_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:paddingLeft="0dp"
-                    android:paddingTop="0dp"
-                    android:paddingRight="0dp"
-                    android:hint="닉네임을 입력해주세요"
+                    android:text="닉네임을 입력해주세요"
+                    android:textColor="@color/colorPrimaryDark" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/sign_in_phone_cardView"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:clickable="true"
+            app:cardCornerRadius="4dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/userPhoneLabel_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:text="전화번호"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="14sp"
-                    android:theme="@style/EditTextStyle" />
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/userPhone_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="권한에 동의해주세요"
+                    android:textColor="@color/colorPrimaryDark" />
 
             </RelativeLayout>
 
@@ -138,6 +175,15 @@
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/signUpError_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/userSubmit_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

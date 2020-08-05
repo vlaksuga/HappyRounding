@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.R
-import com.vlaksuga.rounding.data.Course
+import com.vlaksuga.rounding.model.Course
 
 
 class CourseListAdapter internal constructor(context: Context, courseList : List<Course>) : RecyclerView.Adapter<CourseListAdapter.CourseListViewHolder> () {
@@ -36,19 +36,19 @@ class CourseListAdapter internal constructor(context: Context, courseList : List
         fun bind(courseList: Course) {
             cardItemView.setOnClickListener {
                 if(selectedFirstCourseId.isNullOrBlank() && selectedSecondCourseId.isNullOrBlank()) {
-                    inOutItemView.text = "IN"
+                    inOutItemView.text = "1st"
                     inOutItemView.visibility = View.VISIBLE
                     selectedFirstCourseId = courseList.courseId
                     selectedFirstCourseName = courseList.courseName
-                    Log.d(TAG, "click: IN course added ")
+                    Log.d(TAG, "click: 1st course added ")
                     Log.d(TAG, "courseList: 1 => $selectedFirstCourseId ${selectedFirstCourseName}, 2 => $selectedSecondCourseId $selectedSecondCourseName")
                 } else if (!selectedFirstCourseId.isNullOrBlank() && selectedSecondCourseId.isNullOrBlank()) {
                     if(inOutItemView.visibility == View.GONE) {
-                        inOutItemView.text = "OUT"
+                        inOutItemView.text = "2nd"
                         inOutItemView.visibility = View.VISIBLE
                         selectedSecondCourseId = courseList.courseId
                         selectedSecondCourseName = courseList.courseName
-                        Log.d(TAG, "click: OUT course added ")
+                        Log.d(TAG, "click: 2nd course added ")
                         Log.d(TAG, "courseList: 1 => $selectedFirstCourseId ${selectedFirstCourseName}, 2 => $selectedSecondCourseId $selectedSecondCourseName")
                     } else {
                         inOutItemView.text = null
@@ -60,7 +60,7 @@ class CourseListAdapter internal constructor(context: Context, courseList : List
                     }
                 } else if(selectedFirstCourseId.isNullOrBlank() && !selectedSecondCourseId.isNullOrBlank()) {
                     if(inOutItemView.visibility == View.GONE) {
-                        inOutItemView.text = "IN"
+                        inOutItemView.text = "1st"
                         inOutItemView.visibility = View.VISIBLE
                         selectedFirstCourseId = courseList.courseId
                         selectedFirstCourseName = courseList.courseName
@@ -71,7 +71,7 @@ class CourseListAdapter internal constructor(context: Context, courseList : List
                         inOutItemView.visibility = View.GONE
                         selectedSecondCourseId = null
                         selectedSecondCourseName = null
-                        Log.d(TAG, "click: OUT course removed ")
+                        Log.d(TAG, "click: 2nd course removed ")
                         Log.d(TAG, "courseList: 1 => $selectedFirstCourseId ${selectedFirstCourseName}, 2 => $selectedSecondCourseId $selectedSecondCourseName")
                     }
                 } else {

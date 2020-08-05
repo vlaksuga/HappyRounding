@@ -8,7 +8,7 @@
     tools:context=".LogInActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/logo_imageView"
         android:layout_width="223dp"
         android:layout_height="52dp"
         app:layout_constraintBottom_toTopOf="@+id/loginTitle_textView"
@@ -26,6 +26,7 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,6 +40,7 @@
         android:lineSpacingExtra="8sp"
         android:text="안녕하세요. 필드스코어입니다. 로그인이 필요합니다."
         android:textColor="#FFFFFF"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/loginTitle_textView"
         app:layout_constraintTop_toBottomOf="@+id/loginTitle_textView" />
@@ -53,6 +55,7 @@
         android:text="구글 계정으로 시작하기"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/email_login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -66,8 +69,21 @@
         android:text="이메일로 시작하기"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/loadingComment_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="데이터를 불러오고 있습니다."
+        android:textColor="@color/colorWhite"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_imageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

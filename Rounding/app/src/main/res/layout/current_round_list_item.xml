@@ -17,6 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorBarBackground"
             android:orientation="vertical">
 
             <TextView
@@ -25,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="가평 베네스트 GC"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:text="2020-06-29"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/currentRoundTeeTime_textView"
                 app:layout_constraintStart_toStartOf="@+id/roundClubName_textView"
@@ -49,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="오전 12:30"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintBaseline_toBaselineOf="@+id/currentRoundDate_textView"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.vlaksuga.rounding.R
-import com.vlaksuga.rounding.data.User
+import com.vlaksuga.rounding.model.User
 
 class PlayerListAdapter internal constructor(context: Context, playerList: List<User>) :
     RecyclerView.Adapter<PlayerListAdapter.PlayerListViewHolder>() {

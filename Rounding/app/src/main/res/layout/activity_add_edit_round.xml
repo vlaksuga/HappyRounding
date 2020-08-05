@@ -26,16 +26,17 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
+
             <TextView
                 android:id="@+id/mainAppTitle_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="24dp"
-                android:text="라운드 생성"
-                android:textColor="@color/colorAccent"
+                android:text="새로운 라운드"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
             <ImageView
                 android:id="@+id/addRoundCloseIcon_imageView"
                 android:layout_centerVertical="true"
@@ -79,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:tint="@color/colorAccent"
                     app:srcCompat="@drawable/ic_date" />
 
                 <TextView
@@ -89,6 +91,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@+id/date_icon_imageView"
                     android:text="날짜"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
 
                 <TextView
@@ -98,7 +101,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:text="2017-02-04" />
+                    android:text="2017-02-04"
+                    android:textColor="@color/colorPrimaryDark" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -121,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:tint="@color/colorAccent"
                     app:srcCompat="@drawable/ic_schedule" />
 
                 <TextView
@@ -131,6 +136,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@+id/time_icon_imageView"
                     android:text="티타임"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
 
                 <TextView
@@ -140,7 +146,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:text="오전 12시 30분" />
+                    android:text="오전 12시 30분"
+                    android:textColor="@color/colorPrimaryDark" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
@@ -164,6 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:tint="@color/colorAccent"
                     app:srcCompat="@drawable/ic_place" />
 
                 <TextView
@@ -174,6 +182,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@+id/club_icon_imageView"
                     android:text="클럽"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
 
                 <TextView
@@ -183,7 +192,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:text="라싸GC" />
+                    android:text="라싸GC"
+                    android:textColor="@color/colorPrimaryDark" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -206,6 +216,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:tint="@color/colorAccent"
                     app:srcCompat="@drawable/ic_golf_course" />
 
                 <TextView
@@ -216,6 +227,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@+id/course_icon_imageView"
                     android:text="코스"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
 
                 <TextView
@@ -225,7 +237,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:text="SOUTH" />
+                    android:text="SOUTH"
+                    android:textColor="@color/colorPrimaryDark" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
@@ -248,6 +261,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
+                    android:tint="@color/colorAccent"
                     app:srcCompat="@drawable/ic_group_24" />
 
                 <TextView
@@ -258,6 +272,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_toEndOf="@+id/player_icon_imageView"
                     android:text="플레이어"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textStyle="bold" />
 
                 <TextView
@@ -267,7 +282,8 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="16dp"
-                    android:text="PLAYER" />
+                    android:text="PLAYER"
+                    android:textColor="@color/colorPrimaryDark" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 

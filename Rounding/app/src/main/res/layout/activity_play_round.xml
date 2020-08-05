@@ -35,8 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="24dp"
-                android:text="PLAY ROUND"
-                android:textColor="@color/colorAccent"
+                android:text="플레이 라운드"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -68,20 +68,22 @@
             android:id="@+id/playRoundClubName_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
             android:text="클럽명"
+            android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/playRoundCourseName_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="코스명"
-            android:textStyle="bold"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"/>
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:text="코스명"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -818,6 +820,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
             android:text="HOLE"
+            android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
         <TextView
@@ -828,6 +831,7 @@
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@+id/playRoundCurrentHoleLabel_textView"
             android:text="1"
+            android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
 
@@ -889,6 +893,7 @@
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
+                    android:visibility="invisible"
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -907,6 +912,7 @@
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
+                    android:visibility="invisible"
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -964,6 +970,7 @@
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
+                    android:visibility="invisible"
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -982,6 +989,7 @@
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
+                    android:visibility="invisible"
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1039,6 +1047,7 @@
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
+                    android:visibility="invisible"
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1057,6 +1066,7 @@
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
+                    android:visibility="invisible"
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1114,6 +1124,7 @@
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
+                    android:visibility="invisible"
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1132,6 +1143,7 @@
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
+                    android:visibility="invisible"
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"

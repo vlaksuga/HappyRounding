@@ -1,4 +1,4 @@
-package com.vlaksuga.rounding.data
+package com.vlaksuga.rounding.model
 
 data class Round(
     val roundId : String = "",
@@ -12,5 +12,6 @@ data class Round(
     val roundCourseNameList : List<String> = arrayListOf(),
     val roundPlayerEmailList : List<String> = arrayListOf(),
     val roundPlayerNicknameList : List<String> = arrayListOf(),
-    val isLiveScoreCreated : Boolean = false
+    val isLiveScoreCreated : Boolean = false,
+    val isRoundOpen : Boolean = true
 )

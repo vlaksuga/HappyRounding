@@ -6,10 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".StatsActivity">
 
-    <fragment
-        android:id="@+id/stats_fragment"
-        android:name="com.vlaksuga.rounding.StatisticsFragment"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/stats_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:contentInsetStart="0dp"
+        android:contentInsetLeft="0dp"
+        android:contentInsetEnd="0dp"
+        android:contentInsetRight="0dp"
+        android:fitsSystemWindows="true"
+        app:contentInsetEnd="0dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/statsTitle_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="24dp"
+                android:text="통계"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/statsActivity_close_imageView"
+                android:src="@drawable/ic_close"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="16dp"
+                android:tint="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </RelativeLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
