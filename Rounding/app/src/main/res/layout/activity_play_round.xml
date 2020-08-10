@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:text="플레이 라운드"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
@@ -69,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:text="클럽명"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
@@ -107,119 +107,119 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:text="HOLE"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/hole_1_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="1"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/hole_2_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="2"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/hole_3_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="3"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/hole_4_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="4"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/hole_5_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="5"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/hole_6_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="6"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/hole_7_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="7"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/hole_8_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="8"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/hole_9_textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="9"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_hole_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="합계"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
         </TableRow>
 
@@ -231,110 +231,110 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:text="PAR"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/currentPar_0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/currentPar_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/currentPar_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/currentPar_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/currentPar_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/currentPar_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/currentPar_6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/currentPar_7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/currentPar_8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_par_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="36"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
         </TableRow>
 
@@ -348,109 +348,109 @@
                 android:id="@+id/playName_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_1_score_total"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
         </TableRow>
 
@@ -464,109 +464,109 @@
                 android:id="@+id/playName_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_2_score_total"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
         </TableRow>
 
@@ -580,109 +580,109 @@
                 android:id="@+id/playName_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_3_score_total"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
         </TableRow>
 
@@ -696,109 +696,109 @@
                 android:id="@+id/playName_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/player_4_score_total"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/table_row_player_background"
+                android:background="@color/colorWhite"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="#AAAAAA"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
         </TableRow>
 
@@ -808,6 +808,7 @@
         android:id="@+id/holeInfo_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -818,7 +819,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:text="HOLE"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
@@ -835,13 +836,12 @@
             android:textStyle="bold" />
 
 
-
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -867,6 +867,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="PLAYER1"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -879,6 +880,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:text="0"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -944,6 +946,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="PLAYER2"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -956,6 +959,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:text="0"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1021,6 +1025,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="PLAYER3"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1033,6 +1038,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:text="0"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1098,6 +1104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="PLAYER4"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1110,6 +1117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:text="0"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -1164,6 +1172,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:tint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_arrow_forward" />
@@ -1175,6 +1184,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginBottom="24dp"
         android:rotation="180"
+        android:tint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_arrow_forward" />
@@ -1185,6 +1195,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="NEXT"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/toNextHole_button"
         app:layout_constraintEnd_toStartOf="@+id/toNextHole_button"
@@ -1196,6 +1207,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="PREVIOUS"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/toPreHole_button"
         app:layout_constraintStart_toEndOf="@+id/toPreHole_button"

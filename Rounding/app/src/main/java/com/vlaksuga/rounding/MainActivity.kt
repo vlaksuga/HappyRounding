@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.firebase.ui.auth.AuthUI
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -22,10 +20,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.vlaksuga.rounding.adapters.CurrentRoundListAdapter
-import com.vlaksuga.rounding.adapters.StatsListAdapter
-import com.vlaksuga.rounding.model.Stats
 import com.vlaksuga.rounding.model.Round
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_stats.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,8 +37,6 @@ class MainActivity : AppCompatActivity() {
     private var tabLayoutTitles = arrayListOf<Long>()
     private lateinit var currentRoundListAdapter: CurrentRoundListAdapter
     private var currentRoundList = arrayListOf<Round>()
-    private var mainStatsList = arrayListOf<Stats>()
-    private lateinit var userId: String
     lateinit var userEmail: String
     private lateinit var userNickname : String
     private lateinit var userPhoneNumber: String
@@ -51,18 +46,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // USER AUTH //
         auth = Firebase.auth
         userEmail = auth.currentUser!!.email!!
-
         Log.d(TAG, "onCreate: userEmail => $userEmail")
 
+        // TOOLBAR //
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.main_toolbar)
         setSupportActionBar(toolbar)
-
-        userId = "OPPABANANA"
-        mainStatsList = arrayListOf(
-            Stats("")
-        )
 
         // CURRENT ROUND LIST SECTION //
         currentRoundListAdapter = CurrentRoundListAdapter(this, currentRoundList)
@@ -75,9 +66,10 @@ class MainActivity : AppCompatActivity() {
         db.collection("rounds")
             .whereArrayContains("roundPlayerEmailList", userEmail)
             .whereEqualTo("isRoundOpen", true)
-            .addSnapshotListener { value, error ->
+            .addSnapshotListener { value, _ ->
                 if (!value!!.isEmpty) {
                     currentRoundList.clear()
+                    currentRoundEmpty_cardView.visibility = View.GONE
                     currentRoundRecyclerView.visibility = View.VISIBLE
                     Log.d(TAG, "FIREBASE CURRENT ROUNDS : EXIST !!, $value")
                     for (document in value.documents) {
@@ -87,9 +79,41 @@ class MainActivity : AppCompatActivity() {
                     currentRoundListAdapter.notifyDataSetChanged()
                     Log.d(TAG, "currentRoundListAdapter : notifyDataSetChanged")
                 } else {
+                    currentRoundEmpty_cardView.visibility = View.VISIBLE
                     currentRoundRecyclerView.visibility = View.GONE
                     Log.d(TAG, "FIREBASE CURRENT ROUNDS: IS EMPTY!!")
                 }
+            }
+
+        // RESULT ROUND //
+        db.collection("roundResults")
+            .whereEqualTo("resultUserEmail", userEmail)
+            .addSnapshotListener { value, _ ->
+                val mySeason = arrayListOf<Long>()
+                if(!value!!.isEmpty) {
+                    for(document in value.documents) {
+                        mySeason.add(document.get("resultSeason") as Long)
+                        Log.d(MainActivity.TAG, "Snap : mySeason = > $mySeason")
+                    }
+
+                    // ATTACH VIEW PAGER //
+                    val myHashSet : HashSet<Long> = hashSetOf()
+                    myHashSet.addAll(mySeason)
+                    mySeason.clear()
+                    mySeason.addAll(myHashSet)
+                    mySeason.sortDescending()
+                    tabLayoutTitles = mySeason
+                    viewPager = findViewById(R.id.viewpager)
+                    viewPager!!.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
+                    viewPager!!.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+                    TabLayoutMediator(view_tab_layout, viewPager!!) { tab, position ->
+                        tab.text = tabLayoutTitles[position].toString()
+                    }.attach()
+
+                } else {
+
+                }
+
             }
 
         // TO FRIEND ACTIVITY //
@@ -105,7 +129,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(statsIntent)
         }
 
-        // TO LOGOUT //
+        // MY PAGE //
         mainMenuSetting_imageView.setOnClickListener {
             startActivity(Intent(this, SettingActivity::class.java))
         }
@@ -115,38 +139,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddEditRoundActivity::class.java))
         }
 
-
-        db.collection("roundResults")
-            .whereEqualTo("resultUserEmail", userEmail)
-            .addSnapshotListener { value, error ->
-                val mySeason = arrayListOf<Long>()
-                if(!value!!.isEmpty) {
-                    for(document in value.documents) {
-                        mySeason.add(document.get("resultSeason") as Long)
-                        Log.d(TAG, "Snap : mySeason = > $mySeason")
-                    }
-
-                    // ATTACH VIEW PAGER //
-                    val myHashSet : HashSet<Long> = hashSetOf()
-                    myHashSet.addAll(mySeason)
-                    mySeason.clear()
-                    mySeason.addAll(myHashSet)
-                    mySeason.sortDescending()
-                    tabLayoutTitles = mySeason
-                    viewPager = findViewById(R.id.viewpager)
-                    viewPager!!.adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
-                    viewPager!!.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                    TabLayoutMediator(tab_layout, viewPager!!) { tab, position ->
-                        tab.text = tabLayoutTitles[position].toString()
-                    }.attach()
-
-                } else {
-                    resultEmpty_textView.visibility = View.VISIBLE
-                }
-
-            }
-
-
+        // EMPTY CARD VIEW NEW ROUND //
+        currentRoundEmpty_cardView.setOnClickListener {
+            startActivity(Intent(this, AddEditRoundActivity::class.java))
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -160,7 +156,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private inner class ViewPagerAdapter(fragmentManager: FragmentManager?, lifecycle: Lifecycle) :
         FragmentStateAdapter(fragmentManager!!, lifecycle) {
         override fun getItemCount(): Int {
@@ -173,5 +168,6 @@ class MainActivity : AppCompatActivity() {
             return fragment
         }
     }
+
 }
 

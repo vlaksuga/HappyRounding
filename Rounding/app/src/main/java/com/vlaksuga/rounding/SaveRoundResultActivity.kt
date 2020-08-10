@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.vlaksuga.rounding.model.Round
 import kotlinx.android.synthetic.main.activity_save_round_result.*
@@ -58,6 +59,13 @@ class SaveRoundResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save_round_result)
+
+        // TOOLBAR //
+        val toolbar = findViewById<Toolbar>(R.id.save_round_toolbar)
+        setSupportActionBar(toolbar)
+        save_roundActivity_close_imageView.setOnClickListener {
+            super.onBackPressed()
+        }
 
         // GET INTENT INIT //
         documentPath = intent.getStringExtra(PlayRoundActivity.KEY_DOCUMENT_PATH)!!
@@ -335,6 +343,7 @@ class SaveRoundResultActivity : AppCompatActivity() {
         }
 
         // PLAYERS //
+        scoreTotal_layout.weightSum = playerNicknameList.size.toFloat()
         for (playerNumber in 1..playerNicknameList.size) {
             when (playerNumber) {
                 1 -> apply {
@@ -343,6 +352,7 @@ class SaveRoundResultActivity : AppCompatActivity() {
                         player1Course1ViewList[i].text = liveScoreFirstTotalList[0][i].toString()
                         player1Course2ViewList[i].text = liveScoreSecondTotalList[0][i].toString()
                     }
+                    player1_cardView.visibility = View.VISIBLE
                     row_result1_player1.visibility = View.VISIBLE
                     row_result2_player1.visibility = View.VISIBLE
                     p1c1total.text = liveScoreFirstTotalList[0].sum().toString()
@@ -358,6 +368,7 @@ class SaveRoundResultActivity : AppCompatActivity() {
                         player2Course1ViewList[i].text = liveScoreFirstTotalList[1][i].toString()
                         player2Course2ViewList[i].text = liveScoreSecondTotalList[1][i].toString()
                     }
+                    player2_cardView.visibility = View.VISIBLE
                     row_result1_player2.visibility = View.VISIBLE
                     row_result2_player2.visibility = View.VISIBLE
                     p2c1total.text = liveScoreFirstTotalList[1].sum().toString()
@@ -373,6 +384,7 @@ class SaveRoundResultActivity : AppCompatActivity() {
                         player3Course1ViewList[i].text = liveScoreFirstTotalList[2][i].toString()
                         player3Course2ViewList[i].text = liveScoreSecondTotalList[2][i].toString()
                     }
+                    player3_cardView.visibility = View.VISIBLE
                     row_result1_player3.visibility = View.VISIBLE
                     row_result2_player3.visibility = View.VISIBLE
                     p3c1total.text = liveScoreFirstTotalList[2].sum().toString()
@@ -388,6 +400,7 @@ class SaveRoundResultActivity : AppCompatActivity() {
                         player4Course1ViewList[i].text = liveScoreFirstTotalList[3][i].toString()
                         player4Course2ViewList[i].text = liveScoreSecondTotalList[3][i].toString()
                     }
+                    player4_cardView.visibility = View.VISIBLE
                     row_result1_player4.visibility = View.VISIBLE
                     row_result2_player4.visibility = View.VISIBLE
                     p4c1total.text = liveScoreFirstTotalList[3].sum().toString()

@@ -27,10 +27,11 @@ class RoundListAdapter internal constructor(context: Context, roundList: List<Re
     private var items: List<ResultRound> = roundList
 
     inner class RoundListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cardItemView: CardView = itemView.findViewById(R.id.roundList_cardView)
-        val clubNameItemView: TextView = itemView.findViewById(R.id.roundClubName_textView)
-        val dateItemView: TextView = itemView.findViewById(R.id.roundDate_textView)
-        val hitCountItemView: TextView = itemView.findViewById(R.id.roundTotalHit_textView)
+        private val cardItemView: CardView = itemView.findViewById(R.id.roundList_cardView)
+        private val clubNameItemView: TextView = itemView.findViewById(R.id.roundClubName_textView)
+        private val dateItemView: TextView = itemView.findViewById(R.id.roundDate_textView)
+        private val hitCountItemView: TextView = itemView.findViewById(R.id.roundTotalHit_textView)
+        private val nineHoleItemView : TextView = itemView.findViewById(R.id.roundNineHole_textView)
 
         fun bind(roundList: ResultRound) {
             cardItemView.setOnClickListener {
@@ -42,6 +43,7 @@ class RoundListAdapter internal constructor(context: Context, roundList: List<Re
             clubNameItemView.text = roundList.resultClubName
             dateItemView.text = SimpleDateFormat("yyyy-MM-dd (E)", Locale.KOREA).format(roundList.resultDate)
             hitCountItemView.text = (roundList.resultFirstScoreList.sum() + roundList.resultSecondScoreList.sum()).toString()
+            nineHoleItemView.visibility = if (roundList.resultCourseIdList.size == 2) {View.GONE} else {View.VISIBLE}
         }
     }
 

@@ -1,6 +1,7 @@
 package com.vlaksuga.rounding
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -588,50 +589,160 @@ class PlayRoundActivity : AppCompatActivity() {
             hole_8_textView,
             hole_9_textView
         )
+        val decoParList = arrayListOf<TextView>(
+            currentPar_0,
+            currentPar_1,
+            currentPar_2,
+            currentPar_3,
+            currentPar_4,
+            currentPar_5,
+            currentPar_6,
+            currentPar_7,
+            currentPar_8
+        )
+        val decoPlayer1ScoreList = arrayListOf<TextView>(
+            player_1_score_0,
+            player_1_score_1,
+            player_1_score_2,
+            player_1_score_3,
+            player_1_score_4,
+            player_1_score_5,
+            player_1_score_6,
+            player_1_score_7,
+            player_1_score_8
+        )
+        val decoPlayer2ScoreList = arrayListOf<TextView>(
+            player_2_score_0,
+            player_2_score_1,
+            player_2_score_2,
+            player_2_score_3,
+            player_2_score_4,
+            player_2_score_5,
+            player_2_score_6,
+            player_2_score_7,
+            player_2_score_8
+        )
+        val decoPlayer3ScoreList = arrayListOf<TextView>(
+            player_3_score_0,
+            player_3_score_1,
+            player_3_score_2,
+            player_3_score_3,
+            player_3_score_4,
+            player_3_score_5,
+            player_3_score_6,
+            player_3_score_7,
+            player_3_score_8
+        )
+        val decoPlayer4ScoreList = arrayListOf<TextView>(
+            player_4_score_0,
+            player_4_score_1,
+            player_4_score_2,
+            player_4_score_3,
+            player_4_score_4,
+            player_4_score_5,
+            player_4_score_6,
+            player_4_score_7,
+            player_4_score_8
+        )
         for (i in 0..8) {
-            decoHoleList[i].setBackgroundResource(R.drawable.table_row_hole_background)
+            decoHoleList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
+            decoParList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
+            decoPlayer1ScoreList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
+            decoPlayer2ScoreList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
+            decoPlayer3ScoreList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
+            decoPlayer4ScoreList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
         }
 
         when (currentHoleIndex) {
             0 -> apply {
                 hole_1_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
                 setButtonVisibility("first")
             }
             1, 10 -> apply {
                 hole_2_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_1.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_1.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_1.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_1.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_1.setBackgroundResource(R.drawable.table_row_highlight_background)
                 setButtonVisibility("normal")
             }
             2, 11 -> apply {
                 hole_3_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_2.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_2.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_2.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_2.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_2.setBackgroundResource(R.drawable.table_row_highlight_background)
                 setButtonVisibility("normal")
             }
             3, 12 -> apply {
                 hole_4_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_3.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_3.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_3.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_3.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_3.setBackgroundResource(R.drawable.table_row_highlight_background)
                 setButtonVisibility("normal")
             }
             4, 13 -> apply {
                 hole_5_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_4.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_4.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_4.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_4.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_4.setBackgroundResource(R.drawable.table_row_highlight_background)
                 setButtonVisibility("normal")
             }
             5, 14 -> apply {
                 hole_6_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_5.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_5.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_5.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_5.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_5.setBackgroundResource(R.drawable.table_row_highlight_background)
                 setButtonVisibility("normal")
             }
             6, 15 -> apply {
                 hole_7_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_6.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_6.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_6.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_6.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_6.setBackgroundResource(R.drawable.table_row_highlight_background)
                 setButtonVisibility("normal")
             }
             7, 16 -> apply {
                 hole_8_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_7.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_7.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_7.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_7.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_7.setBackgroundResource(R.drawable.table_row_highlight_background)
                 setButtonVisibility("normal")
             }
 
             9 -> apply {
                 hole_1_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
                 setButtonVisibility("preCourse")
             }
             else -> apply {
                 hole_9_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_8.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_1_score_8.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_2_score_8.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_3_score_8.setBackgroundResource(R.drawable.table_row_highlight_background)
+                player_4_score_8.setBackgroundResource(R.drawable.table_row_highlight_background)
                 if (currentHoleIndex == 8) {
                     if (currentCourseIdList.size == 1) {
                         // ROUND ENDS HERE //
@@ -657,7 +768,7 @@ class PlayRoundActivity : AppCompatActivity() {
             "preCourse" -> apply {
                 toPreHole_button.visibility = View.VISIBLE
                 commentPre_textView.visibility = View.VISIBLE
-                commentPre_textView.text = "PREVIOUS ${currentCourseNameList[0]}"
+                commentPre_textView.text = "${currentCourseNameList[0]}"
                 toNextHole_button.visibility = View.VISIBLE
                 commentNext_textView.text = "HOLE ${currentHoleIndex - 7}"
             }
@@ -665,7 +776,7 @@ class PlayRoundActivity : AppCompatActivity() {
                 toPreHole_button.visibility = View.VISIBLE
                 commentPre_textView.visibility = View.VISIBLE
                 commentPre_textView.text = "HOLE $currentHoleIndex"
-                commentNext_textView.text = "NEXT ${currentCourseNameList[1]}"
+                commentNext_textView.text = "${currentCourseNameList[1]}"
             }
             "roundLast" -> apply {
                 toPreHole_button.visibility = View.VISIBLE
@@ -1044,16 +1155,16 @@ class PlayRoundActivity : AppCompatActivity() {
         } else {
             when (playerPosition) {
                 0 -> apply {
-                    player_1_score_total.text = liveScorePlayerFirstCourse2.sum().toString()
+                    player_1_score_total.text = (liveScorePlayerFirstCourse1.sum() + liveScorePlayerFirstCourse2.sum()).toString()
                 }
                 1 -> apply {
-                    player_2_score_total.text = liveScorePlayerSecondCourse2.sum().toString()
+                    player_2_score_total.text = (liveScorePlayerSecondCourse1.sum() + liveScorePlayerSecondCourse2.sum()).toString()
                 }
                 2 -> apply {
-                    player_3_score_total.text = liveScorePlayerThirdCourse2.sum().toString()
+                    player_3_score_total.text = (liveScorePlayerThirdCourse1.sum() + liveScorePlayerThirdCourse2.sum()).toString()
                 }
                 else -> apply {
-                    player_4_score_total.text = liveScorePlayerFourthCourse2.sum().toString()
+                    player_4_score_total.text = (liveScorePlayerFourthCourse1.sum() + liveScorePlayerFourthCourse2.sum()).toString()
                 }
             }
         }

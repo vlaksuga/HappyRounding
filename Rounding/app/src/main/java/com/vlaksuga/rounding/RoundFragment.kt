@@ -30,8 +30,6 @@ class RoundFragment : Fragment() {
     lateinit var statsList : List<Stats>
 
     var roundSeason : Long = 0
-    var resultUserId = "OPPABANANA"
-    var resultUserName = "오빠바나나"
     private val db = FirebaseFirestore.getInstance()
     private lateinit var auth : FirebaseAuth
 
@@ -64,10 +62,12 @@ class RoundFragment : Fragment() {
                 val roundTotalSize : Int = roundList.size
                 val roundTotalScores = arrayListOf<Int>()
                 for(round in roundList) {
-                    roundTotalScores.add(round.resultFirstScoreList.sum() + round.resultSecondScoreList.sum())
+                    if(round.resultCourseIdList.size == 2) {
+                        roundTotalScores.add(round.resultFirstScoreList.sum() + round.resultSecondScoreList.sum())
+                    }
                 }
-                val roundAverage : Int = (roundTotalScores.sum()) / roundTotalSize
-                roundTotalScores.sortDescending()
+                val roundAverage : Int = (roundTotalScores.sum()) / roundTotalScores.size
+                roundTotalScores.sort()
                 val roundBest = roundTotalScores[0]
                 statsList = arrayListOf(
                     Stats(

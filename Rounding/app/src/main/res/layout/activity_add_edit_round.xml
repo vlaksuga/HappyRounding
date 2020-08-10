@@ -32,8 +32,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="24dp"
-                android:text="새로운 라운드"
+                android:layout_marginStart="16dp"
+                android:text="라운드 추가"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:tint="@color/colorAccent"
+                    android:tint="@color/colorRed"
                     app:srcCompat="@drawable/ic_date" />
 
                 <TextView
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:tint="@color/colorAccent"
+                    android:tint="@color/colorRed"
                     app:srcCompat="@drawable/ic_schedule" />
 
                 <TextView
@@ -171,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:tint="@color/colorAccent"
+                    android:tint="@color/colorRed"
                     app:srcCompat="@drawable/ic_place" />
 
                 <TextView
@@ -216,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:tint="@color/colorAccent"
+                    android:tint="@color/colorRed"
                     app:srcCompat="@drawable/ic_golf_course" />
 
                 <TextView
@@ -261,7 +261,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="16dp"
-                    android:tint="@color/colorAccent"
+                    android:tint="@color/colorRed"
                     app:srcCompat="@drawable/ic_group_24" />
 
                 <TextView

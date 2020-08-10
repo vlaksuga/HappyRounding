@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="24dp"
+                android:layout_marginStart="16dp"
                 android:text="친구"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="18sp"
@@ -75,6 +75,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:tint="@color/colorWhite"
+        app:backgroundTint="@color/colorBarBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add" />
