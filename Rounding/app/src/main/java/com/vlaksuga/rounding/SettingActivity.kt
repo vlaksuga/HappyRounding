@@ -51,8 +51,7 @@ class SettingActivity : AppCompatActivity() {
             }
 
         // CARD VIEW //
-
-        setUserNickname_textView.setOnClickListener {
+        profile_cardView.setOnClickListener {
             val builder = AlertDialog.Builder(this)
             val view = layoutInflater.inflate(R.layout.dialog_view_nickname, null, false)
             val nicknameTextInputEditText = view.findViewById<TextInputEditText>(R.id.editNickName_EditText)

@@ -26,7 +26,6 @@ class AddFriendActivity : AppCompatActivity() {
     private var findResultUserNickname = ""
     private var findResultUserEmail = ""
     private var targetUserDocumentPath = ""
-    private var userId = ""
 
     private var lastFriendList = arrayListOf<String>()
 
@@ -35,7 +34,7 @@ class AddFriendActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_friend)
 
-
+        // TOOLBAR //
         val toolbar = findViewById<Toolbar>(R.id.friendAdd_toolbar)
         setSupportActionBar(toolbar)
 
@@ -43,9 +42,7 @@ class AddFriendActivity : AppCompatActivity() {
         auth = Firebase.auth
         userEmail = auth.currentUser!!.email!!
 
-
-
-
+        // FIND USER //
         findUser_EditText.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if(event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                 notFoundTitle_textView.visibility = View.GONE
@@ -85,6 +82,7 @@ class AddFriendActivity : AppCompatActivity() {
             false
         })
 
+        // ADD FRIEND //
         addFriend_button.setOnClickListener {
             Log.d(TAG, "onCreate: addFriend_button clicked ")
             db.collection("users")
@@ -136,7 +134,7 @@ class AddFriendActivity : AppCompatActivity() {
             .get()
             .addOnCompleteListener {
                 if(it.isSuccessful && it.result!!.get("userAllowFriendList") != null) {
-                    if((it.result!!.get("userAllowFriendList") as ArrayList<String>).contains(userId)) {
+                    if((it.result!!.get("userAllowFriendList") as ArrayList<String>).contains(userEmail)) {
                         showResultExist(false)
                     } else {
                         showResultExist(true)

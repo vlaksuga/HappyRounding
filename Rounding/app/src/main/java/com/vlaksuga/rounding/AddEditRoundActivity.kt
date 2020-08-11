@@ -9,6 +9,7 @@ import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -149,6 +150,7 @@ class AddEditRoundActivity : AppCompatActivity() {
             val builder = AlertDialog.Builder(this)
             val view = layoutInflater.inflate(R.layout.dialog_view_club, null, false)
             val clubListView : RecyclerView = view.findViewById(R.id.club_recyclerView)
+            val searchView : SearchView = view.findViewById(R.id.club_searchView)
             builder.setMessage("클럽을 선택해주세요")
             builder.setNegativeButton("취소") { d, _ -> d.dismiss()}
             builder.setView(view)
@@ -178,6 +180,21 @@ class AddEditRoundActivity : AppCompatActivity() {
                             roundCourseIdList = arrayListOf()
                             roundCourseNameList = arrayListOf()
                             addRoundCourse_textView.text = "코스를 선택해주세요"
+                        }
+                    })
+
+                    // SEARCH VIEW //
+                    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                        override fun onQueryTextSubmit(query: String?): Boolean {
+                            Log.d(TAG, "onQueryTextSubmit: invoke")
+                            clubListAdapter.filter.filter(query)
+                            return false
+                        }
+
+                        override fun onQueryTextChange(newText: String?): Boolean {
+                            Log.d(TAG, "onQueryTextChange: invoke")
+                            clubListAdapter.filter.filter(newText)
+                            return false
                         }
                     })
                 }

@@ -1,6 +1,7 @@
 package com.vlaksuga.rounding
 
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -168,8 +169,8 @@ class StatsActivity : AppCompatActivity() {
                     lineDataSet.apply {
                         setDrawValues(false)
                         setDrawFilled(false)
-                        color = R.color.colorRed
-                        setCircleColor(R.color.colorRed)
+                        color = Color.parseColor("#173f5f")
+                        setCircleColor(Color.parseColor("#173f5f"))
                         lineWidth = 5f
                     }
                     lineChart.invalidate()
