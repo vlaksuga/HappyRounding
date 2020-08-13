@@ -55,7 +55,7 @@ class FriendActivity : AppCompatActivity() {
             .whereArrayContains("userAllowFriendList", userEmail)
             .addSnapshotListener { value, error ->
                 if (error != null) {
-
+                    Log.d(TAG, "onCreate: it has null")
                 }
                 val myFriends = arrayListOf<User>()
                 for (document in value!!) {
@@ -74,25 +74,11 @@ class FriendActivity : AppCompatActivity() {
                 friendListAdapter.setOnItemClickListener(object :
                     FriendListAdapter.OnItemClickListener {
                     override fun onItemClick(user: User) {
-                        Log.d(TAG, "onItemClick: invoke")
-                        val builder = AlertDialog.Builder(friendListAdapter.mContext)
-                        builder.setMessage("친구 목록에서 삭제할까요?")
-                        builder.setPositiveButton("확인") { dialog, which ->
-                            db.collection("users")
-                                .whereEqualTo("userEmail", user.userEmail)
-                                .get()
-                                .addOnSuccessListener {
-                                    val documentPath = it.documents[0].id
-                                    Log.d(TAG, "onItemClick: documentPath => $documentPath")
-                                    allowList =
-                                        it.documents[0].get("userAllowFriendList") as ArrayList<String>
-                                    allowList.remove(userEmail)
-                                    Log.d(TAG, "onItemClick: allowList => $allowList")
-                                    updateAllowFriendList(documentPath)
-                                }
-                        }
-                        builder.setNegativeButton("취소") { dialog, which -> dialog.dismiss() }
-                            .show()
+                        Log.d(TAG, "onItemClick: invoke user -> $user")
+                        val detailIntent = Intent(this@FriendActivity, FriendDetailActivity::class.java)
+                        detailIntent.putExtra(FriendDetailActivity.FRIEND_EMAIL, user.userEmail)
+                        detailIntent.putExtra(FriendDetailActivity.FRIEND_NICKNAME, user.userNickname)
+                        startActivity(detailIntent)
                     }
                 })
             }
@@ -105,23 +91,23 @@ class FriendActivity : AppCompatActivity() {
                     .whereEqualTo("userPhone", findUser_EditText.text.toString())
                     .get()
                     .addOnSuccessListener {
-                        Log.d(AddFriendActivity.TAG, "findUser: success")
+                        Log.d(TAG, "findUser: success")
                     }
                     .addOnFailureListener {
-                        Log.d(AddFriendActivity.TAG, "findUser: fail")
+                        Log.d(TAG, "findUser: fail")
                     }
                     .addOnCompleteListener {
                         if(it.isSuccessful) {
                             friendAdd_cardView.visibility = View.VISIBLE
                             if(it.result!!.isEmpty) {
-                                Log.d(AddFriendActivity.TAG, "findUser : Result is empty ")
+                                Log.d(TAG, "findUser : Result is empty ")
                                 showResultIsEmpty()
                             } else {
-                                Log.d(AddFriendActivity.TAG, "findUser : Result found ")
+                                Log.d(TAG, "findUser : Result found ")
                                 targetUserDocumentPath = it.result!!.documents[0].id
                                 findResultUserNickname = it.result!!.documents[0].get("userNickname") as String
                                 findResultUserEmail = it.result!!.documents[0].get("userEmail") as String
-                                Log.d(AddFriendActivity.TAG, "RESULT : $findResultUserNickname, $findResultUserEmail")
+                                Log.d(TAG, "RESULT : $findResultUserNickname, $findResultUserEmail")
                                 if(userEmail != findResultUserEmail) {
                                     checkFriendState()
                                 } else {
@@ -146,26 +132,27 @@ class FriendActivity : AppCompatActivity() {
                 it.visibility = View.GONE
                 return@setOnClickListener
             }
-            Log.d(AddFriendActivity.TAG, "onCreate: addFriend_button clicked ")
+            Log.d(TAG, "onCreate: addFriend_button clicked ")
             db.collection("users")
                 .whereEqualTo("userEmail", findResultUserEmail)
                 .get()
                 .addOnSuccessListener {
-                    Log.d(AddFriendActivity.TAG, "get friendList: success")
+                    Log.d(TAG, "get friendList: success")
                 }
                 .addOnFailureListener {
-                    Log.d(AddFriendActivity.TAG, "get friendList: fail")
+                    Log.d(TAG, "get friendList: fail")
                 }
-                .addOnCompleteListener {
-                    if(it.isSuccessful) {
-                        if(it.result!!.documents[0].get("userAllowFriendList") == null) {
+                .addOnCompleteListener {task ->
+                    if(task.isSuccessful) {
+                        if(task.result!!.documents[0].get("userAllowFriendList") == null) {
                             lastFriendList.add(userEmail)
-                            Log.d(AddFriendActivity.TAG, "get friendList : success, targetUserDocumentPath => $targetUserDocumentPath, lastFriendList => $lastFriendList")
+                            Log.d(TAG, "get friendList : success, targetUserDocumentPath => $targetUserDocumentPath, lastFriendList => $lastFriendList")
                             updateNewFriendList()
                         } else {
-                            lastFriendList = it.result!!.documents[0].get("userAllowFriendList") as ArrayList<String>
+                            @Suppress("UNCHECKED_CAST")
+                            lastFriendList = task.result!!.documents[0].get("userAllowFriendList") as ArrayList<String>
                             lastFriendList.add(userEmail)
-                            Log.d(AddFriendActivity.TAG, "get friendList : success, targetUserDocumentPath => $targetUserDocumentPath, lastFriendList => $lastFriendList")
+                            Log.d(TAG, "get friendList : success, targetUserDocumentPath => $targetUserDocumentPath, lastFriendList => $lastFriendList")
                             updateNewFriendList()
                         }
                     }
@@ -257,13 +244,13 @@ class FriendActivity : AppCompatActivity() {
         db.document("users/$targetUserDocumentPath")
             .update("userAllowFriendList", lastFriendList)
             .addOnSuccessListener {
-                Log.d(AddFriendActivity.TAG, "updateNewFriendList: success ")
+                Log.d(TAG, "updateNewFriendList: success ")
             }
             .addOnFailureListener {
-                Log.d(AddFriendActivity.TAG, "updateNewFriendList: fail ")
+                Log.d(TAG, "updateNewFriendList: fail ")
             }
             .addOnCompleteListener {
-                Log.d(AddFriendActivity.TAG, "updateNewFriendList: complete! ")
+                Log.d(TAG, "updateNewFriendList: complete! ")
                 Toast.makeText(this, "친구가 추가되었습니다.", Toast.LENGTH_SHORT).show()
                 friendListAdapter.notifyDataSetChanged()
                 addFriend_layout.visibility = View.GONE

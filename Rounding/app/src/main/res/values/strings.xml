@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rounding</string>
+    <string name="app_name">필드스코어</string>
     <string name="signUpTitle">회원가입</string>
     <string name="email_hint">이메일</string>
     <string name="id_hint">아이디</string>

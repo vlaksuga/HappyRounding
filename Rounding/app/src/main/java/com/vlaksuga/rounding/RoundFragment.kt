@@ -66,7 +66,9 @@ class RoundFragment : Fragment() {
                         roundTotalScores.add(round.resultFirstScoreList.sum() + round.resultSecondScoreList.sum())
                     }
                 }
-                val roundAverage : Int = (roundTotalScores.sum()) / roundTotalScores.size
+                val roundAverage : Int = if(roundTotalScores.size == 0){
+                    0
+                } else{(roundTotalScores.sum()) / roundTotalScores.size}
                 roundTotalScores.sort()
                 val roundBest = roundTotalScores[0]
                 statsList = arrayListOf(

@@ -237,15 +237,15 @@ class PlayRoundActivity : AppCompatActivity() {
                                 "createScoreCollectionSet: liveScore Collection for $playerEmail has created!"
                             )
                             this.currentHoleIndex = 0
+
+                            // SYNC LIVE SCORE //
+                            for (position in 0 until currentRoundPlayerEmailList.size) {
+                                snapLiveScore(currentRoundPlayerEmailList[position], position)
+                                Log.d(TAG, "getRoundFromFireBase: syncLiveScore sync -> $position")
+                            }
                         }
                     } else {
                         getCurrentHoleIndex()
-                    }
-
-                    // SYNC LIVE SCORE //
-                    for (position in 0 until currentRoundPlayerEmailList.size) {
-                        snapLiveScore(currentRoundPlayerEmailList[position], position)
-                        Log.d(TAG, "getRoundFromFireBase: syncLiveScore sync -> $position ")
                     }
                 }
             }
@@ -440,21 +440,26 @@ class PlayRoundActivity : AppCompatActivity() {
     }
 
     private fun getCurrentHoleIndex() {
-        Log.d(TAG, "setCurrentHoleIndex: invoke ")
+        Log.d(TAG, "getCurrentHoleIndex: invoke ")
 
         // GET CURRENT HOLE INDEX FROM DB //
         db.document("rounds/$documentPath/liveScore/$userEmail")
             .get()
             .addOnSuccessListener {
-                Log.d(TAG, "setCurrentHoleIndex: success ")
+                Log.d(TAG, "getCurrentHoleIndex: success ")
             }
             .addOnFailureListener {
-                Log.d(TAG, "setCurrentHoleIndex: fail ")
+                Log.d(TAG, "getCurrentHoleIndex: fail ")
             }
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     this.currentHoleIndex = (it.result!!.get("currentHole") as Long).toInt()
-                    Log.d(TAG, "setCurrentHoleIndex: currentHoleUpdated -> $currentHoleIndex")
+                    Log.d(TAG, "getCurrentHoleIndex: currentHoleUpdated -> $currentHoleIndex")
+                    // SYNC LIVE SCORE //
+                    for (position in 0 until currentRoundPlayerEmailList.size) {
+                        snapLiveScore(currentRoundPlayerEmailList[position], position)
+                        Log.d(TAG, "getRoundFromFireBase: syncLiveScore sync -> $position ")
+                    }
                 }
             }
     }

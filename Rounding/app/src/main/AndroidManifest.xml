@@ -3,20 +3,22 @@
     package="com.vlaksuga.rounding">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_fs_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_fs_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".SettingActivity"
+        <activity android:name=".FriendDetailActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
+        <activity
+            android:name=".SettingActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StatsActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -32,16 +34,14 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".AddFriendActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".PlayRoundActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RoundResultActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SaveRoundResultActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".SaveRoundResultActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AddEditRoundActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -64,7 +64,7 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

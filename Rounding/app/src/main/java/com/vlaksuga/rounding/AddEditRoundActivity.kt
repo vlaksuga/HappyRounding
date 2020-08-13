@@ -281,7 +281,8 @@ class AddEditRoundActivity : AppCompatActivity() {
                 roundPlayerNicknameList = arrayListOf(userNickname)
                 val adapterPlayerEmailList = (roundPlayerEmailList as ArrayList<String>).plus(playerListAdapter.selectedPlayerEmailList)
                 val adapterPlayerNicknameList = (roundPlayerNicknameList as ArrayList<String>).plus(playerListAdapter.selectedPlayerNickNameList)
-                addRoundPlayer_textView.text = adapterPlayerNicknameList.joinToString(separator = ", ")
+                addRoundPlayer_textView.text = "${adapterPlayerNicknameList.size} 명"
+                coPlayerResult_textView.text = adapterPlayerNicknameList.joinToString(separator = ", ")
                 roundPlayerEmailList = adapterPlayerEmailList
                 roundPlayerNicknameList = adapterPlayerNicknameList
                 Log.d(TAG, "player : $roundPlayerEmailList, $roundPlayerNicknameList")
@@ -395,7 +396,7 @@ class AddEditRoundActivity : AppCompatActivity() {
                     Log.w(TAG, "getUserNickName: error ", error)
                 } else {
                     userNickname = value!!.documents[0].get("userNickname") as String
-                    addRoundPlayer_textView.text = userNickname
+                    coPlayerResult_textView.text = userNickname
                     Log.d(TAG, "getUserNickName: $userNickname")
                 }
             }

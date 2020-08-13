@@ -130,7 +130,7 @@ class StatsActivity : AppCompatActivity() {
                     // GET DB WITH FULL COURSE ROUND TO RESULT ROUND OBJECT  //
                     showEmptyMessage(false)
                     val roundStartDate = startCal.timeInMillis
-                    val roundEndDate = endCal.timeInMillis
+                    val roundEndDate = endCal.timeInMillis + 86400000
                     resultRoundList = arrayListOf() // CLEAR
                     for(document in task.result!!) {
                         if((document.get("resultCourseIdList") as ArrayList<*>).size == 2) {

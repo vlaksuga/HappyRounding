@@ -107,7 +107,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
                         android:layout_marginBottom="24dp"
-                        android:text="2020-08-01 (토)"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -118,7 +117,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="오후 01:20"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="12sp"
                         android:textStyle="bold"
@@ -130,7 +128,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
-                        android:text="102"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="48sp"
                         android:textStyle="bold"
@@ -966,7 +963,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="8dp"
-                                    android:text="5.4"
                                     android:textColor="@color/colorPrimaryDark"
                                     android:textSize="24sp"
                                     android:textStyle="bold|italic" />
@@ -1009,7 +1005,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="8dp"
-                                    android:text="5.4"
                                     android:textColor="@color/colorPrimaryDark"
                                     android:textSize="24sp"
                                     android:textStyle="bold|italic" />
@@ -1051,7 +1046,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="8dp"
-                                    android:text="5.4"
                                     android:textColor="@color/colorPrimaryDark"
                                     android:textSize="24sp"
                                     android:textStyle="bold|italic" />

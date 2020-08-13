@@ -116,6 +116,7 @@ class LogInActivity : AppCompatActivity() {
         google_login_button.visibility = View.VISIBLE
         email_login_button.visibility = View.VISIBLE
         loadingComment_textView.visibility = View.GONE
+        cartIcon_imageView.visibility = View.GONE
     }
 
     private fun hasUserAccount() {

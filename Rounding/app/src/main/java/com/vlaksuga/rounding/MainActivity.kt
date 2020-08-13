@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -23,6 +25,7 @@ import com.vlaksuga.rounding.adapters.CurrentRoundListAdapter
 import com.vlaksuga.rounding.model.Round
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_stats.*
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
@@ -166,6 +169,19 @@ class MainActivity : AppCompatActivity() {
             val fragment = RoundFragment()
             fragment.roundSeason = tabLayoutTitles[position]
             return fragment
+        }
+    }
+
+    override fun onBackPressed() {
+        val builder = AlertDialog.Builder(this)
+        builder.apply {
+            setMessage("종료하시겠습니까?")
+            setPositiveButton("확인") { _, _ ->
+                ActivityCompat.finishAffinity(this@MainActivity)
+                exitProcess(0)
+            }
+            setNegativeButton("취소") { dialog, _ -> dialog.dismiss() }
+            show()
         }
     }
 
