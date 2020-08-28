@@ -1529,7 +1529,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="4dp">
 
@@ -1545,6 +1545,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:text="PLAYER1"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="12sp" />
@@ -1558,7 +1560,7 @@
                             android:text="5.4"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="24sp"
-                            android:textStyle="bold|italic" />
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -1570,7 +1572,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="4dp">
 
@@ -1587,6 +1589,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:text="PLAYER2"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="12sp" />
@@ -1600,7 +1604,7 @@
                             android:text="5.4"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="24sp"
-                            android:textStyle="bold|italic" />
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -1612,7 +1616,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="4dp">
 
@@ -1628,6 +1632,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:text="PLAYER3"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="12sp" />
@@ -1641,7 +1647,7 @@
                             android:text="5.4"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="24sp"
-                            android:textStyle="bold|italic" />
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -1653,7 +1659,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:cardCornerRadius="4dp"
                     app:cardElevation="4dp">
 
@@ -1669,6 +1675,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:text="PLAYER4"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="12sp" />
@@ -1682,7 +1690,7 @@
                             android:text="5.4"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="24sp"
-                            android:textStyle="bold|italic" />
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 

@@ -5,5 +5,6 @@ data class User (
     val userNickname: String = "",
     val userId : String = "",
     val userPhone : String = "",
-    val userAllowFriendList : ArrayList<String> = arrayListOf()
+    val userAllowFriendList : ArrayList<String> = arrayListOf(),
+    val userTeeType : String = ""
 )

@@ -16,6 +16,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
@@ -45,6 +46,7 @@ class SignUpActivity : AppCompatActivity() {
     private var userEmail = ""
     private var userNickname = ""
     private var userPhone = ""
+    private var userTeeType = ""
 
 
     @SuppressLint("HardwareIds")
@@ -91,6 +93,11 @@ class SignUpActivity : AppCompatActivity() {
             checkForPerMissions(android.Manifest.permission.READ_PHONE_NUMBERS, "전화번호", REQUEST_PERMISSION_PHONE_NUMBER)
         }
 
+        // USER TEE BOX SELECT //
+        sign_in_tee_cardView.setOnClickListener {
+            selectTeeBox()
+        }
+
 
         // SUBMIT //
         userSubmit_button.setOnClickListener {
@@ -112,10 +119,16 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if(userTeeType == "") {
+                signUpError_textView.text = "티 박스를 선택해 주세요"
+                return@setOnClickListener
+            }
+
             val user = hashMapOf(
                 "userEmail" to userEmail,
                 "userNickname" to userNickname,
-                "userPhone" to userPhone
+                "userPhone" to userPhone,
+                "userTeeType" to userTeeType
             )
 
             // VALIDATION //
@@ -138,10 +151,45 @@ class SignUpActivity : AppCompatActivity() {
         checkForPerMissions(android.Manifest.permission.READ_PHONE_NUMBERS, "전화번호", REQUEST_PERMISSION_PHONE_NUMBER)
     }
 
+    private fun selectTeeBox() {
+        val builder = AlertDialog.Builder(this)
+        val view = layoutInflater.inflate(R.layout.dialog_view_tee, null, false)
+        val cardViewLady = view.findViewById<CardView>(R.id.teeLadyList_cardView)
+        val cardViewReg = view.findViewById<CardView>(R.id.teeRegList_cardView)
+        val cardViewBack = view.findViewById<CardView>(R.id.teeBackList_cardView)
+        val cardViewChamp = view.findViewById<CardView>(R.id.teeChampList_cardView)
+        builder.setView(view)
+        val dialog = builder.create()
+        cardViewLady.setOnClickListener {
+            dialog.dismiss()
+            userTeeType = "RED"
+            userTee_textView.text = "RED"
+            Log.d(TAG, "selectTeeBox: lady")
+        }
+        cardViewReg.setOnClickListener {
+            dialog.dismiss()
+            userTeeType = "WHITE"
+            userTee_textView.text = "WHITE"
+            Log.d(TAG, "selectTeeBox: reg")
+        }
+        cardViewBack.setOnClickListener {
+            dialog.dismiss()
+            userTeeType = "BLACK"
+            userTee_textView.text = "BLACK"
+            Log.d(TAG, "selectTeeBox: back")
+        }
+        cardViewChamp.setOnClickListener {
+            dialog.dismiss()
+            userTeeType = "BLUE"
+            userTee_textView.text = "BLUE"
+            Log.d(TAG, "selectTeeBox: blue")
+        }
+        dialog.show()
+    }
+
     private fun checkForPerMissions(permission : String, name: String, requestCode : Int) {
         when {
             ContextCompat.checkSelfPermission(applicationContext, permission) == PackageManager.PERMISSION_GRANTED -> {
-                // TODO : 전화번호 가져오기
                 val manager : TelephonyManager = applicationContext.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
                 val devicePhoneNumber = manager.line1Number
                 userPhone = devicePhoneNumber.replace("+82", "0")

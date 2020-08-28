@@ -42,23 +42,7 @@ class AppSharedPreferences(context : Context) {
             preferences.edit().putString(PREFS_KEY_USER_TEE_TYPE, type).apply()
         }
 
-    var roundIsOpen : Boolean
-        get() = preferences.getBoolean(PREFS_KEY_ROUND_IS_OPEN, false)
-        set(state) {
-            preferences.edit().putBoolean(PREFS_KEY_ROUND_IS_OPEN, state).apply()
-        }
 
-    var roundId : String?
-        get() = preferences.getString(PREFS_KEY_ROUND_ID, "")
-        set(id) {
-            preferences.edit().putString(PREFS_KEY_ROUND_ID, id).apply()
-        }
-
-    var myCurrentHole : Int
-        get() = preferences.getInt(PREFS_KEY_CURRENT_HOLE, 0)
-        set(hole) {
-            preferences.edit().putInt(PREFS_KEY_CURRENT_HOLE, hole).apply()
-        }
 
 
     companion object {
@@ -71,6 +55,5 @@ class AppSharedPreferences(context : Context) {
         const val PREFS_KEY_USER_PASSWORD = "userPassword"
         const val PREFS_KEY_ROUND_IS_OPEN = "roundIsOpen"
         const val PREFS_KEY_ROUND_ID = "roundId"
-        const val PREFS_KEY_CURRENT_HOLE = "myCurrentHole"
     }
 }

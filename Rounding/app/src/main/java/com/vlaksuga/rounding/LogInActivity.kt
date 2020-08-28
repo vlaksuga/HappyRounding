@@ -2,15 +2,13 @@ package com.vlaksuga.rounding
 
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
@@ -18,12 +16,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_log_in.*
-import java.util.jar.Manifest
 
 class LogInActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "LogInActivity"
+        const val VERSION = "1.0"
     }
 
     private lateinit var providers: List<List<AuthUI.IdpConfig>>
@@ -53,13 +51,35 @@ class LogInActivity : AppCompatActivity() {
         super.onStart()
         auth = Firebase.auth
 
-        if (auth.currentUser != null) {
-            userEmail = auth.currentUser!!.email!!
-            Log.d(TAG, "onStart: userEmail is $userEmail")
-            hasUserAccount()
-        } else {
-            showLoginUI()
-        }
+        // CHECK APP VERSION //
+        db.document("common/comvlaksugarounding")
+            .get()
+            .addOnCompleteListener {
+                if(it.isSuccessful) {
+                    val version = it.result!!.get("version") as String
+                    Log.d(TAG, "onStart: version -> $version")
+                    if(version == VERSION) {
+                        if (auth.currentUser != null) {
+                            userEmail = auth.currentUser!!.email!!
+                            Log.d(TAG, "onStart: userEmail is $userEmail")
+                            hasUserAccount()
+                        } else {
+                            showLoginUI()
+                        }
+                    } else {
+                        val builder = AlertDialog.Builder(this)
+                        builder.apply { 
+                            setMessage("새로운 버전을 다운로드 해야합니다.")
+                            setPositiveButton("확인") {_, _ ->
+                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://m.naver.com")))
+                            }
+                            show()
+                        }
+                    }
+                }
+            }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

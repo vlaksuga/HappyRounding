@@ -24,7 +24,6 @@ import com.google.firebase.ktx.Firebase
 import com.vlaksuga.rounding.adapters.CurrentRoundListAdapter
 import com.vlaksuga.rounding.model.Round
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_stats.*
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {

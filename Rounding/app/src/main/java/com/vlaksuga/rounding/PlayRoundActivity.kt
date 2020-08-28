@@ -1,6 +1,7 @@
 package com.vlaksuga.rounding
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TableRow
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
@@ -43,8 +45,6 @@ class PlayRoundActivity : AppCompatActivity() {
 
         const val COLLECTION_PATH_ROUNDS = "rounds"
         const val COLLECTION_PATH_COURSES = "courses"
-        const val CURRENT_HOLE_COLOR_HIGHLIGHT = "#FF8800"
-        const val CURRENT_HOLE_COLOR = "#292B2C"
     }
 
     private val serverHoleNameList = arrayListOf<String>(
@@ -70,6 +70,7 @@ class PlayRoundActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private lateinit var auth: FirebaseAuth
     private lateinit var userEmail: String
+    private var userTeeType = ""
     private lateinit var currentRound: Round
     private var roundOwner = ""
     private var documentPath = ""
@@ -88,6 +89,8 @@ class PlayRoundActivity : AppCompatActivity() {
     private var currentCourseParList = arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 9)
     private var currentCourseFirstParList = arrayListOf<Int>()
     private var currentCourseSecondParList = arrayListOf<Int>()
+    private var currentCourseFirstTeeList = arrayListOf<Int>()
+    private var currentCourseSecondTeeList = arrayListOf<Int>()
 
     private var liveScorePlayerFirstCourse1 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
     private var liveScorePlayerFirstCourse2 = arrayListOf(0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -109,10 +112,49 @@ class PlayRoundActivity : AppCompatActivity() {
         auth = Firebase.auth
         userEmail = auth.currentUser!!.email!!
         Log.d(TAG, "onCreate: userEmail => $userEmail")
+        db.collection("users")
+            .whereEqualTo("userEmail", userEmail)
+            .get()
+            .addOnCompleteListener {
+                if(it.isSuccessful) {
+                    userTeeType = it.result!!.documents[0].get("userTeeType") as String
+                    playRoundTeeType_textView.text = userTeeType
+                    Log.d(TAG, "userTeeType => $userTeeType")
+                    when(userTeeType) {
+                        "RED" -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#FF8800"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#FF8800"))
+                        }
+
+                        "WHITE" -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
+                        }
+
+                        "BLACK" -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+                        }
+
+                        "BLUE" -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#20639b"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#20639b"))
+                        }
+                        else -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
+                        }
+                    }
+                }
+            }
+
 
         // TOOLBAR //
         val toolbar = findViewById<Toolbar>(R.id.playRound_toolbar)
         setSupportActionBar(toolbar)
+        playRoundCloseRound_imageView.setOnClickListener {
+            closeThisRound()
+        }
         playRoundCloseIcon_imageView.setOnClickListener {
             super.onBackPressed()
         }
@@ -135,6 +177,28 @@ class PlayRoundActivity : AppCompatActivity() {
         playRoundScoreRemove_fab4.setOnClickListener { removeLiveScore(3) }
 
         // NEXT HOLE //
+        commentNext_textView.setOnClickListener {
+            when (currentHoleIndex) {
+                8 -> apply {
+                    if (currentCourseIdList.size == 1) {
+                        // ROUND ENDS HERE //
+                        checkRoundResult()
+                    } else {
+                        // TO NEXT COURSE //
+                        moveToNextCourse()
+                    }
+                }
+                17 -> apply {
+                    // ROUND ENDS HERE //
+                    checkRoundResult()
+                }
+                else -> apply {
+                    currentHoleIndex += 1
+                    setHoleScore(currentHoleIndex)
+                    Log.d(TAG, "toNextHole_button: currentHoleIndex -> $currentHoleIndex")
+                }
+            }
+        }
         toNextHole_button.setOnClickListener {
             when (currentHoleIndex) {
                 8 -> apply {
@@ -159,6 +223,16 @@ class PlayRoundActivity : AppCompatActivity() {
         }
 
         // PRE HOLE //
+        commentPre_textView.setOnClickListener {
+            if (currentHoleIndex == 9) {
+                moveToPreCourse()
+            } else {
+                currentHoleIndex -= 1
+                setHoleScore(currentHoleIndex)
+                Log.d(TAG, "toPreHole_button: currentHoleIndex -> $currentHoleIndex")
+            }
+        }
+
         toPreHole_button.setOnClickListener {
             if (currentHoleIndex == 9) {
                 moveToPreCourse()
@@ -167,6 +241,26 @@ class PlayRoundActivity : AppCompatActivity() {
                 setHoleScore(currentHoleIndex)
                 Log.d(TAG, "toPreHole_button: currentHoleIndex -> $currentHoleIndex")
             }
+        }
+    }
+
+    private fun closeThisRound() {
+        val builder = AlertDialog.Builder(this)
+        builder.apply {
+            setMessage("라운드를 저장하지 않고 종료합니다.")
+            setPositiveButton("확인") { _ , _ ->
+                db.document("rounds/$documentPath").update("isRoundOpen", false)
+                    .addOnCompleteListener {
+                        if(it.isComplete) {
+                            Log.d(TAG, "closeThisRound: round closed")
+                            Toast.makeText(this@PlayRoundActivity, "라운드가 종료되었습니다.", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this@PlayRoundActivity, MainActivity::class.java))
+
+                        }
+                    }
+            }
+            setNegativeButton("취소") { dialog, _ ->  dialog.dismiss()}
+            show()
         }
     }
 
@@ -188,6 +282,11 @@ class PlayRoundActivity : AppCompatActivity() {
                     // SET CURRENT ROUND //
                     currentRound = task.result!!.toObjects(Round::class.java)[0]
                     Log.d(TAG, "currentRound: $currentRound")
+
+                    // CHECK ROUND OWNER //
+                    if(currentRound.roundOwner == userEmail) {
+                        playRoundCloseRound_imageView.visibility = View.VISIBLE
+                    }
 
                     // SET CURRENT DOCUMENT PATH //
                     documentPath = task.result!!.documents[0].id
@@ -259,13 +358,20 @@ class PlayRoundActivity : AppCompatActivity() {
             .whereEqualTo("courseId", currentRound.roundCourseIdList[0])
             .get()
             .addOnSuccessListener {
-                Log.d(TAG, "getCourseSets - 1: success!! ")
+                Log.d(TAG, "getCourseSets - FIRST COURSE : success!! ")
             }
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     currentCourseFirstParList =
                         it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
-                    Log.d(TAG, "getCourseSets: par => $currentCourseFirstParList ")
+                    Log.d(TAG, "getCourseSets: par => $currentCourseFirstParList")
+                    currentCourseFirstTeeList = when(userTeeType) {
+                      "RED" -> it.result!!.documents[0].get("courseParLengthLady") as ArrayList<Int>
+                      "WHITE" -> it.result!!.documents[0].get("courseParLengthReg") as ArrayList<Int>
+                      "BLACK" -> it.result!!.documents[0].get("courseParLengthBack") as ArrayList<Int>
+                      "BLUE" -> it.result!!.documents[0].get("courseParLengthChamp") as ArrayList<Int>
+                        else -> arrayListOf(0,0,0,0,0,0,0,0,0)
+                    }
                     currentCourseParList = currentCourseFirstParList
                     if(currentHoleIndex < 9) {
                         playRoundCourseName_textView.text = currentCourseNameList[0]
@@ -281,7 +387,7 @@ class PlayRoundActivity : AppCompatActivity() {
                 .whereEqualTo("courseId", currentRound.roundCourseIdList[1])
                 .get()
                 .addOnSuccessListener {
-                    Log.d(TAG, "getCourseSets - 2: success!! ")
+                    Log.d(TAG, "getCourseSets - SECOND COURSE : success!! ")
                 }
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
@@ -291,6 +397,13 @@ class PlayRoundActivity : AppCompatActivity() {
                         currentCourseSecondParList =
                             it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
                         Log.d(TAG, "getCourseSets: par => $currentCourseSecondParList")
+                        currentCourseSecondTeeList = when(userTeeType) {
+                            "RED" -> it.result!!.documents[0].get("courseParLengthLady") as ArrayList<Int>
+                            "WHITE" -> it.result!!.documents[0].get("courseParLengthReg") as ArrayList<Int>
+                            "BLACK" -> it.result!!.documents[0].get("courseParLengthBack") as ArrayList<Int>
+                            "BLUE" -> it.result!!.documents[0].get("courseParLengthChamp") as ArrayList<Int>
+                            else -> arrayListOf(0,0,0,0,0,0,0,0,0)
+                        }
                     }
                 }
         }
@@ -572,6 +685,7 @@ class PlayRoundActivity : AppCompatActivity() {
         for (i in 0 until currentRoundPlayerEmailList.size) {
             updateTotalHit(i)
         }
+
     }
 
     private fun setHoleScore(currentHoleIndex: Int) {
@@ -651,7 +765,7 @@ class PlayRoundActivity : AppCompatActivity() {
         )
         for (i in 0..8) {
             decoHoleList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
-            decoParList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
+            decoParList[i].setBackgroundResource(R.drawable.table_row_par_background)
             decoPlayer1ScoreList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
             decoPlayer2ScoreList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
             decoPlayer3ScoreList[i].setBackgroundColor(Color.parseColor("#FFFFFF"))
@@ -661,7 +775,7 @@ class PlayRoundActivity : AppCompatActivity() {
         when (currentHoleIndex) {
             0 -> apply {
                 hole_1_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_0.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -670,7 +784,7 @@ class PlayRoundActivity : AppCompatActivity() {
             }
             1, 10 -> apply {
                 hole_2_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_1.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_1.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_1.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_1.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_1.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -679,7 +793,7 @@ class PlayRoundActivity : AppCompatActivity() {
             }
             2, 11 -> apply {
                 hole_3_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_2.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_2.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_2.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_2.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_2.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -688,7 +802,7 @@ class PlayRoundActivity : AppCompatActivity() {
             }
             3, 12 -> apply {
                 hole_4_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_3.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_3.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_3.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_3.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_3.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -697,7 +811,7 @@ class PlayRoundActivity : AppCompatActivity() {
             }
             4, 13 -> apply {
                 hole_5_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_4.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_4.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_4.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_4.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_4.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -706,7 +820,7 @@ class PlayRoundActivity : AppCompatActivity() {
             }
             5, 14 -> apply {
                 hole_6_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_5.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_5.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_5.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_5.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_5.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -715,7 +829,7 @@ class PlayRoundActivity : AppCompatActivity() {
             }
             6, 15 -> apply {
                 hole_7_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_6.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_6.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_6.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_6.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_6.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -724,7 +838,7 @@ class PlayRoundActivity : AppCompatActivity() {
             }
             7, 16 -> apply {
                 hole_8_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_7.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_7.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_7.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_7.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_7.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -734,7 +848,7 @@ class PlayRoundActivity : AppCompatActivity() {
 
             9 -> apply {
                 hole_1_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_0.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_0.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_0.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -743,7 +857,7 @@ class PlayRoundActivity : AppCompatActivity() {
             }
             else -> apply {
                 hole_9_textView.setBackgroundResource(R.drawable.table_row_highlight_background)
-                currentPar_8.setBackgroundResource(R.drawable.table_row_highlight_background)
+                currentPar_8.setBackgroundResource(R.drawable.table_row_par_current_background)
                 player_1_score_8.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_2_score_8.setBackgroundResource(R.drawable.table_row_highlight_background)
                 player_3_score_8.setBackgroundResource(R.drawable.table_row_highlight_background)
@@ -827,7 +941,9 @@ class PlayRoundActivity : AppCompatActivity() {
                 setHoleScore(currentHoleIndex)
                 playRoundCourseName_textView.text = currentCourseNameList[1]
                 currentCourseParList = currentCourseSecondParList
-                Log.d(TAG, "moveToNextCourse: currentCourseParList -> $currentCourseParList ")
+                setPars()
+                Log.d(TAG, "moveToNextCourse: currentCourseParList -> $currentCourseParList")
+                currentPar_total.text = "72"
             }
             .setNegativeButton("취소") { dialog, _ ->
                 dialog.dismiss()
@@ -851,7 +967,9 @@ class PlayRoundActivity : AppCompatActivity() {
                 setHoleScore(currentHoleIndex)
                 playRoundCourseName_textView.text = currentCourseNameList[0]
                 currentCourseParList = currentCourseFirstParList
-                Log.d(TAG, "moveToPreCourse: currentCourseParList -> $currentCourseParList ")
+                setPars()
+                Log.d(TAG, "moveToPreCourse: currentCourseParList -> $currentCourseParList")
+                currentPar_total.text = "36"
             }
             .setNegativeButton("취소") { dialog, _ ->
                 dialog.dismiss()
@@ -945,7 +1063,12 @@ class PlayRoundActivity : AppCompatActivity() {
     private fun resetCounters() {
         Log.d(TAG, "resetCounters: invoke")
         if (currentHoleIndex < 9) {
-            playRoundCurrentHole_textView.text = (currentHoleIndex + 1).toString()
+            textView_par_info.text = "HOLE " + (currentHoleIndex + 1).toString()
+            playRoundCurrentLength_textView.text =
+                if(currentCourseFirstTeeList == arrayListOf<Int>()) {
+                    ""
+                } else {currentCourseFirstTeeList[currentHoleIndex].toString() + "m"}
+            playRoundCurrentHole_textView.text = currentCourseParList[currentHoleIndex].toString()
             playRoundPlayerLiveScore_textView1.text =
                 liveScorePlayerFirstCourse1[currentHoleIndex].toString()
             playRoundPlayerLiveScore_textView2.text =
@@ -955,7 +1078,11 @@ class PlayRoundActivity : AppCompatActivity() {
             playRoundPlayerLiveScore_textView4.text =
                 liveScorePlayerFourthCourse1[currentHoleIndex].toString()
         } else {
-            playRoundCurrentHole_textView.text = (currentHoleIndex - 8).toString()
+            textView_par_info.text = "HOLE " + (currentHoleIndex - 8).toString()
+            playRoundCurrentHole_textView.text = currentCourseParList[currentHoleIndex - 9].toString()
+            playRoundCurrentLength_textView.text = if(currentCourseSecondTeeList == arrayListOf<Int>()) {
+                ""
+            } else {currentCourseSecondTeeList[currentHoleIndex - 9].toString() + "m"}
             playRoundPlayerLiveScore_textView1.text =
                 liveScorePlayerFirstCourse2[currentHoleIndex - 9].toString()
             playRoundPlayerLiveScore_textView2.text =

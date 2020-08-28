@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/playRound_layout"
@@ -41,25 +40,35 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/playRoundCloseIcon_imageView"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="16dp"
+                android:id="@+id/playRoundCloseRound_imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_close"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@+id/playRoundCloseIcon_imageView"
+                android:src="@drawable/ic_baseline_delete_forever_24"
                 android:tint="@color/colorPrimaryDark"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/playRoundCloseIcon_imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
                 android:clickable="true"
-                />
+                android:src="@drawable/ic_close"
+                android:tint="@color/colorPrimaryDark" />
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
 
     <RelativeLayout
         android:id="@+id/roundInfo_layout"
-        android:padding="8dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playRound_toolbar">
@@ -92,8 +101,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:stretchColumns="*"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -231,7 +240,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:text="PAR"
                 android:textColor="@color/colorPrimaryDark"
@@ -241,7 +250,7 @@
                 android:id="@+id/currentPar_0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:textColor="@color/colorPrimaryDark"
@@ -251,7 +260,7 @@
                 android:id="@+id/currentPar_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:textColor="@color/colorPrimaryDark"
@@ -261,7 +270,7 @@
                 android:id="@+id/currentPar_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:textColor="@color/colorPrimaryDark"
@@ -271,7 +280,7 @@
                 android:id="@+id/currentPar_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:textColor="@color/colorPrimaryDark"
@@ -281,7 +290,7 @@
                 android:id="@+id/currentPar_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:textColor="@color/colorPrimaryDark"
@@ -291,7 +300,7 @@
                 android:id="@+id/currentPar_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:textColor="@color/colorPrimaryDark"
@@ -301,7 +310,7 @@
                 android:id="@+id/currentPar_6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:textColor="@color/colorPrimaryDark"
@@ -311,7 +320,7 @@
                 android:id="@+id/currentPar_7"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:textColor="@color/colorPrimaryDark"
@@ -321,16 +330,17 @@
                 android:id="@+id/currentPar_8"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/currentPar_total"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite"
+                android:background="@drawable/table_row_par_background"
                 android:gravity="center"
                 android:padding="4dp"
                 android:text="36"
@@ -819,8 +829,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            android:text="HOLE"
+            android:layout_marginStart="16dp"
+            android:text="PAR"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
@@ -834,6 +844,45 @@
             android:text="1"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/playRoundTeeType_textView"
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:text="TEE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/playRoundCurrentLength_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:text="333m"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView_teeType_start"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@+id/playRoundTeeType_textView"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_golf" />
+
+        <ImageView
+            android:id="@+id/imageView_teeType_end"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/playRoundTeeType_textView"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_golf" />
 
 
     </RelativeLayout>
@@ -871,14 +920,14 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/playRoundScoreRemove_fab1"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/playRoundPlayerLiveScore_textView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="24dp"
                     android:text="0"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp"
@@ -891,7 +940,7 @@
                     android:id="@+id/playRoundScoreRemove_fab1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
@@ -899,7 +948,7 @@
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/playRoundPlayerLiveScore_textView1"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_remove" />
 
@@ -950,14 +999,14 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/playRoundScoreRemove_fab2"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/playRoundPlayerLiveScore_textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="24dp"
                     android:text="0"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp"
@@ -970,7 +1019,7 @@
                     android:id="@+id/playRoundScoreRemove_fab2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
@@ -978,7 +1027,7 @@
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/playRoundPlayerLiveScore_textView2"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_remove" />
 
@@ -1029,14 +1078,14 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/playRoundScoreRemove_fab3"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/playRoundPlayerLiveScore_textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="24dp"
                     android:text="0"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp"
@@ -1049,7 +1098,7 @@
                     android:id="@+id/playRoundScoreRemove_fab3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
@@ -1057,7 +1106,7 @@
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/playRoundPlayerLiveScore_textView3"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_remove" />
 
@@ -1108,14 +1157,14 @@
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/playRoundScoreRemove_fab4"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/playRoundPlayerLiveScore_textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginEnd="24dp"
                     android:text="0"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp"
@@ -1128,7 +1177,7 @@
                     android:id="@+id/playRoundScoreRemove_fab4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="24dp"
                     android:backgroundTint="#FFFFFF"
                     android:clickable="true"
                     android:tint="#000000"
@@ -1136,7 +1185,7 @@
                     app:borderWidth="0dp"
                     app:fabSize="mini"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/playRoundPlayerLiveScore_textView4"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_remove" />
 
@@ -1212,6 +1261,26 @@
         app:layout_constraintBottom_toBottomOf="@+id/toPreHole_button"
         app:layout_constraintStart_toEndOf="@+id/toPreHole_button"
         app:layout_constraintTop_toTopOf="@+id/toPreHole_button" />
+
+    <ImageView
+        android:id="@+id/imageView_cart"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_fs_icon_foreground" />
+
+    <TextView
+        android:id="@+id/textView_par_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HOLE 3"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imageView_cart"
+        app:layout_constraintStart_toStartOf="@+id/imageView_cart"
+        app:layout_constraintTop_toTopOf="@+id/imageView_cart" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

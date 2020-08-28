@@ -30,14 +30,17 @@ class ClubListAdapter internal constructor(context: Context, clubList: List<Club
     private lateinit var mlistener: OnItemClickListener
 
     inner class ClubListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val cardItemView = itemView.findViewById<CardView>(R.id.clubList_cardView)
-        val titleItemView = itemView.findViewById<TextView>(R.id.setRoundClubName_textView)
+        private val cardItemView: CardView = itemView.findViewById(R.id.clubList_cardView)
+        private val titleItemView : TextView = itemView.findViewById(R.id.setRoundClubName_textView)
+        private val areaItemView : TextView = itemView.findViewById(R.id.setRoundClubArea_textView)
+
 
         fun bind(club: Club) {
             cardItemView.setOnClickListener {
                 mlistener.onItemClick(club)
             }
             titleItemView.text = club.clubName
+            areaItemView.text = club.clubArea
         }
     }
 

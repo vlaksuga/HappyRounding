@@ -19,6 +19,8 @@ import com.vlaksuga.rounding.adapters.RoundListAdapter
 import com.vlaksuga.rounding.adapters.SeasonStatsListAdapter
 import com.vlaksuga.rounding.model.ResultRound
 import com.vlaksuga.rounding.model.Stats
+import java.util.*
+import kotlin.Comparator
 
 class RoundFragment : Fragment() {
 
@@ -59,6 +61,7 @@ class RoundFragment : Fragment() {
                 }
                 Log.d(TAG, "onComplete: ${document.metadata}}")
                 roundList = myRounds
+                Collections.sort(roundList) { o1, o2 -> o2.resultDate.compareTo(o1.resultDate) }
                 val roundTotalSize : Int = roundList.size
                 val roundTotalScores = arrayListOf<Int>()
                 for(round in roundList) {

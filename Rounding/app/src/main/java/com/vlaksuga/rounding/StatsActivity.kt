@@ -71,9 +71,10 @@ class StatsActivity : AppCompatActivity() {
                 this,
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                     Log.d(TAG, "start date selected")
-                    startCal.set(year, month, dayOfMonth)
+                    startCal.set(year, month, dayOfMonth,0,0,0)
                     startDate = startCal.timeInMillis
                     startDate_textView.text = SimpleDateFormat(DATE_FORMAT, Locale.KOREA).format(startCal.time)
+                    Log.d(TAG, "end_date_cardView : startDate => $startDate")
                     drawChart()
                 },
                 calendarYear,
@@ -92,9 +93,11 @@ class StatsActivity : AppCompatActivity() {
                 this,
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                     Log.d(TAG, "end date selected")
-                    endCal.set(year, month, dayOfMonth)
+                    endCal.set(year, month, dayOfMonth,0,0, 0)
                     endDate = endCal.timeInMillis
-                    endDate_textView.text = SimpleDateFormat(DATE_FORMAT, Locale.KOREA).format(endCal.time)
+                    endDate_textView.text =
+                        SimpleDateFormat(DATE_FORMAT, Locale.KOREA).format(endCal.time)
+                    Log.d(TAG, "end_date_cardView : endDate => $endDate")
                     drawChart()
                 },
                 calendarYear,

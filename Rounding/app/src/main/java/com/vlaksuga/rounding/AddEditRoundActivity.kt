@@ -27,6 +27,7 @@ import com.vlaksuga.rounding.model.Course
 import com.vlaksuga.rounding.model.User
 import kotlinx.android.synthetic.main.activity_add_edit_round.*
 import java.util.*
+import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 
@@ -100,6 +101,7 @@ class AddEditRoundActivity : AppCompatActivity() {
         addRoundClub_textView.text = "클럽을 선택해주세요"
         addRoundCourse_textView.text = "코스를 선택해주세요"
 
+
         // DATE //
         dateCardView.setOnClickListener {
             errorMsg_textView.text = ""
@@ -109,7 +111,7 @@ class AddEditRoundActivity : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(
                 this,
                 DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                    cal.set(year, month, dayOfMonth)
+                    cal.set(year, month, dayOfMonth, 0,0,1)
                     roundDate = cal.timeInMillis
                     roundSeason = year
                     Log.d(TAG, "DatePickerDialog: roundDate > $roundDate, roundSeason > $roundSeason")
@@ -132,7 +134,7 @@ class AddEditRoundActivity : AppCompatActivity() {
                 this,
                 TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
                     cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), hourOfDay, minute)
-                    Log.d(TAG, "TimePickerDialog: ")
+                    Log.d(TAG, "TimePickerDialog: selected")
                     roundTeeTime = cal.timeInMillis
                     addRoundTime_textView.text = SimpleDateFormat(TIME_FORMAT, Locale.KOREA).format(cal.time)
                 },
@@ -166,6 +168,8 @@ class AddEditRoundActivity : AppCompatActivity() {
                         myClubList.add(document.toObject(Club::class.java))
                     }
                     clubList = myClubList
+                    Collections.sort(clubList
+                    ) { o1, o2 -> o1!!.clubName.compareTo(o2!!.clubName) }
                     clubListAdapter = ClubListAdapter(this, clubList)
                     clubListView.adapter = clubListAdapter
                     clubListView.layoutManager = LinearLayoutManager(this)
@@ -302,6 +306,8 @@ class AddEditRoundActivity : AppCompatActivity() {
                         myFriendList.add(document.toObject(User::class.java))
                     }
                     playerList = myFriendList
+                    Collections.sort(playerList
+                    ) { o1, o2 -> o1.userNickname.compareTo(o2.userNickname)}
                     playerListAdapter = PlayerListAdapter(this, playerList)
                     playerListView.adapter = playerListAdapter
                     playerListView.layoutManager = LinearLayoutManager(this)
@@ -398,6 +404,8 @@ class AddEditRoundActivity : AppCompatActivity() {
                     userNickname = value!!.documents[0].get("userNickname") as String
                     coPlayerResult_textView.text = userNickname
                     Log.d(TAG, "getUserNickName: $userNickname")
+                    roundPlayerEmailList = arrayListOf(userEmail)
+                    roundPlayerNicknameList = arrayListOf(userNickname)
                 }
             }
     }

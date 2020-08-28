@@ -10,7 +10,7 @@
     <item android:bottom="1dp">
             <shape>
                 <solid
-                    android:color="#FFFFFF"
+                    android:color="@color/colorBarBackground"
                     />
             </shape>
     </item>

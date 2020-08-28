@@ -106,6 +106,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="16dp"
                             android:text="2017-02-04"
+                            android:textSize="12sp"
                             android:textColor="@color/colorPrimaryDark" />
                     </RelativeLayout>
 
@@ -155,6 +156,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="16dp"
                             android:text="2017-02-04"
+                            android:textSize="12sp"
                             android:textColor="@color/colorPrimaryDark" />
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
@@ -225,7 +227,7 @@
                                 android:text="10"
                                 android:textColor="@color/colorRed"
                                 android:textSize="24sp"
-                                android:textStyle="bold|italic" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -268,7 +270,7 @@
                                 android:text="80"
                                 android:textColor="@color/colorRed"
                                 android:textSize="24sp"
-                                android:textStyle="bold|italic" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -310,7 +312,7 @@
                                 android:text="72"
                                 android:textColor="@color/colorRed"
                                 android:textSize="24sp"
-                                android:textStyle="bold|italic" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -367,7 +369,7 @@
                                 android:text="5.4"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="24sp"
-                                android:textStyle="bold|italic" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -410,7 +412,7 @@
                                 android:text="5.4"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="24sp"
-                                android:textStyle="bold|italic" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -452,7 +454,7 @@
                                 android:text="5.4"
                                 android:textColor="@color/colorPrimaryDark"
                                 android:textSize="24sp"
-                                android:textStyle="bold|italic" />
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -478,7 +480,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:tint="@color/colorAccent"
+                            android:tint="@color/colorRed"
                             app:srcCompat="@drawable/ic_case_birdie" />
 
                         <TextView
@@ -489,7 +491,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_toEndOf="@+id/iconBirdieResult_imageView"
                             android:text="BIRDIE +"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/colorRed"
                             android:textStyle="bold" />
 
                         <TextView
@@ -499,9 +501,9 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:text="0 HOLES"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/colorRed"
                             android:textSize="14sp"
-                            android:textStyle="bold|italic" />
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
 
@@ -538,7 +540,7 @@
                             android:text="0 HOLES"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="14sp"
-                            android:textStyle="bold|italic" />
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
 
@@ -575,7 +577,7 @@
                             android:text="0 HOLES"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="14sp"
-                            android:textStyle="bold|italic" />
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
 
@@ -612,7 +614,7 @@
                             android:text="0 HOLES"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="14sp"
-                            android:textStyle="bold|italic" />
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
 
@@ -627,7 +629,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:tint="@color/colorRed"
+                            android:tint="@color/colorAccent"
                             app:srcCompat="@drawable/ic_case_bogey3" />
 
                         <TextView
@@ -638,7 +640,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_toEndOf="@+id/iconBogey3Result_imageView"
                             android:text="TRIPLE BOGEY +"
-                            android:textColor="@color/colorRed"
+                            android:textColor="@color/colorAccent"
                             android:textStyle="bold" />
 
                         <TextView
@@ -648,9 +650,9 @@
                             android:layout_alignParentEnd="true"
                             android:layout_gravity="center_vertical"
                             android:text="0 HOLES"
-                            android:textColor="@color/colorRed"
+                            android:textColor="@color/colorAccent"
                             android:textSize="14sp"
-                            android:textStyle="bold|italic" />
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
 
