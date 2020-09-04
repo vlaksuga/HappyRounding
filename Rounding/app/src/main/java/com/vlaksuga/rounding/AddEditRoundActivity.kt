@@ -265,8 +265,8 @@ class AddEditRoundActivity : AppCompatActivity() {
                         courseListView.adapter = courseListAdapter
                         courseListView.layoutManager = LinearLayoutManager(this)
                         courseListView.setHasFixedSize(true)
+                        dialog.show()
                     }
-                dialog.show()
 
             } else {
                 Snackbar.make(addEditRound_layout, "클럽을 먼저 선택해 주세요", Snackbar.LENGTH_SHORT).show()
@@ -312,8 +312,8 @@ class AddEditRoundActivity : AppCompatActivity() {
                     playerListView.adapter = playerListAdapter
                     playerListView.layoutManager = LinearLayoutManager(this)
                     playerListView.setHasFixedSize(true)
+                    dialog.show()
                 }
-            dialog.show()
         }
 
         // SUBMIT BUTTON //

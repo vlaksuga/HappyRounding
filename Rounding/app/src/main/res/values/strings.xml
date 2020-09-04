@@ -28,4 +28,10 @@
     <string name="frag_name_stats">통계</string>
     <string name="facebook_application_id" translatable="false">313425279843511</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb313425279843511</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

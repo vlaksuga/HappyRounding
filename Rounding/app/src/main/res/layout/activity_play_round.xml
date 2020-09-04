@@ -825,34 +825,24 @@
         app:layout_constraintTop_toBottomOf="@+id/playRoundScore_table">
 
         <TextView
-            android:id="@+id/playRoundCurrentHoleLabel_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="16dp"
-            android:text="PAR"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/playRoundCurrentHole_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/playRoundCurrentHoleLabel_textView"
-            android:text="1"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:text="PAR 1"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/playRoundTeeType_textView"
-            android:layout_centerInParent="true"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            android:text="TEE"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="TEE"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/playRoundCurrentLength_textView"
@@ -870,9 +860,9 @@
             android:id="@+id/imageView_teeType_start"
             android:layout_width="14dp"
             android:layout_height="14dp"
-            android:layout_marginEnd="8dp"
-            android:layout_toStartOf="@+id/playRoundTeeType_textView"
             android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/playRoundTeeType_textView"
+            android:layout_marginEnd="8dp"
             app:srcCompat="@drawable/ic_golf" />
 
         <ImageView
@@ -904,6 +894,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:visibility="gone"
+            app:cardBackgroundColor="@color/colorWhite"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -983,6 +974,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:visibility="gone"
+            app:cardBackgroundColor="@color/colorWhite"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1062,6 +1054,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:visibility="gone"
+            app:cardBackgroundColor="@color/colorWhite"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -1141,6 +1134,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:visibility="gone"
+            app:cardBackgroundColor="@color/colorWhite"
             app:cardCornerRadius="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout

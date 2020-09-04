@@ -3,6 +3,7 @@ package com.vlaksuga.rounding
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -71,7 +72,7 @@ class PlayRoundActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var userEmail: String
     private var userTeeType = ""
-    private lateinit var currentRound: Round
+    private lateinit var currentRound : Round
     private var roundOwner = ""
     private var documentPath = ""
     private lateinit var currentRoundId: String
@@ -106,47 +107,11 @@ class PlayRoundActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_round)
 
-        Log.d(TAG, "onCreate: $TAG start ")
-
         // USER //
         auth = Firebase.auth
         userEmail = auth.currentUser!!.email!!
-        Log.d(TAG, "onCreate: userEmail => $userEmail")
-        db.collection("users")
-            .whereEqualTo("userEmail", userEmail)
-            .get()
-            .addOnCompleteListener {
-                if(it.isSuccessful) {
-                    userTeeType = it.result!!.documents[0].get("userTeeType") as String
-                    playRoundTeeType_textView.text = userTeeType
-                    Log.d(TAG, "userTeeType => $userTeeType")
-                    when(userTeeType) {
-                        "RED" -> apply {
-                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#FF8800"))
-                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#FF8800"))
-                        }
-
-                        "WHITE" -> apply {
-                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
-                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
-                        }
-
-                        "BLACK" -> apply {
-                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
-                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
-                        }
-
-                        "BLUE" -> apply {
-                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#20639b"))
-                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#20639b"))
-                        }
-                        else -> apply {
-                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
-                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
-                        }
-                    }
-                }
-            }
+        Log.d(TAG, "USER : SET_OK")
+        decoUserTeeType()
 
 
         // TOOLBAR //
@@ -161,9 +126,10 @@ class PlayRoundActivity : AppCompatActivity() {
 
         // GET ROUND ID BY INTENT //
         currentRoundId = intent.getStringExtra(RoundResultActivity.DOCUMENT_ID)!!
+        Log.d(TAG, "ROUND ID INTENT : SET_OK")
 
         // GET DB FROM FIREBASE //
-        getRoundFromFireBase(currentRoundId)
+        getRound(currentRoundId)
 
         // FAB //
         playRoundScoreAdd_fab1.setOnClickListener { addLiveScore(0) }
@@ -232,7 +198,6 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "toPreHole_button: currentHoleIndex -> $currentHoleIndex")
             }
         }
-
         toPreHole_button.setOnClickListener {
             if (currentHoleIndex == 9) {
                 moveToPreCourse()
@@ -242,6 +207,256 @@ class PlayRoundActivity : AppCompatActivity() {
                 Log.d(TAG, "toPreHole_button: currentHoleIndex -> $currentHoleIndex")
             }
         }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun getRound(roundId: String) {
+        Log.d(TAG, "getRound: invoke")
+        db.collection(COLLECTION_PATH_ROUNDS)
+            .whereEqualTo("roundId", roundId)
+            .get()
+            .addOnSuccessListener {
+                Log.d(TAG, "addOnSuccessListener: Success :) ")
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "addOnFailureListener: Fail => $it ")
+            }
+            .addOnCompleteListener { task: Task<QuerySnapshot> ->
+                if (task.isComplete) {
+                    // SET CURRENT ROUND //
+                    currentRound = task.result!!.toObjects(Round::class.java)[0]
+                    Log.d(TAG, "currentRound: $currentRound")
+                    Log.d(TAG, "ROUND : SET_OK")
+
+                    // CHECK ROUND OWNER //
+                    if(currentRound.roundOwner == userEmail) {
+                        playRoundCloseRound_imageView.visibility = View.VISIBLE
+                    }
+
+                    // SET CURRENT DOCUMENT PATH //
+                    documentPath = task.result!!.documents[0].id
+                    Log.d(TAG, "getRound: documentPath -> $documentPath")
+
+                    // SET CURRENT DATE //
+                    currentDate = currentRound.roundDate
+                    currentSeason = currentRound.roundSeason
+                    currentTeeTime = currentRound.roundTeeTime
+                    Log.d(TAG, "getRound: currentDate -> $currentDate ")
+
+                    // SET CURRENT CLUB //
+                    currentClubName = currentRound.roundClubName
+                    currentClubId = currentRound.roundClubId
+                    playRoundClubName_textView.text = currentClubName
+                    Log.d(TAG, "getRound: currentClubName -> $currentClubName")
+                    Log.d(TAG, "getRound: currentClubId -> $currentClubId")
+
+                    // SET CURRENT COURSE //
+                    currentCourseNameList = currentRound.roundCourseNameList as ArrayList<String>
+                    currentCourseIdList = currentRound.roundCourseIdList as ArrayList<String>
+                    Log.d(
+                        TAG,
+                        "getRound: currentCourseNameList -> $currentCourseNameList"
+                    )
+                    Log.d(TAG, "getRound: currentCourseIdList -> $currentCourseIdList")
+
+                    // SET CURRENT ROUND PLAYERS //
+                    currentRoundPlayerEmailList =
+                        currentRound.roundPlayerEmailList as ArrayList<String>
+                    currentRoundPlayerNicknameList =
+                        currentRound.roundPlayerNicknameList as ArrayList<String>
+                    Log.d(TAG, "currentRoundPlayerEmailList: $currentRoundPlayerEmailList")
+                    Log.d(TAG, "currentRoundPlayerNicknameList: $currentRoundPlayerNicknameList")
+
+                    // USER POSITION DECO //
+                    decoUserPosition(currentRoundPlayerEmailList.indexOf(userEmail))
+
+                    // BOOLEAN DOESN'T CAST //
+                    val liveScore: Boolean =
+                        task.result!!.documents[0].get("isLiveScoreCreated") as Boolean
+                    Log.d(TAG, "getRound: liveScore => $liveScore")
+
+                    // SET LIVE SCORE COLLECTION IF NOT CREATED //
+                    if (!liveScore) {
+                        for (playerEmail in currentRound.roundPlayerEmailList) {
+                            createLiveScoreCollectionSet("rounds/$documentPath/liveScore/$playerEmail")
+                            Log.d(
+                                TAG,
+                                "createScoreCollectionSet: liveScore Collection for $playerEmail has created!"
+                            )
+                            this.currentHoleIndex = 0
+                            Log.d(TAG, "HOLE INDEX : SET_OK")
+
+                            // SYNC LIVE SCORE //
+                            for (position in 0 until currentRoundPlayerEmailList.size) {
+                                snapLiveScore(currentRoundPlayerEmailList[position], position)
+                                Log.d(TAG, "getRound: syncLiveScore sync -> $position")
+                            }
+                            Log.d(TAG, "getRound: done -> init")
+                        }
+                        getCourseSets()
+                    } else {
+                        getCurrentHoleIndex()
+                        Log.d(TAG, "getRound: done -> revisited")
+                    }
+                }
+            }
+    }
+
+    private fun getCurrentHoleIndex() {
+        Log.d(TAG, "getCurrentHoleIndex: invoke ")
+
+        // GET CURRENT HOLE INDEX FROM DB //
+        db.document("rounds/$documentPath/liveScore/$userEmail")
+            .get()
+            .addOnSuccessListener {
+                Log.d(TAG, "getCurrentHoleIndex: success ")
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "getCurrentHoleIndex: fail ")
+            }
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    this.currentHoleIndex = (it.result!!.get("currentHole") as Long).toInt()
+                    Log.d(TAG, "HOLE INDEX : SET_OK")
+                    Log.d(TAG, "getCurrentHoleIndex: currentHoleUpdated -> $currentHoleIndex")
+                    // SYNC LIVE SCORE //
+                    for (position in 0 until currentRoundPlayerEmailList.size) {
+                        snapLiveScore(currentRoundPlayerEmailList[position], position)
+                        Log.d(TAG, "getRoundFromFireBase: syncLiveScore sync -> $position ")
+                    }
+                    Log.d(TAG, "getCurrentHoleIndex: done")
+                    getCourseSets()
+                }
+            }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun getCourseSets() {
+        Log.d(TAG, "getCourseSets: invoke")
+        if(currentRound.roundCourseIdList.size == 1) {
+            db.collection(COLLECTION_PATH_COURSES)
+                .whereEqualTo("courseId", currentRound.roundCourseIdList[0])
+                .get()
+                .addOnSuccessListener {
+                    Log.d(TAG, "getCourseSets - FIRST COURSE : success!! ")
+                }
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        currentCourseFirstParList =
+                            it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
+                        Log.d(TAG, "getCourseSets: par first => $currentCourseFirstParList")
+                        currentCourseFirstTeeList = when(userTeeType) {
+                            "RED" -> it.result!!.documents[0].get("courseParLengthLady") as ArrayList<Int>
+                            "WHITE" -> it.result!!.documents[0].get("courseParLengthReg") as ArrayList<Int>
+                            "BLACK" -> it.result!!.documents[0].get("courseParLengthBack") as ArrayList<Int>
+                            "BLUE" -> it.result!!.documents[0].get("courseParLengthChamp") as ArrayList<Int>
+                            else -> arrayListOf(0,0,0,0,0,0,0,0,0)
+                        }
+                        Log.d(TAG, "currentCourseFirstTeeList : $currentCourseFirstTeeList")
+                        Log.d(TAG, "FIRST COURSE : SET_OK")
+                        Log.d(TAG, "getCourseSets: done -> first course ONLY")
+                        drawCourseInfo()
+                        setRoundOwnerEmail(currentRound.roundOwner)
+                        drawPlayers()
+                        setPars()
+                        resetCounters()
+                    }
+                }
+        } else {
+            db.collection(COLLECTION_PATH_COURSES)
+                .whereEqualTo("courseId", currentRound.roundCourseIdList[0])
+                .get()
+                .addOnSuccessListener {
+                    Log.d(TAG, "getCourseSets - FIRST COURSE : success!! ")
+                }
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        currentCourseFirstParList =
+                            it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
+                        Log.d(TAG, "getCourseSets: par first => $currentCourseFirstParList")
+                        currentCourseFirstTeeList = when(userTeeType) {
+                            "RED" -> it.result!!.documents[0].get("courseParLengthLady") as ArrayList<Int>
+                            "WHITE" -> it.result!!.documents[0].get("courseParLengthReg") as ArrayList<Int>
+                            "BLACK" -> it.result!!.documents[0].get("courseParLengthBack") as ArrayList<Int>
+                            "BLUE" -> it.result!!.documents[0].get("courseParLengthChamp") as ArrayList<Int>
+                            else -> arrayListOf(0,0,0,0,0,0,0,0,0)
+                        }
+                        Log.d(TAG, "currentCourseFirstTeeList : $currentCourseFirstTeeList")
+                        Log.d(TAG, "FIRST COURSE : SET_OK")
+                        Log.d(TAG, "getCourseSets: done -> first course ")
+                        db.collection(COLLECTION_PATH_COURSES)
+                            .whereEqualTo("courseId", currentRound.roundCourseIdList[1])
+                            .get()
+                            .addOnSuccessListener {
+                                Log.d(TAG, "getCourseSets - SECOND COURSE : success!! ")
+                            }
+                            .addOnCompleteListener {secondTask ->
+                                if (secondTask.isSuccessful) {
+                                    currentCourseSecondParList =
+                                        secondTask.result!!.documents[0].get("courseParCount") as ArrayList<Int>
+                                    Log.d(TAG, "getCourseSets: par second => $currentCourseSecondParList")
+                                    currentCourseSecondTeeList = when(userTeeType) {
+                                        "RED" -> secondTask.result!!.documents[0].get("courseParLengthLady") as ArrayList<Int>
+                                        "WHITE" -> secondTask.result!!.documents[0].get("courseParLengthReg") as ArrayList<Int>
+                                        "BLACK" -> secondTask.result!!.documents[0].get("courseParLengthBack") as ArrayList<Int>
+                                        "BLUE" -> secondTask.result!!.documents[0].get("courseParLengthChamp") as ArrayList<Int>
+                                        else -> arrayListOf(0,0,0,0,0,0,0,0,0)
+                                    }
+                                    Log.d(TAG, "SECOND COURSE : SET_OK")
+                                    Log.d(TAG, "currentCourseSecondTeeList : $currentCourseSecondTeeList")
+                                    Log.d(TAG, "getCourseSets: done -> second course ")
+                                    drawCourseInfo()
+                                    setRoundOwnerEmail(currentRound.roundOwner)
+                                    drawPlayers()
+                                    setPars()
+                                    resetCounters()
+                                }
+                            }
+                    }
+                }
+        }
+
+    }
+
+    private fun decoUserTeeType() {
+        Log.d(TAG, "decoUserTeeType: invoke")
+        db.collection("users")
+            .whereEqualTo("userEmail", userEmail)
+            .get()
+            .addOnCompleteListener {
+                if(it.isSuccessful) {
+
+                    // USER TEE TYPE //
+                    userTeeType = it.result!!.documents[0].get("userTeeType") as String
+                    playRoundTeeType_textView.text = userTeeType
+                    Log.d(TAG, "userTeeType => $userTeeType")
+                    when(userTeeType) {
+                        "RED" -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#FF8800"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#FF8800"))
+                        }
+
+                        "WHITE" -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
+                        }
+
+                        "BLACK" -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#000000"))
+                        }
+
+                        "BLUE" -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#20639b"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#20639b"))
+                        }
+                        else -> apply {
+                            imageView_teeType_start.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
+                            imageView_teeType_end.imageTintList = ColorStateList.valueOf(Color.parseColor("#EEEEEE"))
+                        }
+                    }
+                }
+            }
     }
 
     private fun closeThisRound() {
@@ -264,148 +479,49 @@ class PlayRoundActivity : AppCompatActivity() {
         }
     }
 
-
-    @Suppress("UNCHECKED_CAST")
-    private fun getRoundFromFireBase(roundId: String) {
-        Log.d(TAG, "getRoundFromFireBase: invoke")
-        db.collection(COLLECTION_PATH_ROUNDS)
-            .whereEqualTo("roundId", roundId)
-            .get()
-            .addOnSuccessListener {
-                Log.d(TAG, "addOnSuccessListener: Success :) ")
+    private fun decoUserPosition(index: Int) {
+        Log.d(TAG, "decoUserPosition: invoke")
+        when(index) {
+            0 -> apply {
+                playName_1.setTextColor(Color.parseColor("#FF8800"))
+                player_1_score_total.setTextColor(Color.parseColor("#FF8800"))
+                liveScorePlayerName_textview1.setTextColor(Color.parseColor("#FF8800"))
+                playRoundPlayerLiveScore_textView1.setTextColor(Color.parseColor("#FF8800"))
             }
-            .addOnFailureListener {
-                Log.d(TAG, "addOnFailureListener: Fail => $it ")
+            1 -> apply {
+                playName_2.setTextColor(Color.parseColor("#FF8800"))
+                player_2_score_total.setTextColor(Color.parseColor("#FF8800"))
+                liveScorePlayerName_textview2.setTextColor(Color.parseColor("#FF8800"))
+                playRoundPlayerLiveScore_textView2.setTextColor(Color.parseColor("#FF8800"))
             }
-            .addOnCompleteListener { task: Task<QuerySnapshot> ->
-                if (task.isComplete) {
-                    // SET CURRENT ROUND //
-                    currentRound = task.result!!.toObjects(Round::class.java)[0]
-                    Log.d(TAG, "currentRound: $currentRound")
-
-                    // CHECK ROUND OWNER //
-                    if(currentRound.roundOwner == userEmail) {
-                        playRoundCloseRound_imageView.visibility = View.VISIBLE
-                    }
-
-                    // SET CURRENT DOCUMENT PATH //
-                    documentPath = task.result!!.documents[0].id
-                    Log.d(TAG, "getRoundFromFireBase: documentPath -> $documentPath")
-
-                    // SET CURRENT DATE //
-                    currentDate = currentRound.roundDate
-                    currentSeason = currentRound.roundSeason
-                    currentTeeTime = currentRound.roundTeeTime
-                    Log.d(TAG, "getRoundFromFireBase: currentDate -> $currentDate ")
-
-                    // SET CURRENT CLUB //
-                    currentClubName = currentRound.roundClubName
-                    currentClubId = currentRound.roundClubId
-                    playRoundClubName_textView.text = currentClubName
-                    Log.d(TAG, "getRoundFromFireBase: currentClubName -> $currentClubName")
-                    Log.d(TAG, "getRoundFromFireBase: currentClubId -> $currentClubId")
-
-                    // SET CURRENT COURSE //
-                    currentCourseNameList = currentRound.roundCourseNameList as ArrayList<String>
-                    currentCourseIdList = currentRound.roundCourseIdList as ArrayList<String>
-                    getCourseSets()
-                    Log.d(
-                        TAG,
-                        "getRoundFromFireBase: currentCourseNameList -> $currentCourseNameList"
-                    )
-                    Log.d(TAG, "getRoundFromFireBase: currentCourseIdList -> $currentCourseIdList")
-
-                    // SET CURRENT ROUND PLAYERS //
-                    currentRoundPlayerEmailList =
-                        currentRound.roundPlayerEmailList as ArrayList<String>
-                    currentRoundPlayerNicknameList =
-                        currentRound.roundPlayerNicknameList as ArrayList<String>
-                    Log.d(TAG, "currentRoundPlayerEmailList: $currentRoundPlayerEmailList")
-                    Log.d(TAG, "currentRoundPlayerNicknameList: $currentRoundPlayerNicknameList")
-
-                    // BOOLEAN DOESN'T CAST //
-                    val liveScore: Boolean =
-                        task.result!!.documents[0].get("isLiveScoreCreated") as Boolean
-                    Log.d(TAG, "getRoundFromFireBase: liveScore => $liveScore")
-                    // SET LIVE SCORE COLLECTION IF NOT CREATED //
-                    if (!liveScore) {
-                        for (playerEmail in currentRound.roundPlayerEmailList) {
-                            createLiveScoreCollectionSet("rounds/$documentPath/liveScore/$playerEmail")
-                            Log.d(
-                                TAG,
-                                "createScoreCollectionSet: liveScore Collection for $playerEmail has created!"
-                            )
-                            this.currentHoleIndex = 0
-
-                            // SYNC LIVE SCORE //
-                            for (position in 0 until currentRoundPlayerEmailList.size) {
-                                snapLiveScore(currentRoundPlayerEmailList[position], position)
-                                Log.d(TAG, "getRoundFromFireBase: syncLiveScore sync -> $position")
-                            }
-                        }
-                    } else {
-                        getCurrentHoleIndex()
-                    }
-                }
+            2 -> apply {
+                playName_3.setTextColor(Color.parseColor("#FF8800"))
+                player_3_score_total.setTextColor(Color.parseColor("#FF8800"))
+                liveScorePlayerName_textview3.setTextColor(Color.parseColor("#FF8800"))
+                playRoundPlayerLiveScore_textView3.setTextColor(Color.parseColor("#FF8800"))
             }
+            else -> apply {
+                playName_4.setTextColor(Color.parseColor("#FF8800"))
+                player_4_score_total.setTextColor(Color.parseColor("#FF8800"))
+                liveScorePlayerName_textview4.setTextColor(Color.parseColor("#FF8800"))
+                playRoundPlayerLiveScore_textView4.setTextColor(Color.parseColor("#FF8800"))
+            }
+        }
+
     }
 
-    @Suppress("UNCHECKED_CAST")
-    private fun getCourseSets() {
-        Log.d(TAG, "getCourseSets: invoke")
-
-        db.collection(COLLECTION_PATH_COURSES)
-            .whereEqualTo("courseId", currentRound.roundCourseIdList[0])
-            .get()
-            .addOnSuccessListener {
-                Log.d(TAG, "getCourseSets - FIRST COURSE : success!! ")
-            }
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    currentCourseFirstParList =
-                        it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
-                    Log.d(TAG, "getCourseSets: par => $currentCourseFirstParList")
-                    currentCourseFirstTeeList = when(userTeeType) {
-                      "RED" -> it.result!!.documents[0].get("courseParLengthLady") as ArrayList<Int>
-                      "WHITE" -> it.result!!.documents[0].get("courseParLengthReg") as ArrayList<Int>
-                      "BLACK" -> it.result!!.documents[0].get("courseParLengthBack") as ArrayList<Int>
-                      "BLUE" -> it.result!!.documents[0].get("courseParLengthChamp") as ArrayList<Int>
-                        else -> arrayListOf(0,0,0,0,0,0,0,0,0)
-                    }
-                    currentCourseParList = currentCourseFirstParList
-                    if(currentHoleIndex < 9) {
-                        playRoundCourseName_textView.text = currentCourseNameList[0]
-                    }
-                    setPars()
-                    setRoundOwnerEmail(currentRound.roundOwner)
-                    getPlayers()
-                }
-            }
-
-        if (currentRound.roundCourseIdList.size == 2) {
-            db.collection(COLLECTION_PATH_COURSES)
-                .whereEqualTo("courseId", currentRound.roundCourseIdList[1])
-                .get()
-                .addOnSuccessListener {
-                    Log.d(TAG, "getCourseSets - SECOND COURSE : success!! ")
-                }
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        if(currentHoleIndex >= 9) {
-                            playRoundCourseName_textView.text = currentCourseNameList[1]
-                        }
-                        currentCourseSecondParList =
-                            it.result!!.documents[0].get("courseParCount") as ArrayList<Int>
-                        Log.d(TAG, "getCourseSets: par => $currentCourseSecondParList")
-                        currentCourseSecondTeeList = when(userTeeType) {
-                            "RED" -> it.result!!.documents[0].get("courseParLengthLady") as ArrayList<Int>
-                            "WHITE" -> it.result!!.documents[0].get("courseParLengthReg") as ArrayList<Int>
-                            "BLACK" -> it.result!!.documents[0].get("courseParLengthBack") as ArrayList<Int>
-                            "BLUE" -> it.result!!.documents[0].get("courseParLengthChamp") as ArrayList<Int>
-                            else -> arrayListOf(0,0,0,0,0,0,0,0,0)
-                        }
-                    }
-                }
+    private fun drawCourseInfo() {
+        Log.d(TAG, "drawCourseInfo: invoke")
+        if(currentHoleIndex < 9) {
+            currentCourseParList = currentCourseFirstParList
+            playRoundCourseName_textView.text = currentCourseNameList[0]
+            currentPar_total.text = "36"
+            Log.d(TAG, "DRAW COURSE : SET_OK")
+        } else {
+            currentCourseParList = currentCourseSecondParList
+            playRoundCourseName_textView.text = currentCourseNameList[1]
+            currentPar_total.text = "72"
+            Log.d(TAG, "DRAW COURSE : SET_OK")
         }
     }
 
@@ -501,79 +617,26 @@ class PlayRoundActivity : AppCompatActivity() {
                     0 -> apply {
                         liveScorePlayerFirstCourse1 = firstSet
                         liveScorePlayerFirstCourse2 = secondSet
-                        Log.d(
-                            TAG,
-                            "syncLiveScore: liveScorePlayerFirstCourse1 -> $liveScorePlayerFirstCourse1"
-                        )
-                        Log.d(
-                            TAG,
-                            "syncLiveScore: liveScorePlayerFirstCourse2 -> $liveScorePlayerFirstCourse2"
-                        )
+                        Log.d(TAG, "LIVESCORE: p1 SET_OK")
                     }
                     1 -> apply {
                         liveScorePlayerSecondCourse1 = firstSet
                         liveScorePlayerSecondCourse2 = secondSet
-                        Log.d(
-                            TAG,
-                            "syncLiveScore: liveScorePlayerSecondCourse1 -> $liveScorePlayerSecondCourse1"
-                        )
-                        Log.d(
-                            TAG,
-                            "syncLiveScore: liveScorePlayerSecondCourse2 -> $liveScorePlayerSecondCourse2"
-                        )
+                        Log.d(TAG, "LIVESCORE: p2 SET_OK")
                     }
                     2 -> apply {
                         liveScorePlayerThirdCourse1 = firstSet
                         liveScorePlayerThirdCourse2 = secondSet
-                        Log.d(
-                            TAG,
-                            "syncLiveScore: liveScorePlayerThirdCourse1 -> $liveScorePlayerThirdCourse1"
-                        )
-                        Log.d(
-                            TAG,
-                            "syncLiveScore: liveScorePlayerThirdCourse2 -> $liveScorePlayerThirdCourse2"
-                        )
+                        Log.d(TAG, "LIVESCORE: p3 SET_OK")
                     }
                     else -> apply {
                         liveScorePlayerFourthCourse1 = firstSet
                         liveScorePlayerFourthCourse2 = secondSet
-                        Log.d(
-                            TAG,
-                            "syncLiveScore: liveScorePlayerFourthCourse1 -> $liveScorePlayerFourthCourse1"
-                        )
-                        Log.d(
-                            TAG,
-                            "syncLiveScore: liveScorePlayerFourthCourse2 -> $liveScorePlayerFourthCourse2"
-                        )
+                        Log.d(TAG, "LIVESCORE: p4 SET_OK")
                     }
                 }
                 setHoleScore(currentHoleIndex)
                 updateScoreBoard()
-            }
-    }
-
-    private fun getCurrentHoleIndex() {
-        Log.d(TAG, "getCurrentHoleIndex: invoke ")
-
-        // GET CURRENT HOLE INDEX FROM DB //
-        db.document("rounds/$documentPath/liveScore/$userEmail")
-            .get()
-            .addOnSuccessListener {
-                Log.d(TAG, "getCurrentHoleIndex: success ")
-            }
-            .addOnFailureListener {
-                Log.d(TAG, "getCurrentHoleIndex: fail ")
-            }
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    this.currentHoleIndex = (it.result!!.get("currentHole") as Long).toInt()
-                    Log.d(TAG, "getCurrentHoleIndex: currentHoleUpdated -> $currentHoleIndex")
-                    // SYNC LIVE SCORE //
-                    for (position in 0 until currentRoundPlayerEmailList.size) {
-                        snapLiveScore(currentRoundPlayerEmailList[position], position)
-                        Log.d(TAG, "getRoundFromFireBase: syncLiveScore sync -> $position ")
-                    }
-                }
             }
     }
 
@@ -660,8 +723,10 @@ class PlayRoundActivity : AppCompatActivity() {
             playRoundScoreRemove_fab2.visibility = View.VISIBLE
             playRoundScoreRemove_fab3.visibility = View.VISIBLE
             playRoundScoreRemove_fab4.visibility = View.VISIBLE
+            Log.d(TAG, "ROUND OWNER : SET_OK")
         } else {
             Log.d(TAG, "setRoundOwnerEmail: YOU CAN'T USE BUTTON")
+            Log.d(TAG, "ROUND OWNER : SET_OK")
         }
         Log.d(TAG, "roundOwner: $roundOwner")
     }
@@ -679,18 +744,24 @@ class PlayRoundActivity : AppCompatActivity() {
             currentPar_7,
             currentPar_8
         )
+        if(currentHoleIndex < 9) {
+            Log.d(TAG, "setPars: first course ")
+            currentCourseParList  = currentCourseFirstParList
+        } else {
+            Log.d(TAG, "setPars: second course ")
+            currentCourseParList = currentCourseSecondParList
+        }
         for (i in 0..8) {
             currentParList[i].text = currentCourseParList[i].toString()
         }
         for (i in 0 until currentRoundPlayerEmailList.size) {
             updateTotalHit(i)
         }
-
+        Log.d(TAG, "PAR : SET_OK")
     }
 
     private fun setHoleScore(currentHoleIndex: Int) {
         Log.d(TAG, "setHoleScore: invoke")
-        Log.d(TAG, "currentHoleIndex: currentHoleIndex")
         resetCounters()
         decoCurrentHoleIndex(currentHoleIndex)
     }
@@ -1064,11 +1135,12 @@ class PlayRoundActivity : AppCompatActivity() {
         Log.d(TAG, "resetCounters: invoke")
         if (currentHoleIndex < 9) {
             textView_par_info.text = "HOLE " + (currentHoleIndex + 1).toString()
-            playRoundCurrentLength_textView.text =
-                if(currentCourseFirstTeeList == arrayListOf<Int>()) {
-                    ""
-                } else {currentCourseFirstTeeList[currentHoleIndex].toString() + "m"}
-            playRoundCurrentHole_textView.text = currentCourseParList[currentHoleIndex].toString()
+            if(currentCourseFirstTeeList == arrayListOf<Int>()) {
+                playRoundCurrentLength_textView.text = ""
+            } else {
+                playRoundCurrentLength_textView.text = currentCourseFirstTeeList[currentHoleIndex].toString() + " m"
+            }
+            playRoundCurrentHole_textView.text = "PAR " + currentCourseParList[currentHoleIndex].toString()
             playRoundPlayerLiveScore_textView1.text =
                 liveScorePlayerFirstCourse1[currentHoleIndex].toString()
             playRoundPlayerLiveScore_textView2.text =
@@ -1079,10 +1151,12 @@ class PlayRoundActivity : AppCompatActivity() {
                 liveScorePlayerFourthCourse1[currentHoleIndex].toString()
         } else {
             textView_par_info.text = "HOLE " + (currentHoleIndex - 8).toString()
-            playRoundCurrentHole_textView.text = currentCourseParList[currentHoleIndex - 9].toString()
-            playRoundCurrentLength_textView.text = if(currentCourseSecondTeeList == arrayListOf<Int>()) {
-                ""
-            } else {currentCourseSecondTeeList[currentHoleIndex - 9].toString() + "m"}
+            if(currentCourseSecondTeeList == arrayListOf<Int>()) {
+                playRoundCurrentLength_textView.text = ""
+            } else {
+                playRoundCurrentLength_textView.text = currentCourseSecondTeeList[currentHoleIndex - 9].toString() + " m"
+            }
+            playRoundCurrentHole_textView.text = "PAR " + currentCourseParList[currentHoleIndex - 9].toString()
             playRoundPlayerLiveScore_textView1.text =
                 liveScorePlayerFirstCourse2[currentHoleIndex - 9].toString()
             playRoundPlayerLiveScore_textView2.text =
@@ -1094,7 +1168,7 @@ class PlayRoundActivity : AppCompatActivity() {
         }
     }
 
-    private fun getPlayers() {
+    private fun drawPlayers() {
         Log.d(TAG, "getPlayers: invoke")
         Log.d(
             TAG,
@@ -1284,6 +1358,7 @@ class PlayRoundActivity : AppCompatActivity() {
                     player_4_score_total.text = liveScorePlayerFourthCourse1.sum().toString()
                 }
             }
+            Log.d(TAG, "TOTAL HIT : SET_OK")
         } else {
             when (playerPosition) {
                 0 -> apply {
@@ -1299,6 +1374,7 @@ class PlayRoundActivity : AppCompatActivity() {
                     player_4_score_total.text = (liveScorePlayerFourthCourse1.sum() + liveScorePlayerFourthCourse2.sum()).toString()
                 }
             }
+            Log.d(TAG, "TOTAL HIT : SET_OK")
         }
     }
 
